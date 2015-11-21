@@ -9,8 +9,8 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
-.apt_generated/
+#.settings/
+#.apt_generated/
 .loadpath
 
 # Eclipse Core
@@ -29,7 +29,7 @@ local.properties
 #.classpath
 
 # Java annotation processor (APT)
-.factorypath
+#.factorypath
 
 # PDT-specific
 .buildpath
