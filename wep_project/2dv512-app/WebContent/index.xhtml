@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<h:body> 
+	<h:form>
+		<label>Email:</label><br />
+		<h:inputText value="#{loginBean.email}" />
+		<br />
+		<label>Password:</label><br />
+		<h:inputSecret value="#{loginBean.password}" />
+		<br />
+		<h:commandButton value="Login" />
+	</h:form>
+	<br />
+	<br />
+	
+	Welcome: <h:outputText value="#{loginBean.email}" />
+</h:body> 
+</html>
