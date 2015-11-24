@@ -1,6 +1,0 @@
----
-applications:
-- name: 2dv512-app
-  memory: 512M
-  host: 2dv512-app
-  domain: eu-gb.mybluemix.net
