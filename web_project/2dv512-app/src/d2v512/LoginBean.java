@@ -30,4 +30,14 @@ public class LoginBean implements Serializable {
 		return password;
 	}
 	
+	
+	
+	public String verify() {
+		
+		
+		
+		return "fail";
+	}
+	
+	
 }
