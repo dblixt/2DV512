@@ -1,0 +1,66 @@
+.wrapper {
+
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  font-weight: bold;
+  
+  width: 1200px;
+  margin: auto;
+  
+ 
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.header {
+  background: tomato;
+}
+
+.footer {
+  background: lightgreen;
+}
+
+.section {
+  
+  background: deepskyblue;
+}
+
+.login {
+	float: right;
+	background: deepskyblue;
+}
+
+.nav{
+	background: lightgreen;
+}
+
+
+@media all {
+  .main {
+    flex: 2 0px;
+  }
+
+  .nav {
+    order: 1;
+  }
+
+  .section {
+    order: 2;
+  }
+
+  .footer {
+    order: 4;
+  }
+}
+body {
+  padding: 2em;
+}
