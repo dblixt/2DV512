@@ -1,22 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
 
-<h:head></h:head> 
-<h:body> 
-	
-	<h:form>
-		<label>Email:</label><br />
-		<h:inputText value="#{loginController.email}" />
-		<br />
-		<label>Password:</label><br />
-		<h:inputSecret value="#{loginController.password}" />
-		<br />
-		<h:commandButton value="Login" action="#{loginController.login}" />
+	<ui:composition template="/template/common/commonLayout.xhtml">
+
+		<!-- Need to find better way to remove nav -->
+		<ui:define name="nav"></ui:define>
+
+		<ui:define name="content">
+
+			<h:form>
+				<div id="login">
+					<label>Email:</label><br />
+					<h:inputText value="#{loginController.email}" />
+					<br /> <label>Password:</label><br />
+					<h:inputSecret value="#{loginController.password}" />
+					<br />
+					<h:commandButton value="Login" action="#{loginController.login}" />
+				</div>
+
+				<div id="register">
+					<div id="register_content">
+						<br /> <br />
+						<h:outputText value="Not a user? Please register!">
+						</h:outputText>
+						<br /> <br />
+						<p:commandButton value="Register" action="register" />
+					</div>
+				</div>
+			</h:form>
 			
-	</h:form>
-</h:body> 
+		</ui:define>
+		
+	</ui:composition>
+	
+</h:body>
 </html>
