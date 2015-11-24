@@ -1,66 +1,112 @@
-.wrapper {
+/* https://www.google.com/design/spec/style/color.html#color-color-palette*/
 
-  
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
-  font-weight: bold;
-  
-  width: 1200px;
-  margin: auto;
-  
- 
+/* Primary color palette */
+/* 500 	#4CAF50	*/
+/* 100	#C8E6C9	*/
+/* 500	#4CAF50	*/
+/* 900	#1B5E20	*/
+
+/* Secondary palette */
+/* A200		#7C4DFF 		*/
+/* Fallback	#FFFFFF			*/
+/* A100		#B388FF			*/
+/* A400		#651FFF			*/
+
+/* Hues	*/
+/* Primary 			500 	#4CAF50		*/
+/* PrimaryDark 		900		#1B5E20		*/
+/* Accent			A400	#651FFF		*/
+
+
+
+
+
+.wrapper {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	font-weight: bold;
+	text-align: center;
+	width: 1200px;
+	margin: auto;
+	
 }
 
-.wrapper > * {
-  padding: 10px;
-  flex: 1 100%;
+.wrapper>* {
+	padding: 10px;
+	flex: 1 100%;
 }
 
 .header {
-  background: tomato;
+	height: 100px;
+	font-size: 20px;
+	text-align: center;
+	color: white;
+	background: #80bca3;
 }
 
 .footer {
-  background: lightgreen;
+	background: #4CAF50;
+	text-align: left;
 }
 
 .section {
-  
-  background: deepskyblue;
-}
-
-.login {
-	float: right;
 	background: deepskyblue;
 }
 
-.nav{
+.nav {
 	background: lightgreen;
+	width: 200px;
+    max-width: 200px;
 }
 
-
-@media all {
-  .main {
-    flex: 2 0px;
-  }
-
-  .nav {
-    order: 1;
-  }
-
-  .section {
-    order: 2;
-  }
-
-  .footer {
-    order: 4;
-  }
+#register {
+	margin: auto;
+	margin-right: 50%;
+	height: 200px;
+	color: black;
 }
-body {
-  padding: 2em;
+
+#register_content {
+	margin: auto;
+	font-size: 20px;
+	color: black;
 }
+
+#login {
+	margin: auto;
+	float: right;
+	width: 50%;
+	height: 200px;
+}
+
+#line {
+	border: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+@media all and (min-width: 800px) {
+	
+	.section {
+		flex: 3 0px;
+		order: 2;
+	}
+	.nav {
+		order: 1;
+	}
+	.footer {
+		order: 3;
+	}
+}
+
+body{
+    color: #FFFFFF;
+    margin:0px;
+    padding:0px;
+}
+
