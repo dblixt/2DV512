@@ -1,10 +1,17 @@
-package dv512;
+package dv512.controller;
 
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.sql.DataSource;
 
 @Named
 @SessionScoped
@@ -20,6 +27,11 @@ public class LoginController implements Serializable {
 
 	private String email;
 	private String password;
+	
+	
+	// For bluemix
+	//@Resource(lookup = "jdbc/db2-app-db")
+	//private DataSource dataSource;
 	
 	
 	public void setEmail(String email) {
@@ -48,7 +60,18 @@ public class LoginController implements Serializable {
 	    return verified;
 	}
 	
-	public String login() {
+	public String login() throws SQLException, ClassNotFoundException {
+		Class.forName("com.ibm.db2.jcc.DB2Driver");
+		Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03239", "1MDtRJ9K2I72");
+			
+		//Connection c = myDataSource.getConnection();
+		PreparedStatement s = con.prepareStatement("INSERT INTO Users(email, password) VALUES(?,?)");
+				
+		s.setString(1,  email);
+		s.setString(2,  password);
+		s.executeUpdate();
+		
+		
 		if("admin".equals(email) && "admin".equals(password)) {
 			verified = true;
 			setPassword(null);; // don't store it.
