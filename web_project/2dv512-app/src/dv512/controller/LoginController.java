@@ -1,7 +1,9 @@
-package dv512;
+package dv512.controller;
 
 
 import java.io.Serializable;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -48,7 +50,10 @@ public class LoginController implements Serializable {
 	    return verified;
 	}
 	
-	public String login() {
+	public String login() throws SQLException, ClassNotFoundException {
+		Class.forName("com.ibm.db2.jcc.DB2Driver");
+		DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03239", "1MDtRJ9K2I72");
+		
 		if("admin".equals(email) && "admin".equals(password)) {
 			verified = true;
 			setPassword(null);; // don't store it.
