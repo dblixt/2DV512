@@ -62,8 +62,6 @@ public class LoginController implements Serializable {
 	}
 	
 	public String login() {	
-		System.out.println("dbmanager = " + dbManager);
-		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -75,6 +73,7 @@ public class LoginController implements Serializable {
 			ResultSet r = stmt.executeQuery();
 			if(r != null && r.next()) {
 				System.out.println("User verification succeded!");
+				retryCount = 0;
 				verified = true;
 				return ACTION_VERIFY_SUCCESS;
 			}
@@ -93,6 +92,7 @@ public class LoginController implements Serializable {
 	
 	public String logout() {
 		verified = false;
+		retryCount = 0;
 		setEmail(null);
 		return ACTION_LOGOUT;
 	}
