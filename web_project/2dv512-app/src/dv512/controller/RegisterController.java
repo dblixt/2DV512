@@ -1,12 +1,22 @@
 package dv512.controller;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class RegisterController {
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
+@Named
+@SessionScoped
+public class RegisterController implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5690292807686490605L;
 	public static final String ACTION_REGISTER_SUCCESS = "success";
 	public static final String ACTION_REGISTER_FAIL = "fail";
 
@@ -38,22 +48,26 @@ public class RegisterController {
 		return email;
 	}
 
-	public String RegisterUserInDB() {
+	public String register() {
+		System.out.println("Inside Register");
 		try {
 			Class.forName("com.ibm.db2.jcc.DB2Driver");
-			Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03239",
-					"1MDtRJ9K2I72");
+			Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03014",
+					"qN9iWXYTQlBr");
 
 			// Connection c = myDataSource.getConnection();
-			PreparedStatement s = con.prepareStatement("INSERT INTO Users(name, email, password) VALUES(?,?,?)");
-
+			PreparedStatement s = con.prepareStatement("INSERT INTO USERS(NAME, EMAIL, PASSWORD) VALUES(?,?,?)");
+			
 			s.setString(1, name);
-			s.setString(2, password);
+			s.setString(2, email);
 			s.setString(3, password);
 			s.executeUpdate();
+			System.out.println("User added to DB");
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return ACTION_REGISTER_FAIL;
 		}
 		return ACTION_REGISTER_SUCCESS;
