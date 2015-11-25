@@ -30,8 +30,8 @@ public class LoginController implements Serializable {
 	
 	
 	// For bluemix
-	//@Resource(lookup = "jdbc/db2-app-db")
-	//private DataSource dataSource;
+	@Resource(lookup = "jdbc/db2-app-db")
+	private DataSource dataSource;
 	
 	
 	public void setEmail(String email) {
@@ -61,10 +61,10 @@ public class LoginController implements Serializable {
 	}
 	
 	public String login() throws SQLException, ClassNotFoundException {
-		Class.forName("com.ibm.db2.jcc.DB2Driver");
-		Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03239", "1MDtRJ9K2I72");
+		//Class.forName("com.ibm.db2.jcc.DB2Driver");
+		//Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03239", "1MDtRJ9K2I72");
 			
-		//Connection c = myDataSource.getConnection();
+		Connection con = dataSource.getConnection();
 		PreparedStatement s = con.prepareStatement("INSERT INTO Users(email, password) VALUES(?,?)");
 				
 		s.setString(1,  email);
