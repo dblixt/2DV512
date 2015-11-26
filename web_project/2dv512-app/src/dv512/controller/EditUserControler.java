@@ -62,18 +62,17 @@ public class EditUserControler implements Serializable {
 		PreparedStatement s = null;
 
 		try {
-			con = dbManager.getConnection();
 
-			// s = con.prepareStatement("UPDATE Users SET EMAIL = ? WHERE ID =
-			// ?" ,
-			// Statement.RETURN_GENERATED_KEYS);
+			con = dbManager.getConnection();
 
 			s = con.prepareStatement("UPDATE Users SET EMAIL = ?, PASSWORD = ?  WHERE ID = ?");
 
 			s.setString(1, email);
 			s.setString(2, password);
 			s.setInt(3, loginController.getUserId());
+
 			s.executeUpdate();
+
 			dbManager.close(s);
 
 			s = con.prepareStatement("UPDATE Profiles SET NAME = ? WHERE ID = ?");

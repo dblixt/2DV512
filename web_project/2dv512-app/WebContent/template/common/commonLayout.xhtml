@@ -7,12 +7,12 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	
+
 	<ui:insert name="head">
 		<ui:include src="/template/common/commonHead.xhtml" />
 	</ui:insert>
 	<h:outputStylesheet name="style.css" library="css" />
-	
+
 </h:head>
 
 <h:body>
@@ -26,7 +26,14 @@
 
 		<nav class="nav">
 			<ui:insert name="nav">
-				<ui:include src="/template/common/commonNav.xhtml" />
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/about/">About Us</a></li>
+					<li><a href="/portfolio/">Mjew</a></li>
+					<li><a href="/clients/">VoffVoff</a></li>
+					<li><a href="/contact/">Contact Us</a></li>
+					<ui:include src="/template/common/commonNav.xhtml" />
+				</ul>
 			</ui:insert>
 		</nav>
 
