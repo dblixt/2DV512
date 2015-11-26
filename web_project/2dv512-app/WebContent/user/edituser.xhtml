@@ -9,7 +9,9 @@
 
 
 <h:head>
-	<ui:define name="head"><title>Register</title></ui:define>
+	<ui:define name="head">
+		<title>Edit User</title>
+	</ui:define>
 </h:head>
 
 <h:body>
@@ -22,25 +24,30 @@
 
 		<ui:define name="content">
 
+
+			<p>Welcome</p>
+			<h:outputText value="#{loginController.email}" />!
+
 			<h:form>
 				<div id="center">
 					<label>Name:</label>
-					<p:inputText value="#{registerController.name}" />
+					<p:inputText value="#{editUserControler.name}" />
 					<br /> <br /> <label>Email:</label>
-					<p:inputText value="#{registerController.email}" />
+					<p:inputText value="#{editUserControler.email}" />
 					<br /> <br /> <label>Password:</label>
-					<p:inputText value="#{registerController.password}" />
+					<p:inputText value="#{editUserControler.password}" />
 					<br /> <br />
-					<h:commandButton value="Register new user" action="#{registerController.register}" />
+					<h:commandButton value="Edit"
+						action="#{editUserControler.edit}" />
 				</div>
 
 			</h:form>
 	
-		Name: <h:outputText value="#{registerController.name}" />
+		Name: <h:outputText value="#{editUserControler.name}" />
 			<br />
-		Email: <h:outputText value="#{registerController.email}" />
+		Email: <h:outputText value="#{editUserControler.email}" />
 			<br />
-		Password: <h:outputText value="#{registerController.password}" />
+		Password: <h:outputText value="#{editUserControler.password}" />
 			<br />
 		</ui:define>
 
