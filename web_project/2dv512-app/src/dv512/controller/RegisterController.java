@@ -68,6 +68,8 @@ public class RegisterController implements Serializable{
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
+			//Hantera exception
 			return ACTION_REGISTER_FAIL;
 		}
 		return ACTION_REGISTER_SUCCESS;
