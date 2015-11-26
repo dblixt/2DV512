@@ -1,4 +1,4 @@
-package dv512.filter;
+package dv512.controller.filter;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dv512.LoginController;
+import dv512.controller.LoginController;
 
 @WebFilter("/user/*")
 public class AuthenticationFilter implements Filter {

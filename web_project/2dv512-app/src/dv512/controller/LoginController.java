@@ -1,10 +1,18 @@
-package dv512;
+package dv512.controller;
 
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import dv512.DbManager;
+
 
 @Named
 @SessionScoped
@@ -15,13 +23,18 @@ public class LoginController implements Serializable {
 	public static final String ACTION_VERIFY_FAIL = "fail";	
 	public static final String ACTION_LOGOUT = "logout";
 	
+
+	@Inject
+	private DbManager dbManager;
+	
+	
 	private boolean verified = false;
 	private int retryCount = 0;
 
 	private String email;
 	private String password;
 	
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -48,12 +61,29 @@ public class LoginController implements Serializable {
 	    return verified;
 	}
 	
-	public String login() {
-		if("admin".equals(email) && "admin".equals(password)) {
-			verified = true;
-			setPassword(null);; // don't store it.
+	public String login() {	
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("SELECT email FROM Users WHERE email = ? AND password = ?");
+			stmt.setString(1, email);
+			stmt.setString(2, password);
 			
-			return ACTION_VERIFY_SUCCESS;
+			ResultSet r = stmt.executeQuery();
+			if(r != null && r.next()) {
+				System.out.println("User verification succeded!");
+				retryCount = 0;
+				verified = true;
+				return ACTION_VERIFY_SUCCESS;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
 		}
 		
 		retryCount++;
@@ -62,6 +92,7 @@ public class LoginController implements Serializable {
 	
 	public String logout() {
 		verified = false;
+		retryCount = 0;
 		setEmail(null);
 		return ACTION_LOGOUT;
 	}

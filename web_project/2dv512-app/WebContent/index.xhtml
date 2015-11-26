@@ -13,25 +13,39 @@
 
 <h:body>
 
-
 	<ui:composition template="/template/common/commonLayout.xhtml">
 
 		<!-- Need to find better way to remove nav -->
 		<ui:define name="nav"></ui:define>
 
 		<ui:define name="content">
-
-			<h:form>
-				<div id="login">
-					<label>Email:</label><br />
-					<h:inputText value="#{loginController.email}" />
-					<br /> <label>Password:</label><br />
-					<h:inputSecret value="#{loginController.password}" />
+		
+			<div id="login">
+				<h:form prependId="false">
+					<label>Email:</label>
 					<br />
-					<h:commandButton value="Login" action="#{loginController.login}" />
-				</div>
+					<h:inputText id="email" value="#{loginController.email}" required="true" requiredMessage="Enter email."/>
+					<h:message for="email" />
+					<br />
+					<label>Password:</label>
+					<br />
+					<h:inputSecret id="password" value="#{loginController.password}" required="true" requiredMessage="Enter password." />
+					<h:message for="password" />
+					<br />
+		
+					<h:outputText id="login_error"
+						value="Incorrect email or password, please try again."
+						rendered="#{loginController.retryCount > 0}" />
+					<br />
 
-				<div id="register">
+					<h:commandButton value="Login" action="#{loginController.login}">
+						<f:ajax execute="@form" render="@form" />
+					</h:commandButton>
+				</h:form>
+			</div>
+
+			<div id="register">
+				<h:form prependId="false">
 					<div id="register_content">
 						<br /> <br />
 						<h:outputText value="Not a user? Please register!">
@@ -39,12 +53,12 @@
 						<br /> <br />
 						<p:commandButton value="Register" action="register" />
 					</div>
-				</div>
-			</h:form>
+				</h:form>
+			</div>
 
 		</ui:define>
-
+		
 	</ui:composition>
-
+	
 </h:body>
 </html>

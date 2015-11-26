@@ -1,0 +1,26 @@
+<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>webProfile-7.0</feature>
+        <feature>localConnector-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <webApplication id="2dv512-app" location="2dv512-app.war" name="2dv512-app"/>
+	
+	<library id="db2-library">
+		<fileset id='db2-fileset' dir='${server.config.dir}/lib' includes='db2jcc4.jar db2jcc_license_cu.jar'/>
+	</library>
+	
+	<dataSource id='db2-app-db' jndiName='jdbc/app-db' statementCacheSize='30' transactional='true'>
+        <jdbcDriver libraryRef='db2-library'/>
+        <properties.db2.jcc id='db2-app-db-props' databaseName='SQLDB' serverName='5.10.125.192' user='user' password='pw' portNumber='50000'   />
+    </dataSource>
+	
+</server>
