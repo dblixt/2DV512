@@ -7,15 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import dv512.DbManager;
 
 @Named
 @SessionScoped
 public class RegisterController implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5690292807686490605L;
 	public static final String ACTION_REGISTER_SUCCESS = "success";
 	public static final String ACTION_REGISTER_FAIL = "fail";
@@ -23,6 +23,10 @@ public class RegisterController implements Serializable{
 	private String name;
 	private String password;
 	private String email;
+	
+	
+	@Inject
+	private DbManager dbManager;
 
 	public void setName(String name) {
 		this.name = name;
@@ -49,14 +53,13 @@ public class RegisterController implements Serializable{
 	}
 
 	public String register() {
-		System.out.println("Inside Register");
-		try {
-			Class.forName("com.ibm.db2.jcc.DB2Driver");
-			Connection con = DriverManager.getConnection("jdbc:db2://5.10.125.192:50000/SQLDB", "user03014",
-					"qN9iWXYTQlBr");
-
-			// Connection c = myDataSource.getConnection();
-			PreparedStatement s = con.prepareStatement("INSERT INTO USERS(NAME, EMAIL, PASSWORD) VALUES(?,?,?)");
+		Connection con = null;
+		PreparedStatement s = null;
+		
+		try {			
+			con = dbManager.getConnection();
+			
+			s = con.prepareStatement("INSERT INTO USERS(NAME, EMAIL, PASSWORD) VALUES(?,?,?)");
 			
 			s.setString(1, name);
 			s.setString(2, email);
@@ -64,15 +67,20 @@ public class RegisterController implements Serializable{
 			s.executeUpdate();
 			System.out.println("User added to DB");
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 			//Hantera exception
 			return ACTION_REGISTER_FAIL;
 		}
+		finally {
+			dbManager.close(con);
+			dbManager.close(s);
+		}
+		
 		return ACTION_REGISTER_SUCCESS;
+		
+		
 	}
 
 }
