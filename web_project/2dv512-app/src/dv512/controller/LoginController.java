@@ -3,19 +3,16 @@ package dv512.controller;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.sql.DataSource;
 
-import dv512.model.DbManager;
+import dv512.DbManager;
+
 
 @Named
 @SessionScoped
@@ -25,6 +22,11 @@ public class LoginController implements Serializable {
 	public static final String ACTION_VERIFY_SUCCESS = "success";
 	public static final String ACTION_VERIFY_FAIL = "fail";	
 	public static final String ACTION_LOGOUT = "logout";
+	
+
+	@Inject
+	private DbManager dbManager;
+	
 	
 	private boolean verified = false;
 	private int retryCount = 0;
@@ -63,7 +65,7 @@ public class LoginController implements Serializable {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
-			con = DbManager.getConnection();
+			con = dbManager.getConnection();
 			stmt = con.prepareStatement("SELECT email FROM Users WHERE email = ? AND password = ?");
 			stmt.setString(1, email);
 			stmt.setString(2, password);
@@ -71,6 +73,7 @@ public class LoginController implements Serializable {
 			ResultSet r = stmt.executeQuery();
 			if(r != null && r.next()) {
 				System.out.println("User verification succeded!");
+				retryCount = 0;
 				verified = true;
 				return ACTION_VERIFY_SUCCESS;
 			}
@@ -79,8 +82,8 @@ public class LoginController implements Serializable {
 			e.printStackTrace();
 		}
 		finally {
-			DbManager.close(stmt);
-			DbManager.close(con);
+			dbManager.close(stmt);
+			dbManager.close(con);
 		}
 		
 		retryCount++;
@@ -89,6 +92,7 @@ public class LoginController implements Serializable {
 	
 	public String logout() {
 		verified = false;
+		retryCount = 0;
 		setEmail(null);
 		return ACTION_LOGOUT;
 	}
