@@ -7,28 +7,40 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	
+	<ui:insert name="head">
+		<ui:include src="/template/common/commonHead.xhtml" />
+	</ui:insert>
 	<h:outputStylesheet name="style.css" library="css" />
+	
 </h:head>
 
 <h:body>
-
 	<div class="wrapper">
 
-		<header class="header"> 
-			<ui:insert name="header"> <ui:include src="/template/common/commonHeader.xhtml" /> </ui:insert> 
+		<header class="header">
+			<ui:insert name="header">
+				<ui:include src="/template/common/commonHeader.xhtml" />
+			</ui:insert>
 		</header>
-		
-		<nav class="nav"> 
-			<ui:insert name="nav"> <ui:include src="/template/common/commonNav.xhtml" /> </ui:insert>
+
+		<nav class="nav">
+			<ui:insert name="nav">
+				<ui:include src="/template/common/commonNav.xhtml" />
+			</ui:insert>
 		</nav>
 
 		<section class="section">
-			<ui:insert name="content"><ui:include src="/template/common/commonContent.xhtml" />	</ui:insert>
+			<ui:insert name="content">
+				<ui:include src="/template/common/commonContent.xhtml" />
+			</ui:insert>
 		</section>
 
 
-		<footer class="footer"> 
-			<ui:insert name="footer"><ui:include src="/template/common/commonFooter.xhtml" /></ui:insert> 
+		<footer class="footer">
+			<ui:insert name="footer">
+				<ui:include src="/template/common/commonFooter.xhtml" />
+			</ui:insert>
 		</footer>
 
 	</div>
