@@ -9,13 +9,25 @@ CREATE TABLE Users
 CREATE TABLE Profiles
 (
   id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
-  user_id INT,
-  name VARCHAR(128),
+  user_id INT NOT NULL,
+  name VARCHAR(128) NOT NULL,
   gender INT, 
   description VARCHAR(8192),
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
   img_path VARCHAR(256),
-  constraint fk_user_id foreign key(user_id) references Users(id) on delete restrict,
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) on delete restrict,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE Dogs (
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id INT NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  race VARCHAR(128) NOT NULL,
+  age INT NOT NULL,
+  gender INT NOT NULL,
+  img_src VARCHAR(256),
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES USERS(id),
   PRIMARY KEY(id)
 );
