@@ -8,7 +8,9 @@
 
 
 <h:head>
-	<ui:define name="head"><title>Index</title></ui:define>
+	<ui:define name="head">
+		<title>Index</title>
+	</ui:define>
 </h:head>
 
 <h:body>
@@ -19,20 +21,25 @@
 		<ui:define name="nav"></ui:define>
 
 		<ui:define name="content">
+
+
+		
 		
 			<div id="login">
 				<h:form prependId="false">
 					<label>Email:</label>
 					<br />
-					<h:inputText id="email" value="#{loginController.email}" required="true" requiredMessage="Enter email."/>
+					<h:inputText id="email" value="#{loginController.email}"
+						required="true" requiredMessage="Enter email." />
 					<h:message for="email" />
 					<br />
 					<label>Password:</label>
 					<br />
-					<h:inputSecret id="password" value="#{loginController.password}" required="true" requiredMessage="Enter password." />
+					<h:inputSecret id="password" value="#{loginController.password}"
+						required="true" requiredMessage="Enter password." />
 					<h:message for="password" />
 					<br />
-		
+
 					<h:outputText id="login_error"
 						value="Incorrect email or password, please try again."
 						rendered="#{loginController.retryCount > 0}" />
@@ -51,14 +58,15 @@
 						<h:outputText value="Not a user? Please register!">
 						</h:outputText>
 						<br /> <br />
-						<p:commandButton value="Register" action="register?faces-redirect=true" />
+						<p:commandButton value="Register"
+							action="register?faces-redirect=true" />
 					</div>
 				</h:form>
 			</div>
 
 		</ui:define>
-		
+
 	</ui:composition>
-	
+
 </h:body>
 </html>
