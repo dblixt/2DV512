@@ -72,24 +72,16 @@ public class EditUserControler implements Serializable {
 
 			s.setString(1, email);
 			s.setString(2, password);
-			s.setString(3, Integer.toString(loginController.getUserId()));
+			s.setInt(3, loginController.getUserId());
+			s.executeUpdate();
+			dbManager.close(s);
+
+			s = con.prepareStatement("UPDATE Profiles SET NAME = ? WHERE ID = ?");
+			s.setString(1, name);
+			s.setInt(2, loginController.getUserId());
+
 			s.executeUpdate();
 
-			// int userId = 0;
-			// // retrieve auto generated user id.
-			// ResultSet key = s.getGeneratedKeys();
-			// if(key.next()) {
-			// userId = key.getInt("id");
-			// }
-			//
-			// dbManager.close(s);
-			//
-			// s = con.prepareStatement("INSERT INTO Profiles(user_id,name)
-			// VALUES(?,?)");
-			// s.setInt(1, userId);
-			// s.setString(2, name);
-			//
-			// s.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return ACTION_EDIT_FAIL;
