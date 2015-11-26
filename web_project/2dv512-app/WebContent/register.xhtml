@@ -17,22 +17,22 @@
 			<h:form>
 				<div id="center">
 					<label>Name:</label>
-					<p:inputText value="#{newUser.name}" />
+					<p:inputText value="#{registerController.name}" />
 					<br /> <br /> <label>Email:</label>
-					<p:inputText value="#{newUser.email}" />
+					<p:inputText value="#{registerController.email}" />
 					<br /> <br /> <label>Password:</label>
-					<p:inputText value="#{newUser.password}" />
+					<p:inputText value="#{registerController.password}" />
 					<br /> <br />
-					<h:commandButton value="Register new user" />
+					<h:commandButton value="Register new user" action="#{registerController.register}" />
 				</div>
 
 			</h:form>
 	
-		Name: <h:outputText value="#{newUser.name}" />
+		Name: <h:outputText value="#{registerController.name}" />
 			<br />
-		Email: <h:outputText value="#{newUser.email}" />
+		Email: <h:outputText value="#{registerController.email}" />
 			<br />
-		Password: <h:outputText value="#{newUser.password}" />
+		Password: <h:outputText value="#{registerController.password}" />
 			<br />
 		</ui:define>
 
