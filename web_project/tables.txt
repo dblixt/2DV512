@@ -6,3 +6,29 @@ CREATE TABLE Users
   PRIMARY KEY(id)
 );
 
+CREATE TABLE Profiles
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id INT NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  gender INT, 
+  description VARCHAR(8192),
+  pos_lng DOUBLE,
+  pos_lat DOUBLE, 
+  img_path VARCHAR(256),
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE Dogs 
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id INT NOT NULL,
+  name VARCHAR(128) NOT NULL,
+  race VARCHAR(128) NOT NULL,
+  age INT NOT NULL,
+  gender INT NOT NULL,
+  img_src VARCHAR(256),
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
+  PRIMARY KEY(id)
+);
