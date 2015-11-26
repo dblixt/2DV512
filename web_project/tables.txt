@@ -16,11 +16,12 @@ CREATE TABLE Profiles
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
   img_path VARCHAR(256),
-  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) on delete restrict,
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
   PRIMARY KEY(id)
 );
 
-CREATE TABLE Dogs (
+CREATE TABLE Dogs 
+(
   id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL,
   name VARCHAR(128) NOT NULL,
@@ -28,6 +29,6 @@ CREATE TABLE Dogs (
   age INT NOT NULL,
   gender INT NOT NULL,
   img_src VARCHAR(256),
-  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES USERS(id),
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
   PRIMARY KEY(id)
 );

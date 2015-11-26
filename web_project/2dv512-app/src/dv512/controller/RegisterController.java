@@ -2,9 +2,10 @@ package dv512.controller;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ import dv512.DbManager;
 public class RegisterController implements Serializable{
 
 	private static final long serialVersionUID = -5690292807686490605L;
+	
 	public static final String ACTION_REGISTER_SUCCESS = "success";
 	public static final String ACTION_REGISTER_FAIL = "fail";
 
@@ -59,18 +61,29 @@ public class RegisterController implements Serializable{
 		try {			
 			con = dbManager.getConnection();
 			
-			s = con.prepareStatement("INSERT INTO USERS(NAME, EMAIL, PASSWORD) VALUES(?,?,?)");
+			s = con.prepareStatement("INSERT INTO Users(email, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
 			
-			s.setString(1, name);
-			s.setString(2, email);
-			s.setString(3, password);
-			s.executeUpdate();
-			System.out.println("User added to DB");
+			s.setString(1, email);
+			s.setString(2, password);
+			s.executeUpdate();			
 			
-		} catch (SQLException e) {
+			int userId = 0;
+			// retrieve auto generated user id.
+			ResultSet key = s.getGeneratedKeys();
+			if(key.next()) {
+				userId = key.getInt("id");
+			}
+						
+			dbManager.close(s);
+						
+			s = con.prepareStatement("INSERT INTO Profiles(user_id,name) VALUES(?,?)");
+			s.setInt(1, userId);
+			s.setString(2, name);
+			
+			s.executeUpdate();		
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-			
-			//Hantera exception
 			return ACTION_REGISTER_FAIL;
 		}
 		finally {
@@ -79,8 +92,6 @@ public class RegisterController implements Serializable{
 		}
 		
 		return ACTION_REGISTER_SUCCESS;
-		
-		
 	}
 
 }

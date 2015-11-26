@@ -19,8 +19,8 @@ import dv512.DbManager;
 public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1610404137333266630L;
 
-	public static final String ACTION_VERIFY_SUCCESS = "success";
-	public static final String ACTION_VERIFY_FAIL = "fail";	
+	public static final String ACTION_LOGIN_SUCCESS = "success";
+	public static final String ACTION_LOGIN_FAIL = "fail";	
 	public static final String ACTION_LOGOUT = "logout";
 	
 
@@ -28,11 +28,11 @@ public class LoginController implements Serializable {
 	private DbManager dbManager;
 	
 	
-	private boolean verified = false;
-	private int retryCount = 0;
-
+	private int userId = -1;
 	private String email;
 	private String password;
+	
+	private int retryCount = 0;
 	
 
 	public void setEmail(String email) {
@@ -56,26 +56,31 @@ public class LoginController implements Serializable {
 		return retryCount;
 	}
 	
-	
 	public boolean isVerified() {
-	    return verified;
+	    return userId != -1;
 	}
+	
+	public int getUserId() {
+		return userId;
+	}
+
 	
 	public String login() {	
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT email FROM Users WHERE email = ? AND password = ?");
+			stmt = con.prepareStatement("SELECT id FROM Users WHERE email = ? AND password = ?");
 			stmt.setString(1, email);
 			stmt.setString(2, password);
 			
 			ResultSet r = stmt.executeQuery();
 			if(r != null && r.next()) {
 				System.out.println("User verification succeded!");
+				userId = r.getInt("id");
 				retryCount = 0;
-				verified = true;
-				return ACTION_VERIFY_SUCCESS;
+				password = null; // do not store it.
+				return ACTION_LOGIN_SUCCESS;
 			}
 		}
 		catch(SQLException e) {
@@ -87,13 +92,14 @@ public class LoginController implements Serializable {
 		}
 		
 		retryCount++;
-		return ACTION_VERIFY_FAIL;
+		return ACTION_LOGIN_FAIL;
 	}
 	
 	public String logout() {
-		verified = false;
+		userId = -1;
 		retryCount = 0;
 		setEmail(null);
+		setPassword(null);
 		return ACTION_LOGOUT;
 	}
 	
