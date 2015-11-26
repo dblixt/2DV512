@@ -6,3 +6,16 @@ CREATE TABLE Users
   PRIMARY KEY(id)
 );
 
+CREATE TABLE Profiles
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id INT,
+  name VARCHAR(128),
+  gender INT, 
+  description VARCHAR(8192),
+  pos_lng DOUBLE,
+  pos_lat DOUBLE, 
+  img_path VARCHAR(256),
+  constraint fk_user_id foreign key(user_id) references Users(id) on delete restrict,
+  PRIMARY KEY(id)
+);
