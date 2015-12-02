@@ -180,3 +180,7 @@ nav ul li:hover {
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 }
 
+.clear {
+	clear: both;
+}
+

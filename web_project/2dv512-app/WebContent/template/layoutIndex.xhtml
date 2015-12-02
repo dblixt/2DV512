@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<ui:insert name="head">
+		<ui:include src="/template/sections/head.xhtml" />
+	</ui:insert>
+	<h:outputStylesheet name="login.css" library="css" />
+</h:head>
+
+<h:body>
+
+	<ui:insert name="header">
+		<ui:include src="/template/sections/header.xhtml" />
+	</ui:insert>
+
+	<div class="wrapper">
+
+		<div class="left">
+			<ui:insert name="left" />
+		</div>
+		
+		<div class="right">
+			<ui:insert name="right" />
+		</div>
+		
+		<div class="clear" />
+		
+	</div>
+
+</h:body>
+</html>
