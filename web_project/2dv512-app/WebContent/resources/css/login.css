@@ -1,0 +1,29 @@
+.left {
+	position: relative;
+	float: left;
+	height: 700px;
+	width: 600px;
+	background: #484848;	
+}
+
+.right {
+	position: relative;
+	margin-left: 600px;
+	margin-top: 64px;
+	width: 260px;
+	height: 700px;
+}
+
+#login {	
+	position: relative;
+	background: #F8F8F8;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 100px;
+	padding-bottom: 10px;
+	margin-bottom: 16px;
+	font-family: Cabin;
+	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+}
