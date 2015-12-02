@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<ui:insert name="head">
+		<ui:include src="/template/sections/head.xhtml" />
+	</ui:insert>
+</h:head>
+
+<h:body>
+
+	<ui:insert name="header">
+		<ui:include src="/template/sections/header.xhtml" />
+	</ui:insert>
+
+	<div class="wrapper">
+
+		<ui:insert name="nav">
+			<ui:include src="/template/sections/navigation.xhtml" />
+		</ui:insert>
+
+		<div class="content">
+			<ui:insert name="content">
+				<!-- Content goes here -->
+			</ui:insert>
+		</div>
+		
+	</div>
+
+</h:body>
+</html>

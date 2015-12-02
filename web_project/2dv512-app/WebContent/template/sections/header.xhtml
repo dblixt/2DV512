@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<body>
+
+	<ui:composition>
+		
+		<header>
+			<div id="content">	
+				<h:graphicImage id="icon" library="img" name="ic_dog.png" />
+				<h1>TinderDogs</h1>		
+				<h:form id="logout" rendered="#{loginController.verified}">
+					<h:commandButton value="Sign Out" action="#{loginController.logout}" /><i class="material-icons md-18">exit_to_app</i>
+				</h:form>
+			</div>
+		</header>
+				
+	</ui:composition>
+	
+</body>
+</html>
