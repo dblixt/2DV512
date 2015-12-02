@@ -4,28 +4,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	>
 
 
 <h:head>
+<div class = "header">
 	<ui:define name="head">
 		<title>Index</title>
 	</ui:define>
+	</div>
 </h:head>
 
 <h:body>
-
-	<ui:composition template="/template/common/commonLayout.xhtml">
-
-		<!-- Need to find better way to remove nav -->
-		<ui:define name="nav"></ui:define>
+	
+	<ui:composition template="/template/common/commonStartPage.xhtml">
 
 		<ui:define name="content">
-
-
 		
-		
-			<div id="login">
+			<div class="login">
 				<h:form prependId="false">
 					<label>Email:</label>
 					<br />
@@ -51,15 +47,15 @@
 				</h:form>
 			</div>
 
-			<div id="register">
+			<div class="register">
 				<h:form prependId="false">
 					<div id="register_content">
 						<br /> <br />
 						<h:outputText value="Not a user? Please register!">
 						</h:outputText>
 						<br /> <br />
-						<p:commandButton value="Register"
-							action="register?faces-redirect=true" />
+						<h:commandButton value="Register"
+							action="register.xhtml" />
 					</div>
 				</h:form>
 			</div>
