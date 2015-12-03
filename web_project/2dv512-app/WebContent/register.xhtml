@@ -3,47 +3,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-
+	xmlns:h="http://java.sun.com/jsf/html">
 
 
 <h:head>
-	<ui:define name="head"><title>Register</title></ui:define>
+	<ui:define name="head">
+		<title>Index</title>
+	</ui:define>
 </h:head>
 
 <h:body>
 
+	<ui:composition template="/template/layoutIndex.xhtml">
 
-	<ui:composition template="/template/common/commonLayout.xhtml">
-
-		<!-- Need to find better way to remove nav -->
-		<ui:define name="nav"></ui:define>
-
-		<ui:define name="content">
+		<ui:define name="left">
 
 			<h:form>
-				<div id="center">
+				<div class="center">
 					<label>Name:</label>
-					<p:inputText value="#{registerController.name}" />
+					<h:inputText id = "name" value="#{registerController.name}" required="true" requiredMessage="Enter name." />
+					<h:message for="name" />
 					<br /> <br /> <label>Email:</label>
-					<p:inputText value="#{registerController.email}" />
+					<h:inputText id = "email" value="#{registerController.email}" required="true" requiredMessage="Enter email." />
+					<h:message for="email" />
 					<br /> <br /> <label>Password:</label>
-					<p:inputText value="#{registerController.password}" />
+					<h:inputText id = "password" value="#{registerController.password}" required="true" requiredMessage="Enter password." />
+					<h:message for="password" />
 					<br /> <br />
-					<h:commandButton value="Register new user" action="#{registerController.register}" />
+					<h:outputText value="Email allready registered!"
+						rendered="#{registerController.fail > 0}" />
+					<h:commandButton value="Register new user"
+						action="#{registerController.register}">
+						<f:ajax execute="@form" render="@form" />
+					</h:commandButton>
 				</div>
 
-			</h:form>
-	
-		Name: <h:outputText value="#{registerController.name}" />
-			<br />
-		Email: <h:outputText value="#{registerController.email}" />
-			<br />
-		Password: <h:outputText value="#{registerController.password}" />
-			<br />
-		</ui:define>
 
+			</h:form>
+
+		</ui:define>
 	</ui:composition>
 
 </h:body>

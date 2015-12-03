@@ -26,6 +26,8 @@ public class RegisterController implements Serializable{
 	private String password;
 	private String email;
 	
+	private int fail = 0;
+	
 	
 	@Inject
 	private DbManager dbManager;
@@ -52,6 +54,10 @@ public class RegisterController implements Serializable{
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public int getFail() {
+		return fail;
 	}
 
 	public String register() {
@@ -84,13 +90,14 @@ public class RegisterController implements Serializable{
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
+			fail = 1;
 			return ACTION_REGISTER_FAIL;
 		}
 		finally {
 			dbManager.close(con);
 			dbManager.close(s);
 		}
-		
+		fail = 0;
 		return ACTION_REGISTER_SUCCESS;
 	}
 

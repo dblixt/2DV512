@@ -3,7 +3,7 @@
 	float: left;
 	height: 700px;
 	width: 600px;
-	background: #484848;	
+	background: #F8F8F8;	
 }
 
 .right {
@@ -14,16 +14,30 @@
 	height: 700px;
 }
 
-#login {	
+#box {	
 	position: relative;
 	background: #F8F8F8;
 	padding-left: 10px;
 	padding-right: 10px;
-	padding-top: 100px;
+	padding-top: 350px;
 	padding-bottom: 10px;
 	margin-bottom: 16px;
+	text-align:center;
 	font-family: Cabin;
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+}
+
+.boxposition {
+	position: relative;
+	margin-left: 300px;
+	margin-top: 350px;
+	text-align:center;
+}
+
+.center{
+	font-family: Cabin;
+	text-align:center;
+	
 }
