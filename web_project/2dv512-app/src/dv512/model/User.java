@@ -1,36 +1,34 @@
 package dv512.model;
 
-public class User {
+import java.io.Serializable;
 
-	private int id;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
+@Named
+@SessionScoped
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 8626805850252558885L;
+	
+	private int id = -1;
 	private String email;
-	private String password;
-	
-	
-	public User() {
-		
+
+	public int getId() {
+		return id;
 	}
 	
-	public User(String email, String password) {
-		this.email = email;
-		this.password = password;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
-	
+
 	public String getEmail() {
 		return email;
 	}
 	
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 }

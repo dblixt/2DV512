@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:viewParam name="userId" value="#{profile.userId}" />
+		<f:event type="preRenderView" listener="#{profile.loadData(false)}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>TinderDogs - Profile</title>
+		<h:outputStylesheet name="profile.css" library="css" />
+
+		<h:outputScript>
+				var map;				
+				function initMap() {
+					var mycenter = {
+						lat: #{profile.latitude}, 
+						lng: #{profile.longitude}
+					};
+				
+					var prop = {
+						center:  mycenter,
+    					zoom: 12,
+    					mapTypeControl: false,
+    					streetViewControl: false					
+					};
+					
+					var marker = new google.maps.Marker({
+						position: mycenter
+					});
+				
+  					map = new google.maps.Map(document.getElementById('map'), prop);
+  					marker.setMap(map);
+				}			
+			</h:outputScript>
+
+		<script async="async" defer="defer"
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;callback=initMap">
+			
+		</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="content-block">
+			<div class="profile-wrapper">
+				<div class="left">
+					<h3>#{profile.name}</h3>
+					<p class="cap-first">#{profile.gender}</p>
+					<p class="description">#{profile.description}</p>
+
+					<h4>Dogs</h4>
+					<ul>
+						<ui:repeat var="d" value="#{profile.dogs}">
+							<li>
+								<h:graphicImage name="#{d.picture}" library="img" />
+								<div class="center-vert">
+									<h5>#{d.name}</h5>
+									<p>#{d.gender} - age #{d.age}</p>
+									<p>#{d.race}</p>
+								</div>
+								<div class="clear" />
+							</li>
+						</ui:repeat>
+					</ul>
+					<br />
+					<h4>Location</h4>
+					<div id="map"></div>
+
+				</div>
+
+				<div class="right">
+					<h:link id="edit-profile" class="icon-link" outcome="editprofile">
+						<i class="material-icons">mode_edit</i>
+						<span>Edit</span>
+						<f:param name="userId" value="#{loginController.userId}" />
+					</h:link>
+					
+					<div class="clear" />
+					<h:graphicImage id="view-profile-img" value="/images/profile/#{profile.profilePic}" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -15,14 +15,27 @@
 			</div>
 
 			<ul>
-				<li><i class="material-icons">account_circle</i> <a
-					href="index.html">My Profile</a></li>
+				<li>
+					<i class="material-icons">view_stream</i>
+					<h:link outcome="feed" value="Home" />
+				</li>
+			
+				<li>
+					<i class="material-icons">account_circle</i> 
+					<h:link outcome="profile" value="My Profile">
+						<f:param name="userId" value="#{loginController.userId}" />
+					</h:link>
+				</li>
 
-				<li><i class="material-icons">event</i> <a href="index.html">Create
-						Event</a></li>
+				<li>
+					<i class="material-icons">event</i> 
+					<a href="index.html">CreateEvent</a>
+				</li>
 
-				<li><i class="material-icons">notifications</i> <a
-					href="index.html">Notifications</a></li>
+				<li>
+					<i class="material-icons">notifications</i> 
+					<a href="index.html">Notifications</a>
+				</li>
 			</ul>
 		</nav>
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/profile.css">
+
+<script src="js/map.js"></script>
+
+<script async="async" defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&callback=initMap">
+</script>
+
+<title>Tinder Dogs</title>
+</head>
+<body>
+
+
+<header>
+	<div id="content">	
+		<img id="icon" src="img/ic_dog.png" />
+		<h1>TinderDogs</h1>		
+		<a href="http://aftonbladet.se" id="logout">Sign Out<i class="material-icons md-18">exit_to_app</i></a>
+	</div>
+</header>
+
+<div class="wrapper">
+	<nav>	
+		<div id="profile-summary">
+			<img id="profile-img" src="img/no_profile_pic.jpg" />			
+			<h2>Daniel Nilsson</h2>			
+		</div>
+	
+		<ul>
+			<li>			
+				<i class="material-icons">account_circle</i>
+				<a href="index.html">My Profile</a>	
+			</li>
+					
+			<li>			
+				<i class="material-icons">event</i>
+				<a href="index.html">Create Event</a>			
+			</li>
+			
+			<li>			
+				<i class="material-icons">notifications</i>
+				<a href="index.html">Notifications</a>			
+			</li>
+		</ul>
+	</nav>
+
+	<div class="content">		
+		<div class="content-block">		
+			<div class="profile-wrapper">		
+				<div class="left">
+					<h3>Edit Profile</h3>
+				
+					<form>
+						<label>Name:</label>
+						<input type="text" />
+						
+						<label>Gender:</label>
+						<input type="radio" name="gender" value="male">Male</input>
+						<input type="radio" name="gender" value="female">Female</input>
+						
+						<label>About me:</label>
+						<textarea rows="6" cols="50"></textarea>
+						
+						<h4>Dogs</h4>
+					<ul>
+						<li>
+							<img src="img/dog1.jpg" />
+							<a href="#" class="icon-link center-vert edit-dog"><i class="material-icons">mode_edit</i></a>
+							<div class="center-vert">
+								<h5>Sven</h5>
+								<p>Male - age 5</p>
+								<p>Sheepdog</p>
+							</div>
+							<div class="clear" />							
+						</li>
+						
+						<li>
+							<img src="img/dog2.jpg" />
+							<a href="#" class="icon-link center-vert edit-dog"><i class="material-icons">mode_edit</i></a>
+							<div class="center-vert">
+								<h5>Nils</h5>
+								<p>Female - age 7</p>
+								<p>Strongdog</p>
+							</div>
+							<div class="clear" />
+						</li>
+					</ul>
+					
+					<a href="#" id="add-dog" class="icon-link"><i class="material-icons">add</i><span>Add dog</span></a>
+					
+					
+					<br />
+					<h4>Location</h4>
+					<div id="map"></div>
+						
+						
+						
+						<br><br>
+						<input type="submit" value="Save" />
+					</form>
+
+							
+				</div>
+		
+				<div class="right">
+					<img id="view-profile-img" src="img/smith.jpg">
+					<a href="#" id="change-pic" class="icon-link"><i class="material-icons">mode_edit</i><span>Change</span></a>
+				</div>
+			
+			</div>
+		</div>		
+	</div>
+</div>
+
+</body>
+<html>
