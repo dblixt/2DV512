@@ -1,22 +1,80 @@
 .register {
+	position: absolute;
+	top: 64px;
+	left: 0px;
+	width: 600px;	
+}
+
+.register > form {
 	position: relative;
-	float: left;
-	height: 700px;
-	width: 600px;
-	background: #484848;	
+	margin-top: 160px;
+	text-align: center;
+	font-family: Cabin;
+}
+
+.register > form  > label {
+	position: relative;
+	font-size: 28px;
+}
+
+.register > form > input {
+	position: relative;
+	top: 16px;
 }
 
 .login {
+	position: absolute;
+	top: 64px;	
+	left: 600px;
+	width: 240px;
+	padding: 10px;
+}
+
+.login > form {
 	position: relative;
-	margin-left: 600px;
-	margin-top: 64px;
-	width: 260px;
-	height: 700px;
-	background: #323232;
+	height: 500px;
+	font-family: Cabin;
+	background: #F8F8F8;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);	
+}
+
+.login #header {
+	display: block;
+	padding-top: 64px;
+	padding-bottom: 28px;
+	font-size: 28px;
+	text-align: center;
+}
+
+.login .box {
+	display: block;
+	text-align: left;
+	width: 180px;
+	margin: 10px auto;
+}
+
+.login .box > label {
+	display: block;
+	padding-top: 10px;
+}
+
+.login .box  .input {
+	width: 176px;
+}
+
+.login .box #submit {
+	margin-top: 16px;
+	float: right;
 }
 
 
 h1 {
 	margin: 0;
-	padding: 0;
+	padding-top: 20px;
 }

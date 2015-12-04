@@ -4,8 +4,8 @@
 <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/style.css">
-<link rel="stylesheet" type="text/css" href="css/style_login.css">
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/login.css">
 <title>Tinder Dogs</title>
 </head>
 <body>
@@ -21,9 +21,30 @@
 
 <div class="wrapper">
 
-	<div class="register"><h1>Hej hej</h1></div>
+	<div class="register">
+		<form>
+			<label>Don't have an account?</label>
+			<br />
+			<input id="btn_register" type="submit" value="Register now!">	
+		</form>
+	</div>
 
-	<div class="login"><h1>hej 2</h1></div>
+	<div class="login">	
+		<form>
+			<label id="header">Sign In</label>		
+		
+			<div class="box">
+				<label>Email:</label>
+				<input class="input" type="text" />	
+				<label>Password:</label>
+				<input class="input" type="password" />
+				
+				<input id="submit" type="submit" value="Sign In" />
+				
+				<div class="clear" />
+			</div>						
+		</form>
+	</div>
 
 	<div class="clear" />
 
