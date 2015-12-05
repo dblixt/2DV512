@@ -11,7 +11,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.DbManager;
+import dv512.controller.util.DbManager;
 import dv512.model.User;
 
 

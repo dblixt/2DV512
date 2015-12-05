@@ -9,8 +9,8 @@
 
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
-		<f:viewParam name="userId" value="#{profile.userId}" />
-		<f:event type="preRenderView" listener="#{profile.loadData(false)}" />
+		<f:viewParam name="id" value="#{profileController.id}" />
+		<f:event type="preRenderView" listener="#{profileController.loadData}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -21,8 +21,8 @@
 				var map;				
 				function initMap() {
 					var mycenter = {
-						lat: #{profile.latitude}, 
-						lng: #{profile.longitude}
+						lat: #{profileController.profile.latitude}, 
+						lng: #{profileController.profile.longitude}
 					};
 				
 					var prop = {
@@ -51,18 +51,18 @@
 		<div class="content-block">
 			<div class="profile-wrapper">
 				<div class="left">
-					<h3>#{profile.name}</h3>
-					<p class="cap-first">#{profile.gender}</p>
-					<p class="description">#{profile.description}</p>
+					<h3>#{profileController.profile.name}</h3>
+					<p class="cap-first">#{profileController.profile.gender}</p>
+					<p class="description">#{profileController.profile.description}</p>
 
 					<h4>Dogs</h4>
 					<ul>
-						<ui:repeat var="d" value="#{profile.dogs}">
+						<ui:repeat var="d" value="#{profileController.dogs}">
 							<li>
-								<h:graphicImage name="#{d.picture}" library="img" />
+								<h:graphicImage value="/images/dog/#{d.picture}" />
 								<div class="center-vert">
 									<h5>#{d.name}</h5>
-									<p>#{d.gender} - age #{d.age}</p>
+									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
 									<p>#{d.race}</p>
 								</div>
 								<div class="clear" />
@@ -72,18 +72,15 @@
 					<br />
 					<h4>Location</h4>
 					<div id="map"></div>
-
 				</div>
 
 				<div class="right">
-					<h:link id="edit-profile" class="icon-link" outcome="editprofile">
-						<i class="material-icons">mode_edit</i>
-						<span>Edit</span>
-						<f:param name="userId" value="#{loginController.userId}" />
+					<h:link class="icon-link" style="float: right;" outcome="editprofile">
+						<i class="material-icons">mode_edit</i><span>Edit</span>
 					</h:link>
 					
 					<div class="clear" />
-					<h:graphicImage id="view-profile-img" value="/images/profile/#{profile.profilePic}" />
+					<h:graphicImage id="view-profile-img" value="/images/profile/#{profileController.profile.profilePic}" />
 				</div>
 			</div>
 		</div>

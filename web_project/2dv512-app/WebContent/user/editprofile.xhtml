@@ -9,8 +9,7 @@
 
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
-		<f:viewParam name="userId" value="#{profile.userId}" />		
-		<f:event type="preRenderView" listener="#{profile.loadData(true)}" />
+		<f:event type="preRenderView" listener="#{editProfileController.loadData}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -21,8 +20,8 @@
 				var map;				
 				function initMap() {
 					var mycenter = {
-						lat: #{profile.latitude}, 
-						lng: #{profile.longitude}
+						lat: #{editProfileController.profile.latitude}, 
+						lng: #{editProfileController.profile.longitude}
 					};
 				
 					var prop = {
@@ -53,55 +52,73 @@
 				<div class="left">
 					<h3>Edit Profile</h3>
 					
-					<h:form>
+					<h:form id="form1" prependId="false">
 						<label class="label-header">Name:</label>
-						<h:inputText value="#{profile.name}"/>
+						<h:inputText value="#{editProfileController.profile.name}"/>
 						
 						<label class="label-header">Gender:</label>
-						<h:selectOneRadio value="#{profile.gender}">
+						<h:selectOneRadio value="#{editProfileController.profile.gender}">
 							<f:selectItem itemValue="male" itemLabel="Male" />
 							<f:selectItem itemValue="female" itemLabel="Female" />
 						</h:selectOneRadio>
 						
 						<label class="label-header">About me:</label>
-						<h:inputTextarea rows="7" cols="50" value="#{profile.description}" />
+						<h:inputTextarea rows="7" cols="50" value="#{editProfileController.profile.description}" />
 
 						<h4>Dogs</h4>
-						<ul>
-						<ui:repeat var="d" value="#{profile.dogs}">
+						<h:panelGroup id="doglist">
+						<ul>					
+						<ui:repeat var="d" value="#{editProfileController.dogs}">
 							<li>
-								<h:graphicImage name="#{d.picture}" library="img" />
-								<a href="#" class="icon-link center-vert edit-dog"><i class="material-icons">mode_edit</i></a>
+								<h:graphicImage value="/images/dog/#{d.picture}" />
+								<h:commandLink class="icon-link center-vert" style="right: 0px;" actionListener="#{editProfileController.removeDog(d.id)}">
+									<i class="material-icons">clear</i>	
+									<f:ajax execute="@this" render=":form1:doglist" />
+								</h:commandLink>					
+								<h:link class="icon-link center-vert edit-dog" style="right: 40px;" outcome="dog">
+									<i class="material-icons">mode_edit</i>
+									<f:param name="id" value="#{d.id}"/>
+								</h:link>
+								
+								
 								<div class="center-vert">
-									<h5>Sven</h5>
-									<p>Male - age 5</p>
-									<p>Sheepdog</p>
+									<h5>#{d.name}</h5>
+									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
+									<p>#{d.race}</p>
 								</div>
-								<div class="clear" />		
+								<div class="clear" />
 							</li>
 						</ui:repeat>
-						</ul>
 						
-						<a href="#" id="add-dog" class="icon-link"><i class="material-icons">add</i><span>Add dog</span></a>
-					
+						</ul>
+						</h:panelGroup>
+						
+						<h:link id="add-dog" class="icon-link" outcome="dog">
+							<i class="material-icons">add</i><span>Add dog</span>
+						</h:link>
+									
 						<br />
 						<h4>Location</h4>
 						<div id="map"></div>
 						
-
-						<br /><br />
-						<h:commandButton action="#{profile.saveData}" value="Save"/>
+						<br /><br /><br />
+						<h:commandLink class="icon-link action-button" action="#{editProfileController.saveData}">
+							<i class="material-icons">save</i><span>Save</span>
+						</h:commandLink>
+						<h:link class="icon-link action-button" outcome="profile">
+							<i class="material-icons">cancel</i><span>Cancel</span>
+						</h:link>
 					</h:form>
 
 				</div>
 
 				<div class="right">		
-					<h:graphicImage id="view-profile-img" value="/images/profile/#{profile.profilePic}" />												
+					<h:graphicImage id="view-profile-img" value="/images/profile/#{editProfileController.profile.profilePic}" />												
 					<h:form enctype="multipart/form-data" prependId="false">		
 						<div class="wrapper-file-input icon-link">
 						<i class="material-icons">mode_edit</i><span>Change</span>
-							<h:inputFile class="file-input" value="#{profile.uploadFile}" p:accept="image/*">
-								<f:ajax execute="@this" render=":view-profile-img" />
+							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
+								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":view-profile-img" />
 							</h:inputFile>							
 						</div>  											
 					</h:form>

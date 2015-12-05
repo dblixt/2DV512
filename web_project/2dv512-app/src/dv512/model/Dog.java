@@ -1,5 +1,6 @@
 package dv512.model;
 
+
 public class Dog {
 
 	private int id = -1;
@@ -9,6 +10,7 @@ public class Dog {
 	private String gender;
 	private int age;
 	private String race;
+
 
 	public int getId() {
 		return id;

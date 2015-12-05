@@ -1,4 +1,4 @@
-package dv512;
+package dv512.controller.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,17 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dv512.controller.util.ImgUtils;
 
-@WebServlet("/images/profile/*")
-public class ProfilePicServlet extends HttpServlet {
+
+@WebServlet("/images/dog/*")
+public class DogPicServlet extends HttpServlet {
 	private static final long serialVersionUID = -2451885364753755823L;
+	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String filename = req.getPathInfo().substring(1);
 		System.out.println("filename:" + filename);
 		
-        File file = new File(ProfilePicUtils.getFolder(), filename);
+        File file = new File(ImgUtils.getFolder(ImgUtils.TYPE_DOG_PIC), filename);
      
         resp.setHeader("Content-Type", getServletContext().getMimeType(filename));
         resp.setHeader("Content-Length", String.valueOf(file.length()));

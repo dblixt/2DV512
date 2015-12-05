@@ -21,5 +21,10 @@
 	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.persistence.2.1_1.0.10.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-5.3.jar"/>
 	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.ejb.3.2_1.0.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imgscalr-lib-4.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/2dv512-app/dep-jar/javadoc/imgscalr-lib-4.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

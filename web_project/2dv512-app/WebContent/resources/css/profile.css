@@ -82,11 +82,6 @@
 }
 
 
-
-.profile-wrapper .right #edit-profile {
-	float: right;
-}
-
 .profile-wrapper .right #change-pic {
 	display: block;
 	text-align: center;
@@ -147,4 +142,9 @@
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
 }
 
+
+.action-button {
+	display: inline-block;
+	margin-right: 6px;
+}
 

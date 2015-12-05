@@ -1,4 +1,4 @@
-package dv512;
+package dv512.controller.util;
 
 import java.sql.Connection;
 import java.sql.SQLException;
