@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{editDogController.id}" />
+		<f:event type="preRenderView" listener="#{editDogController.loadData}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>TinderDogs - Dog</title>
+		<h:outputStylesheet name="profile.css" library="css" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="content-block">
+			<div class="profile-wrapper">
+				<div class="left">
+					<h3><h:outputText value="#{editDogController.id > 0 ? 'Edit dog' : 'Add new dog'}" /></h3>
+					
+					<h:form>
+						<label class="label-header">Name:</label>
+						<h:inputText value="#{editDogController.dog.name}"/>
+						
+						<label class="label-header">Gender:</label>
+						<h:selectOneRadio value="#{editDogController.dog.gender}">
+							<f:selectItem itemValue="male" itemLabel="Male" />
+							<f:selectItem itemValue="female" itemLabel="Female" />
+						</h:selectOneRadio>
+						
+						<label class="label-header">Age:</label>
+						<h:inputText value="#{editDogController.dog.age}"/>
+						
+						<label class="label-header">Race:</label>
+						<h:inputText value="#{editDogController.dog.race}"/>
+						
+						<br /><br /><br /><br />
+						
+						<h:commandLink class="icon-link action-button" action="#{editDogController.saveData}">
+							<i class="material-icons">save</i><span>Save</span>
+						</h:commandLink>
+						<h:link class="icon-link action-button" outcome="editprofile">
+							<i class="material-icons">cancel</i><span>Cancel</span>
+						</h:link>
+					</h:form>
+				</div>
+
+				<div class="right">		
+					<h:graphicImage id="view-profile-img" value="/images/dog/#{editDogController.dog.picture}" />												
+					<h:form enctype="multipart/form-data" prependId="false">		
+						<div class="wrapper-file-input icon-link">
+						<i class="material-icons">mode_edit</i><span>Change</span>
+							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
+								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":view-profile-img" />
+							</h:inputFile>						
+						</div>  											
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

@@ -7,44 +7,37 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
+<ui:composition template="/template/layoutIndex.xhtml">
 
-<h:head>
-	<ui:define name="head"><title>Register</title></ui:define>
-</h:head>
+	<ui:define name="left">
 
-<h:body>
+		<div id="register">
+		
+		
+		<h:form>
+			<div id="center" style="margin-top: 64px;">
+				<label>Name:</label>
+				<p:inputText value="#{registerController.name}" />
+				<br /> <br /> <label>Email:</label>
+				<p:inputText value="#{registerController.email}" />
+				<br /> <br /> <label>Password:</label>
+				<p:inputText value="#{registerController.password}" />
+				<br /> <br />
+				<h:commandButton value="Register new user"
+					action="#{registerController.register}" />
+			</div>
 
-
-	<ui:composition template="/template/common/commonLayout.xhtml">
-
-		<!-- Need to find better way to remove nav -->
-		<ui:define name="nav"></ui:define>
-
-		<ui:define name="content">
-
-			<h:form>
-				<div id="center">
-					<label>Name:</label>
-					<p:inputText value="#{registerController.name}" />
-					<br /> <br /> <label>Email:</label>
-					<p:inputText value="#{registerController.email}" />
-					<br /> <br /> <label>Password:</label>
-					<p:inputText value="#{registerController.password}" />
-					<br /> <br />
-					<h:commandButton value="Register new user" action="#{registerController.register}" />
-				</div>
-
-			</h:form>
+		</h:form>
 	
 		Name: <h:outputText value="#{registerController.name}" />
-			<br />
+		<br />
 		Email: <h:outputText value="#{registerController.email}" />
-			<br />
+		<br />
 		Password: <h:outputText value="#{registerController.password}" />
-			<br />
-		</ui:define>
+		<br />
+		
+		</div>
+	</ui:define>
 
-	</ui:composition>
-
-</h:body>
+</ui:composition>
 </html>
