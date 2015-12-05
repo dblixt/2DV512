@@ -5,36 +5,67 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+
+
+
 <h:body>
 
-	<!-- Standard template -->
-	<h:head>
+
+	<ui:composition template="/template/layoutUser.xhtml">
+
 		<ui:define name="head">
-			<title>Default</title>
+			<title>Geolocation</title>
+			<meta name="viewport" content="initial-scale=1.0, user-scalable=no"></meta>
+			<meta charset="utf-8"></meta>'
+    		<h:outputStylesheet name="map.css" library="css" />
+
+
+
+
 		</ui:define>
-	</h:head>
 
 
-	<ui:composition template="template/layoutUser.xhtml">
+		<ui:define name="content">
 
-		<h:outputScript library="js" name="geolocation.js" target="body" />
-		<h:outputScript library="js" name="searchbox.js" target="body" />
+			<div class="content-block">
+				<input id="pac-input" class="controls" type="text"
+					placeholder="Search Box"></input>
+				<div id="map"></div>
 
 
-		<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZNbZP60oDu6EqMO6pQbV9n6YjjOYYsbw&signed_in=true&callback=initMap"
-			async defer>
-			
-		</script>
+				<h:outputScript library="js" name="map.js" />
 
-		<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZNbZP60oDu6EqMO6pQbV9n6YjjOYYsbw&libraries=places&callback=initAutocomplete"
-			async defer>
-			
-		</script>
+
+				<script
+					src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZNbZP60oDu6EqMO6pQbV9n6YjjOYYsbw&amp;signed_in=true&amp;callback=initAutocomplete&amp;libraries=places"
+					async="defer">
+					
+				</script>
+
+
+			</div>
+
+			<div class="content-block">
+				<p>Your location is:</p>
+
+
+
+				<h:form id="formId">
+					<h:inputText id="x" value="#{mapController.x}" />
+					<h:inputText id="y" value="#{mapController.y}" />
+					<h:commandButton value="submit" action="#{mapController.submit}" />
+				
+				
+				
+					
+				</h:form>
+
+			</div>
+
+		</ui:define>
 
 	</ui:composition>
-	<!-- Standard template -->
+
 
 </h:body>
 </html>
