@@ -48,7 +48,12 @@ header #content #logout {
 	padding: 6px 10px 6px 12px;
 }
 
-header #content #logout > input {
+header #content #logout:hover {
+	background-color: rgba(255,255,255,0.1);
+	border-radius: 2px;	
+}
+
+header #content #logout > a {
 	background: none;
 	border: none;
 	color: #ffffff;
@@ -67,16 +72,6 @@ header #content #logout > i {
 	color: #ffffff;
 }
 
-header #content #logout:visited {
-
-}
-
-header #content #logout:hover {
-	background-color: rgba(255,255,255,0.1);
-	border-radius: 2px;	
-}
-
-
 
 header h1{
 	display: inline;
@@ -86,6 +81,7 @@ header h1{
 	line-height: 64px;
 	margin-left: 10px;
 }
+
 
 nav  {
 	position: fixed;
@@ -137,7 +133,7 @@ nav ul li i {
 	display: inline-block;	
 	position: relative;
 	vertical-align: middle;
-	color: #69B562;	
+	color: #545454;	
 }
 
 nav ul li a {
@@ -184,6 +180,34 @@ nav ul li:hover {
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
+}
+
+.icon-link {
+	display: block;
+	margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-decoration: none;
+    color: #323232;
+    font-size: 16px;
+}
+
+.icon-link:hover {
+	background-color: #EEEEEE;
+	border-radius: 2px;	
+}
+
+.icon-link > span {
+	vertical-align: middle;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.icon-link > i {
+    vertical-align: middle;
+	font-size: 22px;
 }
 
 .clear {

@@ -11,7 +11,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.DbManager;
+import dv512.controller.util.DbManager;
+import dv512.model.User;
 
 
 @Named
@@ -27,20 +28,20 @@ public class LoginController implements Serializable {
 	@Inject
 	private DbManager dbManager;
 	
+	@Inject 
+	private User user;
 	
-	private int userId = -1;
-	private String email;
 	private String password;
-	
+
 	private int retryCount = 0;
 	
 
 	public void setEmail(String email) {
-		this.email = email;
+		user.setEmail(email);
 	}
 	
 	public String getEmail() {
-		return email;
+		return user.getEmail();
 	}
 	
 	public void setPassword(String password) {
@@ -57,11 +58,11 @@ public class LoginController implements Serializable {
 	}
 	
 	public boolean isVerified() {
-	    return userId != -1;
+	    return user.getId() != -1;
 	}
 	
 	public int getUserId() {
-		return userId;
+		return user.getId();
 	}
 
 	
@@ -71,13 +72,13 @@ public class LoginController implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement("SELECT id FROM Users WHERE email = ? AND password = ?");
-			stmt.setString(1, email);
+			stmt.setString(1, user.getEmail());
 			stmt.setString(2, password);
 			
 			ResultSet r = stmt.executeQuery();
 			if(r != null && r.next()) {
 				System.out.println("User verification succeded!");
-				userId = r.getInt("id");
+				user.setId(r.getInt("id"));
 				retryCount = 0;
 				password = null; // do not store it.
 				return ACTION_LOGIN_SUCCESS;
@@ -96,7 +97,7 @@ public class LoginController implements Serializable {
 	}
 	
 	public String logout() {
-		userId = -1;
+		user.setId(-1);
 		retryCount = 0;
 		setEmail(null);
 		setPassword(null);

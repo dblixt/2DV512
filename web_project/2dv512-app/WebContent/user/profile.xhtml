@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{profileController.id}" />
+		<f:event type="preRenderView" listener="#{profileController.loadData}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>TinderDogs - Profile</title>
+		<h:outputStylesheet name="profile.css" library="css" />
+		<h:outputStylesheet name="map.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
+
+		<h:outputScript>
+			setLocation(#{profileController.profile.latitude}, #{profileController.profile.longitude});	
+			setAllowEdit(false);		
+		</h:outputScript>
+
+		<script 
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
+			async="async" defer="defer">					
+		</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="content-block">
+			<div class="profile-wrapper">
+				<div class="left">
+					<h3>#{profileController.profile.name}</h3>
+					<p class="cap-first">#{profileController.profile.gender}</p>
+					<p class="description">#{profileController.profile.description}</p>
+
+					<h4>Dogs</h4>
+					<ul>
+						<ui:repeat var="d" value="#{profileController.dogs}">
+							<li>
+								<h:graphicImage value="/images/dog/#{d.picture}" />
+								<div class="center-vert">
+									<h5>#{d.name}</h5>
+									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
+									<p>#{d.race}</p>
+								</div>
+								<div class="clear" />
+							</li>
+						</ui:repeat>
+					</ul>
+					<br />
+					<h4>Location</h4>
+					<div id="map"></div>
+				</div>
+
+				<div class="right">
+					<h:link class="icon-link" style="float: right;" outcome="editprofile">
+						<i class="material-icons">mode_edit</i><span>Edit</span>
+					</h:link>
+					
+					<div class="clear" />
+					<h:graphicImage id="view-profile-img" value="/images/profile/#{profileController.profile.profilePic}" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

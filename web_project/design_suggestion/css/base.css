@@ -131,7 +131,7 @@ nav ul li i {
 	display: inline-block;	
 	position: relative;
 	vertical-align: middle;
-	color: #69B562;	
+	color: #545454;	
 }
 
 nav ul li a {
@@ -180,6 +180,36 @@ nav ul li:hover {
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 }
+
+
+
+.icon-link {
+	display: inline-block;
+	margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-decoration: none;
+    color: #323232;
+    font-size: 16px;
+}
+
+.icon-link:hover {
+	background-color: #EEEEEE;
+	border-radius: 2px;	
+}
+
+.icon-link > span {
+	vertical-align: middle;
+	padding-left: 5px;
+}
+
+.icon-link > i {
+    vertical-align: middle;
+	font-size: 20px;
+}
+
 
 .clear {
 	clear: both;

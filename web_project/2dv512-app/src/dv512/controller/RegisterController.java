@@ -12,7 +12,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.DbManager;
+import dv512.controller.util.DbManager;
 
 @Named
 @SessionScoped
