@@ -23,37 +23,36 @@ public class RegisterController implements Serializable{
 	public static final String ACTION_REGISTER_SUCCESS = "success";
 	public static final String ACTION_REGISTER_FAIL = "fail";
 	
-	private final int DEFAULT_MODE = 0;
-	private final int REGISTER_MODE = 1;
-	private final int FAILED_MODE = 2;
+	private final String DEFAULT_MODE = "DEFAULT";
+	private final String REGISTER_MODE = "REGISTER";
+	private final String FAILED_MODE = "FAILED";
 	
-	private int mode = DEFAULT_MODE;
+	private String mode = DEFAULT_MODE;
 	
 	private String name;
 	private String password;
 	private String email;
-
-		
+	
 	
 	@Inject
 	private DbManager dbManager;
-
+	
 	public void setName(String name) {
-		System.out.println(name);
+		//System.out.println(name);
 		this.name = name;
 	}
 
 	public void setPassword(String password) {
-		System.out.println(password);
+		//System.out.println(password);
 		this.password = password;
 	}
 
 	public void setEmail(String email) {
-		System.out.println(email);
+		//System.out.println(email);
 		this.email = email;
 	}
 
-	public void setMode(int mode) {
+	public void setMode(String mode) {
 		this.mode = mode;
 	}
 
@@ -68,14 +67,12 @@ public class RegisterController implements Serializable{
 	public String getEmail() {
 		return email;
 	}
-	
-	
-	public int getMode() {
-		//System.out.println("Getting Mode " + mode);
+		
+	public String getMode() {
 		return mode;
 	}
 
-	public void switchmode(AjaxBehaviorEvent event) {
+	public void switchMode(AjaxBehaviorEvent event) {
 		//System.out.println("Inside switchMode");
 		if(mode == DEFAULT_MODE){
 			mode = REGISTER_MODE;

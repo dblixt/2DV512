@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	>
+	xmlns:h="http://java.sun.com/jsf/html">
 
 
 <h:head>
@@ -22,7 +21,7 @@
 				<div class="register">
 					<h:form id="registerblock" prependId="false">
 						<h:form id="defaultmode" prependId="false"
-							rendered="#{registerController.mode == 0}">
+							rendered="#{registerController.mode == DEFAULT}">
 							<br />
 							<br />
 							<h:outputText value="Not a user? Please register!">
@@ -36,29 +35,33 @@
 
 						</h:form>
 						<h:form id="registermode" prependId="false"
-							rendered="#{registerController.mode == 1}">
+							rendered="#{registerController.mode == REGISTER}">
 							<label>Name:</label>
 							<br />
-							<h:inputText id="name2" value="#{registerController.name}" required="true"
-								requiredMessage="Enter name."/>
+							<h:inputText id="name2" value="#{registerController.name}"
+								required="true" requiredMessage="Enter name." />
+							<br />
 							<h:message for="name2" />
 							<br />
 							<label>Email:</label>
 							<br />
-							<h:inputText id="email2" value="#{registerController.email}" required="true"
-								requiredMessage="Enter email." />
+							<h:inputText id="email2" value="#{registerController.email}"
+								required="true" requiredMessage="Enter email." />
+							<br />
 							<h:message for="email2" />
 							<br />
 							<label>Password:</label>
 							<br />
-							<h:inputText id ="password2" value="#{registerController.password}"
-								required="true" requiredMessage="Enter password." />
-							<h:message for="password2"/>
+							<h:inputText id="password2"
+								value="#{registerController.password}" required="true"
+								requiredMessage="Enter password." />
+							<br />
+							<h:message for="password2" />
 							<br />
 							<br />
-							<h:commandButton value="Register new user" action="#{registerController.register}">
-							<f:ajax execute="registermode"
-									render="registerblock" />
+							<h:commandButton value="Register new user"
+								action="#{registerController.register}">
+								<f:ajax execute="registermode" render="registerblock" />
 							</h:commandButton>
 						</h:form>
 					</h:form>
