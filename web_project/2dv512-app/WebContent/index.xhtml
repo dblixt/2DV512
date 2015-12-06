@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	>
 
 
 <h:head>
@@ -17,47 +18,86 @@
 	<ui:composition template="/template/layoutIndex.xhtml">
 
 		<ui:define name="left">
+			<div class="box">
+				<div class="register">
+					<h:form id="registerblock" prependId="false">
+						<h:form id="defaultmode" prependId="false"
+							rendered="#{registerController.mode == 0}">
+							<br />
+							<br />
+							<h:outputText value="Not a user? Please register!">
+							</h:outputText>
+							<br />
+							<br />
+							<h:commandButton value="Register">
+								<f:ajax listener="#{registerController.switchmode}"
+									render="registerblock" />
+							</h:commandButton>
 
-			<h:form prependId="false">
-				<div class="center">
-					<br /> <br />
-					<h:outputText value="Not a user? Please register!">
-					</h:outputText>
-					<br /> <br />
-					<h:commandButton value="Register" action="register.xhtml" />
-
+						</h:form>
+						<h:form id="registermode" prependId="false"
+							rendered="#{registerController.mode == 1}">
+							<label>Name:</label>
+							<br />
+							<h:inputText id="name2" value="#{registerController.name}" required="true"
+								requiredMessage="Enter name."/>
+							<h:message for="name2" />
+							<br />
+							<label>Email:</label>
+							<br />
+							<h:inputText id="email2" value="#{registerController.email}" required="true"
+								requiredMessage="Enter email." />
+							<h:message for="email2" />
+							<br />
+							<label>Password:</label>
+							<br />
+							<h:inputText id ="password2" value="#{registerController.password}"
+								required="true" requiredMessage="Enter password." />
+							<h:message for="password2"/>
+							<br />
+							<br />
+							<h:commandButton value="Register new user" action="#{registerController.register}">
+							<f:ajax execute="registermode"
+									render="registerblock" />
+							</h:commandButton>
+						</h:form>
+					</h:form>
 				</div>
-			</h:form>
-
+			</div>
 		</ui:define>
 
 
 
 		<ui:define name="right">
+			<div class="box">
+				<div class="login">
+					<h:form prependId="false">
 
-			<h:form prependId="false">
-				<div class="center">
-					<label>Email:</label> <br />
-					<h:inputText id="email" value="#{loginController.email}"
-						required="true" requiredMessage="Enter email." />
-					<h:message for="email" />
-					<br /> <label>Password:</label> <br />
-					<h:inputSecret id="password" value="#{loginController.password}"
-						required="true" requiredMessage="Enter password." />
-					<h:message for="password" />
-					<br />
+						<label>Email:</label>
+						<br />
+						<h:inputText id="email" value="#{loginController.email}"
+							required="true" requiredMessage="Enter email." />
+						<h:message for="email" />
+						<br />
+						<label>Password:</label>
+						<br />
+						<h:inputSecret id="password" value="#{loginController.password}"
+							required="true" requiredMessage="Enter password." />
+						<h:message for="password" />
+						<br />
 
-					<h:outputText id="login_error"
-						value="Incorrect email or password, please try again."
-						rendered="#{loginController.retryCount > 0}" />
-					<br />
+						<h:outputText id="login_error"
+							value="Incorrect email or password, please try again."
+							rendered="#{loginController.retryCount > 0}" />
+						<br />
 
-					<h:commandButton value="Login" action="#{loginController.login}">
-						<f:ajax execute="@form" render="@form" />
-					</h:commandButton>
+						<h:commandButton value="Login" action="#{loginController.login}">
+							<f:ajax execute="@form" render="@form" />
+						</h:commandButton>
+
+					</h:form>
 				</div>
-			</h:form>
-
+			</div>
 
 		</ui:define>
 
