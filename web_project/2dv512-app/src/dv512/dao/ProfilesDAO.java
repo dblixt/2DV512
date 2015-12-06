@@ -21,8 +21,7 @@ public class ProfilesDAO implements Serializable {
 	
 	@Inject
 	private DbManager dbManager;
-	
-	
+		
 	public Profile get(int userId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -35,7 +34,7 @@ public class ProfilesDAO implements Serializable {
 			
 			Profile profile = new Profile();
 			if(r != null && r.next()) {
-				profile.setUserId(r.getInt("id"));
+				profile.setUserId(r.getInt("user_id"));
 				profile.setName(r.getString("name"));
 				profile.setGender(r.getString("gender"));
 				profile.setDescription(r.getString("description"));

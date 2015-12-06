@@ -16,34 +16,17 @@
 	<ui:define name="head">
 		<title>TinderDogs - Profile</title>
 		<h:outputStylesheet name="profile.css" library="css" />
+		<h:outputStylesheet name="map.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
 
 		<h:outputScript>
-				var map;				
-				function initMap() {
-					var mycenter = {
-						lat: #{profileController.profile.latitude}, 
-						lng: #{profileController.profile.longitude}
-					};
-				
-					var prop = {
-						center:  mycenter,
-    					zoom: 12,
-    					mapTypeControl: false,
-    					streetViewControl: false					
-					};
-					
-					var marker = new google.maps.Marker({
-						position: mycenter
-					});
-				
-  					map = new google.maps.Map(document.getElementById('map'), prop);
-  					marker.setMap(map);
-				}			
-			</h:outputScript>
+			setLocation(#{profileController.profile.latitude}, #{profileController.profile.longitude});	
+			setAllowEdit(false);		
+		</h:outputScript>
 
-		<script async="async" defer="defer"
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;callback=initMap">
-			
+		<script 
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
+			async="async" defer="defer">					
 		</script>
 	</ui:define>
 

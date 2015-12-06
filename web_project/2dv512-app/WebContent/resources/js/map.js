@@ -1,77 +1,88 @@
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
-
+var map;
 var marker;
 
-function initAutocomplete() {
+var latitude;
+var longitude;
 
-	// freegeoip.net/{json}/{77.105.199.52}
+var allowEditLocation = false;
+var locationSet = true;
+
+function initMap() {
+	console.log("initMap()");
 	
-	console.log("initAutocomplete() called");
-
-	var map = new google.maps.Map(document.getElementById('map'), {
-		center : {
-			lat : 56.87900440,
-			lng : 14.58612563
-		},
-		zoom : 8,
-		mapTypeId : google.maps.MapTypeId.ROADMAP
-	});
+	var mycenter = {
+			lat: latitude, 
+			lng: longitude
+	};
 	
-	var searchBox = document.getElementById('pac-input');
-	searchBox.style.display='none';
+	var prop = {
+		center:  mycenter,
+		zoom: (locationSet ? 6 : 1),
+		mapTypeControl: false,
+		streetViewControl: false					
+	};
 
+	map = new google.maps.Map(document.getElementById('map'), prop);
+	
+	
+	if(allowEditLocation) {
+		createSearchBox();
+	}
+	
+	if(locationSet) {
+		createMarker();
+		setLocation(latitude, longitude); // refresh marker location.
+	}
+	
+	if(!locationSet && allowEditLocation) {
+		requestGeoLocation();
+	}
+}
+
+function createMarker() {
 	marker = new google.maps.Marker({
-		map : map,
-		draggable : true,
+		map: map,
+		draggable : allowEditLocation,
 		animation : google.maps.Animation.DROP,
 	});
 
-	marker.addListener('dragend', markerChangeLocation);
+	if(allowEditLocation) {
+		marker.addListener('dragend', onMarkerMoved);
+	}
+}
 
-	// var infoWindow = new google.maps.InfoWindow({map: map});
 
+function requestGeoLocation() {
+	console.log("requestGeoLocation()");
+	
 	// Try HTML5 geolocation.
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 
-			var lat = position.coords.latitude;
-			var lng = position.coords.longitude;
+			latitude = position.coords.latitude;
+			longitude = position.coords.longitude;
 
-			console.log("lat: " + lat);
-			console.log("lng: " + lng);
+			console.log("lat: " + latitude);
+			console.log("lng: " + longitude);
 
-			document.getElementById("formId:x").value = lat;
-			document.getElementById("formId:y").value = lng;
-
-			var pos = {
-				lat : position.coords.latitude,
-				lng : position.coords.longitude
-			};
-
-			marker.setPosition(pos);
-			map.setCenter(pos);
+			// no location was previously set, create new marker.
+			if(!marker) {
+				createMarker(); 
+			}
+			updateLocation();
 		},
-
-		// If geolocation is blocked
 		function() {
-			console.log("Geolocation is blocked");
-			createSearchBox(map);
+			console.log("Geolocation is blocked.");
 		});
-	} else {
-		// If geolocation is not available
-		console.log("Geolocation is not available");
-		createSearchBox(map);
+	} 
+	else {
+		console.log("Geolocation is not available.");
 	}
-
 }
 
-function createSearchBox(map) {
-
-	console.log("createSearchBox called");
-	
-	
+function createSearchBox() {
+	console.log("createSearchBox()");
+		
 	var searchBox = document.getElementById('pac-input');
 	searchBox.style.display='block';
 	
@@ -107,8 +118,13 @@ function createSearchBox(map) {
 				scaledSize : new google.maps.Size(25, 25)
 			};
 
+			// no location was previously set, create new marker.
+			if(!marker) {
+				createMarker(); 
+			}
+			
 			marker.setPosition(place.geometry.location);
-			markerChangeLocation();
+			onMarkerMoved();
 
 			if (place.geometry.viewport) {
 				// Only geocodes have viewport.
@@ -122,20 +138,15 @@ function createSearchBox(map) {
 
 }
 
-function markerChangeLocation() {
-
-	console.log("Marker Moved");
+function onMarkerMoved() {
+	console.log("onMarkerMoved()");
 
 	var latlng = marker.getPosition();
-	var lat = latlng.lat();
-	var lng = latlng.lng();
 
-	document.getElementById("formId:x").value = lat;
-	document.getElementById("formId:y").value = lng;
-
-	console.log(latlng.toString());
-
-	// Marker Bonuceces
+	document.getElementById("lat").value = latlng.lat();
+	document.getElementById("lng").value = latlng.lng();
+	
+	// Marker bounce animation
 	marker.setAnimation(google.maps.Animation.BOUNCE);
 	window.setTimeout(function() {
 		if (marker.getAnimation() !== null) {
@@ -144,6 +155,46 @@ function markerChangeLocation() {
 	}, 500);
 
 }
+
+
+function updateLocation() {	
+	if(marker) {
+		var pos = {
+			lat: latitude,
+			lng: longitude
+		};
+
+		marker.setPosition(pos);
+		map.setCenter(pos);
+		
+		if(allowEditLocation) {
+			document.getElementById("lat").value = latitude;
+			document.getElementById("lng").value = longitude;
+		}		
+	}
+}
+
+function setLocation(lat, lng) {
+	if(lat == 0 && lng == 0) {
+		locationSet = false;
+	}
+	else {
+		locationSet = true;
+	}
+	
+	latitude = lat;
+	longitude = lng;
+	
+	updateLocation();
+}
+
+function setAllowEdit(allowEdit) {
+	allowEditLocation = allowEdit;
+}
+
+
+
+
 
 // jQuery(document).ready(function($) {
 // jQuery.getScript('http://www.geoplugin.net/javascript.gp', function()

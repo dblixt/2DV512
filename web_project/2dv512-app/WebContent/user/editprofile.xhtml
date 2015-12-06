@@ -15,34 +15,17 @@
 	<ui:define name="head">
 		<title>TinderDogs - Profile</title>
 		<h:outputStylesheet name="profile.css" library="css" />
+		<h:outputStylesheet name="map.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
 
 		<h:outputScript>
-				var map;				
-				function initMap() {
-					var mycenter = {
-						lat: #{editProfileController.profile.latitude}, 
-						lng: #{editProfileController.profile.longitude}
-					};
-				
-					var prop = {
-						center:  mycenter,
-    					zoom: 12,
-    					mapTypeControl: false,
-    					streetViewControl: false					
-					};
-					
-					var marker = new google.maps.Marker({
-						position: mycenter
-					});
-				
-  					map = new google.maps.Map(document.getElementById('map'), prop);
-  					marker.setMap(map);
-				}			
-			</h:outputScript>
+			setLocation(#{editProfileController.profile.latitude}, #{editProfileController.profile.longitude});	
+			setAllowEdit(true);		
+		</h:outputScript>
 
-		<script async="async" defer="defer"
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;callback=initMap">
-			
+		<script 
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
+			async="async" defer="defer">					
 		</script>
 	</ui:define>
 
@@ -99,7 +82,10 @@
 									
 						<br />
 						<h4>Location</h4>
+						<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
 						<div id="map"></div>
+						<h:inputHidden id="lat" value="#{editProfileController.profile.latitude}" />
+						<h:inputHidden id="lng" value="#{editProfileController.profile.longitude}" />
 						
 						<br /><br /><br />
 						<h:commandLink class="icon-link action-button" action="#{editProfileController.saveData}">
