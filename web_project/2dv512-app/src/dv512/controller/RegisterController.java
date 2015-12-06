@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,7 +22,13 @@ public class RegisterController implements Serializable{
 	
 	public static final String ACTION_REGISTER_SUCCESS = "success";
 	public static final String ACTION_REGISTER_FAIL = "fail";
-
+	
+	private final String DEFAULT_MODE = "DEFAULT";
+	private final String REGISTER_MODE = "REGISTER";
+	private final String FAILED_MODE = "FAILED";
+	
+	private String mode = DEFAULT_MODE;
+	
 	private String name;
 	private String password;
 	private String email;
@@ -29,17 +36,24 @@ public class RegisterController implements Serializable{
 	
 	@Inject
 	private DbManager dbManager;
-
+	
 	public void setName(String name) {
+		//System.out.println(name);
 		this.name = name;
 	}
 
 	public void setPassword(String password) {
+		//System.out.println(password);
 		this.password = password;
 	}
 
 	public void setEmail(String email) {
+		//System.out.println(email);
 		this.email = email;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 
 	public String getName() {
@@ -53,10 +67,29 @@ public class RegisterController implements Serializable{
 	public String getEmail() {
 		return email;
 	}
+		
+	public String getMode() {
+		return mode;
+	}
+
+	public void switchMode(AjaxBehaviorEvent event) {
+		//System.out.println("Inside switchMode");
+		if(mode == DEFAULT_MODE){
+			mode = REGISTER_MODE;
+			System.out.println("Mode = " +mode);
+			return;
+		}
+		if(mode == REGISTER_MODE){
+			mode = DEFAULT_MODE;
+			System.out.println("Mode = " +mode);
+		}
+	}
 
 	public String register() {
 		Connection con = null;
 		PreparedStatement s = null;
+		System.out.println("Trying to add user");
+		//System.out.println(name +"  "+email+ " "+password);
 		
 		try {			
 			con = dbManager.getConnection();
@@ -84,13 +117,15 @@ public class RegisterController implements Serializable{
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
+			mode = FAILED_MODE;
 			return ACTION_REGISTER_FAIL;
 		}
 		finally {
 			dbManager.close(con);
 			dbManager.close(s);
 		}
-		
+		mode = DEFAULT_MODE;
+		System.out.println("User added");
 		return ACTION_REGISTER_SUCCESS;
 	}
 
