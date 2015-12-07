@@ -29,7 +29,7 @@
 							<br />
 							<br />
 							<h:commandButton value="Register">
-								<f:ajax listener="#{registerController.switchmode}"
+								<f:ajax listener="#{registerController.switchMode}"
 									render="registerblock" />
 							</h:commandButton>
 
@@ -38,25 +38,25 @@
 							rendered="#{registerController.mode == 1}">
 							<label>Name:</label>
 							<br />
-							<h:inputText id="name2" value="#{registerController.name}"
+							<h:inputText id="register_name" value="#{registerController.name}"
 								required="true" requiredMessage="Enter name." />
 							<br />
-							<h:message for="name2" />
+							<h:message for="register_name" />
 							<br />
 							<label>Email:</label>
 							<br />
-							<h:inputText id="email2" value="#{registerController.email}"
+							<h:inputText id="register_email" value="#{registerController.email}"
 								required="true" requiredMessage="Enter email." />
 							<br />
-							<h:message for="email2" />
+							<h:message for="register_email" />
 							<br />
 							<label>Password:</label>
 							<br />
-							<h:inputText id="password2"
+							<h:inputText id="register_password"
 								value="#{registerController.password}" required="true"
 								requiredMessage="Enter password." />
 							<br />
-							<h:message for="password2" />
+							<h:message for="register_password" />
 							<br />
 							<br />
 							<h:commandButton value="Register new user"
@@ -68,7 +68,6 @@
 				</div>
 			</div>
 		</ui:define>
-
 
 
 		<ui:define name="right">
