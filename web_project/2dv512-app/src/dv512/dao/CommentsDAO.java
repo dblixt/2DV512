@@ -83,8 +83,8 @@ public class CommentsDAO implements Serializable {
 	public void createTestComment(){
 		
 		Comment comment = new Comment();
-		comment.setUserID(1);
-		comment.setComment("Hello this is a test comment");
+		comment.setUserID(2);
+		comment.setComment("Hello this is a test comment from user 2");
 		comment.setEventId(1);
 		comment.setDateTime(System.currentTimeMillis());
 		insert(comment);

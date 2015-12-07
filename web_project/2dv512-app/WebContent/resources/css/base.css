@@ -183,7 +183,7 @@ nav ul li:hover {
 }
 
 .icon-link {
-	display: block;
+	display: inline-block;
 	margin: 0;
     padding-left: 8px;
     padding-right: 8px;

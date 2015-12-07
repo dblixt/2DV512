@@ -57,3 +57,13 @@ CREATE TABLE Comments
   PRIMARY KEY(id)
 );
 
+CREATE TABLE EventJoins
+(
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id INT NOT NULL,
+  event_id INT NOT NULL,
+  date BIGINT NOT NULL,
+  CONSTRAINT fk_event_id FOREIGN KEY(event_id) REFERENCES Events(id) ON DELETE RESTRICT,
+  PRIMARY KEY(id)
+);
+

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -112,6 +114,33 @@ public class ProfilesDAO implements Serializable {
 		}	
 		
 		return true;
+	}
+	
+	public List<Profile> listAllEvent(int eventID) {
+		List<Profile> pl = new ArrayList<>();
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("SELECT * FROM EventJoins WHERE event_id = ?");
+			stmt.setInt(1, eventID);
+
+			ResultSet r = stmt.executeQuery();
+
+			while (r.next()) {
+				Profile p = get(r.getInt("user_id"));
+				pl.add(p);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return pl;
 	}
 	
 	

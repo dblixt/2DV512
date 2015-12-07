@@ -1,0 +1,88 @@
+.list-event-wrapper {
+	
+}
+
+.event-creator-img {
+	float: left;
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
+}
+
+.event-creator-img-right {
+	float: right;
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
+}
+
+.event-dog-img {
+	display: inline-block;
+	height: 48px;
+	width: 48px;
+	object-fit: cover;
+}
+
+.event-user-join-img {
+	display: inline-block;
+	height: 48px;
+	width: 48px;
+	object-fit: cover;
+}
+
+.event-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.event-creator {
+	color: #5397AD;
+	font-size: 14px;
+}
+
+.event-comment-wrapper {
+	margin-bottom: 20px;
+	float: left;
+	width: 100%;
+}
+
+.event-comment {
+
+}
+
+.event-comment-img {
+	float: left;
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
+	padding-right: 20px;
+}
+
+.event-comment-date{
+	float: right;
+}
+
+.event-comment-input{
+	width: 99%;
+}
+
+.event-comment-author{
+
+}
+
+
+
+p {
+	margin: 0px;
+}
+
+
+.vspace {
+	margin-top: 12px;
+}
+
+
+h3 {
+	margin: 0;
+	display: inline-block;
+}
