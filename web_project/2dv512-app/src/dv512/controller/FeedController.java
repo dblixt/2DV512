@@ -1,5 +1,6 @@
 package dv512.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +10,13 @@ import javax.inject.Named;
 
 import dv512.dao.DogsDAO;
 import dv512.dao.ProfilesDAO;
+import dv512.model.Event;
 import dv512.model.FeedEvent;
 
 @Named
 @ViewScoped
-public class FeedController {
+public class FeedController implements Serializable {
+	private static final long serialVersionUID = 1127731622673465704L;
 
 	@Inject 
 	private ProfilesDAO profilesDAO;
@@ -40,11 +43,21 @@ public class FeedController {
 		
 		FeedEvent e = new FeedEvent();
 		
+		Event ev = new Event();
+		ev.setDateTime(System.currentTimeMillis());
+		ev.setDescription("This is a long description of the event that will take place later this week.");
+		ev.setId(1);
+		ev.setTitle("Walk around the Park");
+		
+			
 		e.setCreator(profilesDAO.get(thisUser.getUserId()));
 		e.setDogs(dogsDAO.listAll(thisUser.getUserId()));
 		
+		ev.setUserId(e.getCreator().getUserId());
+		
 		e.setDistance(5);
 		e.setJoinCount(3);
+		e.setEvent(ev);
 		
 		events.add(e);		
 	}

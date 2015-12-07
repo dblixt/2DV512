@@ -28,25 +28,25 @@ public class RegisterController implements Serializable {
 	private int mode = DEFAULT_MODE;
 
 	private User user = new User();
-	private Profile profile = new Profile();
 
 	@Inject
 	private UserDAO userDAO;
-	
+
 	@Inject
 	private ProfilesDAO profileDAO;
+
 	
-	public User getUser(){
+	public User getUser() {
 		return user;
 	}
 
 	public int getMode() {
-		System.out.println("Mode is: " +mode);
+		System.out.println("Mode is: " + mode);
 		return mode;
 	}
 
 	public void switchMode(AjaxBehaviorEvent event) {
-		 System.out.println("Switching Mode");
+		System.out.println("Switching Mode");
 		if (mode == DEFAULT_MODE) {
 			mode = REGISTER_MODE;
 			return;
@@ -55,22 +55,25 @@ public class RegisterController implements Serializable {
 			mode = DEFAULT_MODE;
 			return;
 		}
-		if(mode == FAILED_MODE) {
+		if (mode == FAILED_MODE) {
 			mode = REGISTER_MODE;
 		}
 	}
 
 	public void register() {
 		boolean userDOAResponse = userDAO.insert(user);
-		
-		profile.setName(user.getName());
-		profile.setUserId(user.getId());
-		
-		boolean profileDOAResponse = profileDAO.insert(profile);
-		if(userDOAResponse == true && profileDOAResponse == true) {
+
+		Profile p = new Profile();
+		p.setName(user.getName());
+		p.setUserId(user.getId());
+
+		boolean profileDOAResponse = profileDAO.insert(p);
+		if (userDOAResponse == true && profileDOAResponse == true) {
 			mode = SUCCESS_MODE;
+		} 
+		else {
+			mode = FAILED_MODE;
 		}
-		else mode = FAILED_MODE;
 	}
 
 }

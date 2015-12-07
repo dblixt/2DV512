@@ -36,7 +36,7 @@ public class EditProfileController implements Serializable {
 	private FileUploadHandler fileUploadHandler;
 		
 	@Inject 
-	private User thisUser;
+	private LoginController thisUser;
 	
 	
 	private Profile profile;
@@ -51,7 +51,7 @@ public class EditProfileController implements Serializable {
 		fileUploadHandler.setFileUploadListener(new FileUploadListener() {			
 			@Override
 			public void onUploadFile(String filename, InputStream is) {				
-				File path = ImgUtils.createPath(ImgUtils.TYPE_PROFILE_PIC, thisUser.getId());
+				File path = ImgUtils.createPath(ImgUtils.TYPE_PROFILE_PIC, thisUser.getUserId());
 				
 				if(ImgUtils.saveImage(path, is)) {
 					// add old profile img to pending deletes.
@@ -92,8 +92,8 @@ public class EditProfileController implements Serializable {
 	public void loadData() {
 		if(profile == null) {
 			System.out.println("Loading profile data!");
-			profile = profilesDAO.get(thisUser.getId());		
-			dogs = dogsDAO.listAll(thisUser.getId());			
+			profile = profilesDAO.get(thisUser.getUserId());		
+			dogs = dogsDAO.listAll(thisUser.getUserId());			
 		}
 	}
 	

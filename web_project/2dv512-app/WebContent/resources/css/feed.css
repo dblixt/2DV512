@@ -13,6 +13,7 @@
 	display: inline-block;
 	height: 48px;
 	width: 48px;
+	margin-right: 5px;
 	object-fit: cover;
 }
 

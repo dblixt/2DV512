@@ -28,8 +28,8 @@ public class LoginController implements Serializable {
 	@Inject
 	private DbManager dbManager;
 	
-	@Inject 
-	private User user;
+
+	private User user = new User();
 	
 	private String password;
 
