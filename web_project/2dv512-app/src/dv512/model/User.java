@@ -1,6 +1,5 @@
 package dv512.model;
 
-
 public class User{
 	
 	private int id = -1;

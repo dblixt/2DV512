@@ -16,7 +16,7 @@ import dv512.model.User;
 
 @Named
 @ApplicationScoped
-public class UserDAO implements Serializable {
+public class UsersDAO implements Serializable {
 
 	private static final long serialVersionUID = -8679482635026754077L;
 
@@ -78,5 +78,27 @@ public class UserDAO implements Serializable {
 
 		return false;
 	}
+	
+	
+	
+	
+	
+	public User get(int id) {
+		// consider these two instead.
+		
+		return null;
+	}
+	
+	public User get(String email) {
+		// consider these two get methods instead.
+		
+		// this is a data access object, should keep separation of concerns.
+		// e.g no business logic in this class, leave it to controller 
+		// to verify that login credentials are correct.
+		
+		return null;
+	}
+	
+	
 
 }

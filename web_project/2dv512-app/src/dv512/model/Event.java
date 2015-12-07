@@ -7,16 +7,23 @@ public class Event {
 	private long dateTime;
 	private String title;
 	private String description;
-
 	private double longitude;
 	private double latitude;
 
-	public String getTitle() {
-		return title;
+	public int getId() {
+		return id;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public long getDateTime() {
@@ -27,12 +34,12 @@ public class Event {
 		this.dateTime = dateTime;
 	}
 
-	public int getUserId() {
-		return userId;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -59,11 +66,4 @@ public class Event {
 		this.latitude = latitude;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }
