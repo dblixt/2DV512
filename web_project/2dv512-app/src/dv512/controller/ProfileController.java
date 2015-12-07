@@ -23,7 +23,7 @@ public class ProfileController {
 	private ProfilesDAO profilesDAO;
 	
 	@Inject 
-	private User thisUser;
+	private LoginController thisUser;
 	
 
 	private Profile profile;	
@@ -53,12 +53,12 @@ public class ProfileController {
 	
 	public void loadData() {
 		if(viewUserId == -1) {
-			setId(thisUser.getId());
+			setId(thisUser.getUserId());
 		}
 		
 		if(profile == null) {
-			profile = profilesDAO.get(thisUser.getId());		
-			dogs = dogsDAO.listAll(thisUser.getId());			
+			profile = profilesDAO.get(thisUser.getUserId());		
+			dogs = dogsDAO.listAll(thisUser.getUserId());			
 		}	
 	}
 	

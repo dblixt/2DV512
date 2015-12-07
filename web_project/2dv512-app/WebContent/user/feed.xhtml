@@ -6,27 +6,49 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 
-<h:head>
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{feedController.loadData}" />
+	</f:metadata>
+
 	<ui:define name="head">
-		<title>Index</title>
+		<h:outputStylesheet name="feed.css" library="css" />
 	</ui:define>
-</h:head>
 
-<h:body>
-
-	<ui:composition template="/template/layoutUser.xhtml">
-
-		<ui:define name="content">
-
+	<ui:define name="content">
+		<ui:repeat var="e" value="#{feedController.events}">
 			<div class="content-block">
-				<h3>Wark around the Park</h3>		
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. </p>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. </p>					
-			</div>	
-
-		</ui:define>
-
-	</ui:composition>
-
-</h:body>
+				<h:graphicImage class="event-creator-img" value="/images/profile/#{e.creator.profilePic}"/>				
+				<div class="event-content">
+					<h3 style="margin-top: 6px">#{e.event.title}</h3>
+					<p class="event-creator">#{e.creator.name}</p>
+					<div style="margin-top: 12px;">
+						<i class="material-icons" style="display: inline-block; font-size: 14px; vertical-align: middle; color: #323232;">near_me</i>
+						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">#{e.distance} km away</p>
+					</div>
+					<p class="vspace" />
+					<p>#{e.event.description}</p>
+					<p class="vspace" />
+					<div>
+						<ui:repeat var="d" value="#{e.dogs}">
+							<h:graphicImage class="event-dog-img" value="/images/dog/#{d.picture}"/>					
+						</ui:repeat>
+					</div>
+					<p style="margin-top: 20px;" />
+					<div style="margin-left: -8px;" >
+						<h:link class="icon-link" style="width: 64px; display: inline-block;" outcome="feed">
+							<f:param name="id" value="#{e.event.id}" />
+							<i class="material-icons">view_day</i><span>View</span>
+						</h:link>
+						<h:link class="icon-link" style="width: 64px; display: inline-block; margin-left: 5px;" outcome="feed">
+							<f:param name="id" value="#{e.event.id}" />
+							<i class="material-icons"  style="font-size: 24px;">done</i><span>Join</span>
+						</h:link>
+					</div>
+				</div>
+				<div class="clear" />
+			</div>
+		</ui:repeat>
+	</ui:define>
+</ui:composition>
 </html>

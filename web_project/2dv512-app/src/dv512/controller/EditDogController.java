@@ -31,7 +31,7 @@ public class EditDogController implements Serializable {
 	private FileUploadHandler fileUploadHandler;
 	
 	@Inject
-	private User thisUser;
+	private LoginController thisUser;
 	
 	
 	
@@ -50,7 +50,7 @@ public class EditDogController implements Serializable {
 			public void onUploadFile(String filename, InputStream is) {
 				System.out.println("upload dog callback.");
 				
-				File path = ImgUtils.createPath(ImgUtils.TYPE_DOG_PIC, thisUser.getId());
+				File path = ImgUtils.createPath(ImgUtils.TYPE_DOG_PIC, thisUser.getUserId());
 
 				if (ImgUtils.saveImage(path, is)) {
 					// add old profile img to pending deletes.
@@ -88,7 +88,7 @@ public class EditDogController implements Serializable {
 				// add new dog mode.
 				dog = new Dog();
 				dog.setId(-1);
-				dog.setUserId(thisUser.getId());
+				dog.setUserId(thisUser.getUserId());
 				return;
 			}
 
