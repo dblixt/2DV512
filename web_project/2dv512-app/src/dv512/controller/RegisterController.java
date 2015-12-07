@@ -1,21 +1,16 @@
 package dv512.controller;
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.enterprise.context.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.controller.util.DbManager;
+import dv512.dao.RegisterDAO;
+import dv512.model.User;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class RegisterController implements Serializable {
 
 	private static final long serialVersionUID = -5690292807686490605L;
@@ -25,100 +20,43 @@ public class RegisterController implements Serializable {
 
 	private final int DEFAULT_MODE = 0;
 	private final int REGISTER_MODE = 1;
-	private final int SUCESS_MODE = 2;
+	private final int SUCCESS_MODE = 2;
 	private final int FAILED_MODE = 3;
 
 	private int mode = DEFAULT_MODE;
 
-	private String name;
-	private String password;
-	private String email;
+	private User user = new User();
+	
 
 	@Inject
-	private DbManager dbManager;
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public void setMode(int mode) {
-		this.mode = mode;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getEmail() {
-		return email;
+	private RegisterDAO registerDAO;
+	
+	public User getUser(){
+		return user;
 	}
 
 	public int getMode() {
+		System.out.println("Mode is: " +mode);
 		return mode;
 	}
 
 	public void switchMode(AjaxBehaviorEvent event) {
-		// System.out.println("Inside switchMode");
+		 System.out.println("Switching Mode");
 		if (mode == DEFAULT_MODE) {
 			mode = REGISTER_MODE;
-			System.out.println("Mode = " + mode);
 			return;
 		}
 		if (mode == REGISTER_MODE) {
 			mode = DEFAULT_MODE;
-			System.out.println("Mode = " + mode);
+			return;
+		}
+		if(mode == FAILED_MODE) {
+			mode = REGISTER_MODE;
 		}
 	}
 
-	public String register() {
-		Connection con = null;
-		PreparedStatement s = null;
-
-		try {
-			con = dbManager.getConnection();
-
-			s = con.prepareStatement("INSERT INTO Users(email, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-
-			s.setString(1, email);
-			s.setString(2, password);
-			s.executeUpdate();
-
-			int userId = 0;
-			// retrieve auto generated user id.
-			ResultSet key = s.getGeneratedKeys();
-			if (key.next()) {
-				userId = key.getInt("id");
-			}
-
-			dbManager.close(s);
-
-			s = con.prepareStatement("INSERT INTO Profiles(user_id,name) VALUES(?,?)");
-			s.setInt(1, userId);
-			s.setString(2, name);
-
-			s.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			mode = FAILED_MODE;
-			return ACTION_REGISTER_FAIL;
-		} finally {
-			dbManager.close(con);
-			dbManager.close(s);
-		}
-		mode = SUCESS_MODE;
-		return ACTION_REGISTER_SUCCESS;
+	public void register() {
+		mode = registerDAO.register(user);
 	}
 
 }
