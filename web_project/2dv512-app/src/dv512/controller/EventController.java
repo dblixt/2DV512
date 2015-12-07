@@ -35,6 +35,7 @@ public class EventController implements Serializable {
 	public Event getEvent() {
 		return event;
 	}
+	
 
 	public List<Comment> getComments() {
 		return comments;
@@ -42,16 +43,20 @@ public class EventController implements Serializable {
 
 	public void loadData() {
 
+		//For testing
+		event = eventsDAO.get(1);
+		comments = commentsDAO.listAll(1);
+		
 		if (event == null) {
+
 			System.out.println("Loading profile data!");
-			event = eventsDAO.get(loginController.getUserId());
+			event = eventsDAO.get(event.getId());
 			comments = commentsDAO.listAll(event.getId());
 		}
 	}
 
 	public String saveData() {
 		// save changes to database.
-		eventsDAO.update(event);
 
 		return "profile.xhtml?faces-redirect=true";
 	}

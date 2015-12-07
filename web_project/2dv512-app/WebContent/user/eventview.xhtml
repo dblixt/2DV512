@@ -9,8 +9,7 @@
 
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
-		<f:event type="preRenderView"
-			listener="#{editProfileController.loadData}" />
+		<f:event type="preRenderView" listener="#{eventController.loadData}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -23,18 +22,29 @@
 			<div class="event-wrapper ">
 
 
-				<H2>EVENT TITLE</H2>
-				<p>EVENT DESC.</p>
-
+				<H2>#{eventController.event.title}</H2>
+				<p>#{eventController.event.description}</p>
 
 			</div>
-			<div class="comment">
-				<p>First Comment</p>
-			</div>
+		</div>
 
-			<div class="comment">
-				<p>Second Comment</p>
-			</div>
+		<div class="content-block">
+			<h4>Comments</h4>
+			<h:panelGroup id="comment">
+				<ul>
+					<ui:repeat var="comment" value="#{eventController.comments}">
+						<div>
+							<h5>#{comment.userID}</h5>
+							<p>#{comment.comment}</p>
+							<p>#{comment.dateTime}</p>
+						</div>
+					</ui:repeat>
+
+				</ul>
+			</h:panelGroup>
+
+
+
 		</div>
 	</ui:define>
 

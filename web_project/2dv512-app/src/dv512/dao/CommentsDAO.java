@@ -29,12 +29,11 @@ public class CommentsDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"INSERT INTO Events(event_id, user_id, date, title, description, pos_lng, pos_lat) VALUES(?,?,?,?,?,?,?)");
-			stmt.setInt(1, comment.getCommentId());
-			stmt.setInt(2, comment.getEventId());
-			stmt.setInt(3, comment.getUserID());
-			stmt.setLong(4, comment.getDateTime());
-			stmt.setString(5, comment.getComment());
+					"INSERT INTO Comments(event_id,user_id, date, comment) VALUES(?,?,?,?)");
+			stmt.setInt(1, comment.getEventId());
+			stmt.setInt(2, comment.getUserID());
+			stmt.setLong(3, comment.getDateTime());
+			stmt.setString(4, comment.getComment());
 			stmt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -79,6 +78,16 @@ public class CommentsDAO implements Serializable {
 		}
 
 		return commentList;
+	}
+	
+	public void createTestComment(){
+		
+		Comment comment = new Comment();
+		comment.setUserID(1);
+		comment.setComment("Hello this is a test comment");
+		comment.setEventId(1);
+		comment.setDateTime(System.currentTimeMillis());
+		insert(comment);
 	}
 
 }

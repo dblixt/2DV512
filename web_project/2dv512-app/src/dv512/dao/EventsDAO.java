@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.DbManager;
+import dv512.model.Comment;
 import dv512.model.Event;
 
 @Named
@@ -24,100 +25,77 @@ public class EventsDAO implements Serializable {
 
 	@Inject
 	private DbManager dbManager;
-		
+
 	public Event get(int eventId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT * FROM Events WHERE event_id = ?");
+			stmt = con.prepareStatement("SELECT * FROM Events WHERE id = ?");
 			stmt.setInt(1, eventId);
-		
+
 			ResultSet r = stmt.executeQuery();
-			
+
 			Event event = new Event();
-			if(r != null && r.next()) {
-				event.setId(r.getInt("event_id"));
+			if (r != null && r.next()) {
+				event.setId(r.getInt("id"));
 				event.setUserId(r.getInt("user_id"));
 				event.setDateTime(r.getLong("date"));
 				event.setTitle(r.getString("title"));
 				event.setDescription(r.getString("description"));
 				event.setLongitude(r.getDouble("pos_lng"));
-				event.setLatitude(r.getDouble("pos_lat"));		
-			}		
-			
+				event.setLatitude(r.getDouble("pos_lat"));
+			}
+
 			return event;
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
-		}	
-		
+		}
+
 		return null;
 	}
-	
+
 	public boolean insert(Event event) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("INSERT INTO Events(event_id, user_id, date, title, description, pos_lng, pos_lat) VALUES(?,?,?,?,?,?,?)");
-			stmt.setInt(1, event.getId());
-			stmt.setInt(2, event.getUserId());
-			stmt.setLong(3, event.getDateTime());
-			stmt.setString(4, event.getTitle());
-			stmt.setString(5, event.getDescription());
-			stmt.setDouble(6, event.getLongitude());
-			stmt.setDouble(7, event.getLatitude());			
-			stmt.executeUpdate();		
+			stmt = con.prepareStatement(
+					"INSERT INTO Events(user_id, date, title, description, pos_lng, pos_lat) VALUES(?,?,?,?,?,?)");
+			stmt.setInt(1, event.getUserId());
+			stmt.setLong(2, event.getDateTime());
+			stmt.setString(3, event.getTitle());
+			stmt.setString(4, event.getDescription());
+			stmt.setDouble(5, event.getLongitude());
+			stmt.setDouble(6, event.getLatitude());
+			stmt.executeUpdate();
 			return true;
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
-		}			
-				
-		return false;		
+		}
+
+		return false;
 	}
 
-	public void update(Event event) {
-		// TODO Auto-generated method stub
-		
+	public void createTestEvent() {
+
+		Event event = new Event();
+
+		event.setUserId(1);
+		event.setDateTime(System.currentTimeMillis());
+		event.setTitle("Wark in the park");
+		event.setDescription(
+				"Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.");
+		event.setLatitude(56.8483223);
+		event.setLatitude(14.8193872);
+		insert(event);
+
 	}
-	
-	
-//	public boolean update(Event profile) {
-//		Connection con = null;
-//		PreparedStatement stmt = null;
-//		try {
-//			con = dbManager.getConnection();
-//			stmt = con.prepareStatement("UPDATE Profiles SET name = ?, gender = ?, description = ?, img = ?, pos_lng = ?, pos_lat = ? WHERE user_id = ?");
-//			stmt.setString(1, profile.getName());
-//			stmt.setString(2, profile.getGender());
-//			stmt.setString(3, profile.getDescription());
-//			stmt.setString(4, profile.getProfilePic());
-//			stmt.setDouble(5, profile.getLongitude());
-//			stmt.setDouble(6, profile.getLatitude());
-//			stmt.setInt(7, profile.getUserId());
-//							
-//			stmt.executeUpdate();	
-//			return true;
-//		}
-//		catch(SQLException e) {
-//			e.printStackTrace();			
-//		}
-//		finally {
-//			dbManager.close(stmt);
-//			dbManager.close(con);
-//		}		
-//		
-//		return false;
-//	}
-	
+
 }
