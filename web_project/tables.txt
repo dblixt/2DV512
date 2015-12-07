@@ -32,27 +32,28 @@ CREATE TABLE Dogs
   PRIMARY KEY(id)
 );
 
-CREATE TABLE Event
+CREATE TABLE Events
 (
-  event_id INT NOT NULL,
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL,
-  date INT8 NOT NULL,
+  date BIGINT NOT NULL,
   title VARCHAR(128),
-  comment VARCHAR(8192),
+  description VARCHAR(8192),
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
   CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
-  PRIMARY KEY(event_id)
+  PRIMARY KEY(id)
 );
 
-CREATE TABLE Comment
+CREATE TABLE Comments
 (
-  comment_id INT NOT NULL,
+  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL,
   event_id INT NOT NULL,
-  date INT8 NOT NULL,
+  date BIGINT NOT NULL,
   comment VARCHAR(8192),
   CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
-  PRIMARY KEY(comment_id)
+  CONSTRAINT fk_event_id FOREIGN KEY(event_id) REFERENCES Events(id) ON DELETE RESTRICT,
+  PRIMARY KEY(id)
 );
 

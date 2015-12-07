@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{eventController.loadData}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>TinderDogs - Event</title>
+		<h:outputStylesheet name="event.css" library="css" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="content-block">
+			<div class="event-wrapper ">
+
+
+				<H2>#{eventController.event.title}</H2>
+				<p>#{eventController.event.description}</p>
+
+			</div>
+		</div>
+
+		<div class="content-block">
+			<h4>Comments</h4>
+			<h:panelGroup id="comment">
+				<ul>
+					<ui:repeat var="comment" value="#{eventController.comments}">
+						<div>
+							<h5>#{comment.userID}</h5>
+							<p>#{comment.comment}</p>
+							<p>#{comment.dateTime}</p>
+						</div>
+					</ui:repeat>
+
+				</ul>
+			</h:panelGroup>
+
+
+
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>
