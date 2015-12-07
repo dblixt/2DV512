@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.UserDAO;
+import dv512.dao.UsersDAO;
 import dv512.model.User;
 
 
@@ -21,7 +21,7 @@ public class LoginController implements Serializable {
 	
 
 	@Inject
-	private UserDAO userDAO;
+	private UsersDAO userDAO;
 	
 	
 	private User user = new User();

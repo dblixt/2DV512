@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.dao.ProfilesDAO;
-import dv512.dao.UserDAO;
+import dv512.dao.UsersDAO;
 import dv512.model.Profile;
 import dv512.model.User;
 
@@ -30,7 +30,7 @@ public class RegisterController implements Serializable {
 	private User user = new User();
 
 	@Inject
-	private UserDAO userDAO;
+	private UsersDAO userDAO;
 
 	@Inject
 	private ProfilesDAO profileDAO;
