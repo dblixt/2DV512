@@ -17,47 +17,120 @@
 	<ui:composition template="/template/layoutIndex.xhtml">
 
 		<ui:define name="left">
-			<div id="register">
-				<h:form prependId="false">
-					<div id="register_content">
+
+			<div class="box">
+				<h:form id="registerblock" prependId="false">
+					<h:form id="defaultmode" prependId="false"
+						rendered="#{registerController.mode == 0}">
+						<div class="register">
+							<br /> <br />
+							<h:outputText value="Not a user? Please register!">
+							</h:outputText>
+							<br /> <br />
+							<h:commandLink class="icon-link inline">
+							<i class="material-icons">build</i>
+								<span>Register</span>
+								<f:ajax listener="#{registerController.switchMode}"
+									render="registerblock" />
+							</h:commandLink>
+							
+						</div>
+					</h:form>
+
+
+					<h:form id="registermode" prependId="false"
+						rendered="#{registerController.mode == 1}">
+						<h3>Register</h3>
+						<div class="registerform">
+							<label>Name:</label> <br />
+							<h:inputText id="register_name"
+								value="#{registerController.user.name}" required="true"
+								requiredMessage="Enter name." />
+							<div class="error">
+								<h:message for="register_name" />
+							</div>
+							<br /> <br /> <label>Email:</label> <br />
+							<h:inputText id="register_email"
+								value="#{registerController.user.email}" required="true"
+								requiredMessage="Enter email." />
+							<div class="error">
+								<h:message for="register_email" />
+							</div>
+							<br /> <br /> <label>Password:</label> <br />
+							<h:inputText id="register_password"
+								value="#{registerController.user.password}" required="true"
+								requiredMessage="Enter password." />
+							<div class="error">
+								<h:message for="register_password" />
+							</div>
+							<br /> <br />
+							<h:commandLink class="icon-link inline"
+								action="#{registerController.register}">
+								<i class="material-icons">done</i>
+								<span>Register</span>
+								<f:ajax execute="registermode" render="registerblock" />
+							</h:commandLink>
+							<h:commandLink class="icon-link inline">
+								<i class="material-icons">cancel</i>
+								<span>Cancel</span>
+								<f:ajax listener="#{registerController.switchMode}"
+									render="registerblock" />
+							</h:commandLink>
+						</div>
+
+					</h:form>
+					<div class="complete">
+						<h:outputText value="Registration Sucessful!"
+							rendered="#{registerController.mode == 2}"></h:outputText>
+						<h:outputText value="Registration Failed!"
+							rendered="#{registerController.mode == 3}"></h:outputText>
 						<br /> <br />
-						<h:outputText value="Not a user? Please register!">
-						</h:outputText>
-						<br /> <br />
-						<h:commandButton value="Register"
-							action="register?faces-redirect=true" />
+						<h:commandLink class="icon-link"
+							rendered="#{registerController.mode == 3}">
+							<i class="material-icons">replay</i>
+							<span>Try Again</span>
+							<f:ajax listener="#{registerController.switchMode}"
+								render="registerblock" />
+						</h:commandLink>
 					</div>
 				</h:form>
+
 			</div>
 		</ui:define>
+
 
 		<ui:define name="right">
-			<div id="login" class="content-block">
-				<h:form prependId="false">
-					<label>Email:</label>
-					<br />
-					<h:inputText id="email" value="#{loginController.email}"
-						required="true" requiredMessage="Enter email." />
-					<h:message for="email" />
-					<br />
-					<label>Password:</label>
-					<br />
-					<h:inputSecret id="password" value="#{loginController.password}"
-						required="true" requiredMessage="Enter password." />
-					<h:message for="password" />
-					<br />
 
-					<h:outputText id="login_error"
-						value="Incorrect email or password, please try again."
-						rendered="#{loginController.retryCount > 0}" />
-					<br />
+			<div class="box">
+				<h3>Login</h3>
+				<div class="login">
+					<h:form prependId="false">
 
-					<h:commandButton value="Login" action="#{loginController.login}">
-						<f:ajax execute="@form" render="@form" />
-					</h:commandButton>
-				</h:form>
+						<label>Email:</label>
+						<br />
+						<h:inputText id="email" value="#{loginController.email}" />
+						<br />
+						<label>Password:</label>
+						<br />
+						<h:inputSecret id="password" value="#{loginController.password}" />
+						<br />
+						<h:outputText id="login_error"
+							value="Incorrect email or password, please try again."
+							rendered="#{loginController.retryCount > 0}" />
+						<br />
+						<br />
+						<h:commandLink class="icon-link inline"
+							action="#{loginController.login}">
+							<i class="material-icons">exit_to_app</i>
+							<span>Login</span>
+							<f:ajax execute="@form" render="@form" />
+						</h:commandLink>
+					</h:form>
+				</div>
 			</div>
+
 		</ui:define>
+
 
 	</ui:composition>
 
