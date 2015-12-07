@@ -32,3 +32,27 @@ CREATE TABLE Dogs
   PRIMARY KEY(id)
 );
 
+CREATE TABLE Event
+(
+  event_id INT NOT NULL,
+  user_id INT NOT NULL,
+  date INT8 NOT NULL,
+  title VARCHAR(128),
+  comment VARCHAR(8192),
+  pos_lng DOUBLE,
+  pos_lat DOUBLE, 
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
+  PRIMARY KEY(event_id)
+);
+
+CREATE TABLE Comment
+(
+  comment_id INT NOT NULL,
+  user_id INT NOT NULL,
+  event_id INT NOT NULL,
+  date INT8 NOT NULL,
+  comment VARCHAR(8192),
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
+  PRIMARY KEY(comment_id)
+);
+
