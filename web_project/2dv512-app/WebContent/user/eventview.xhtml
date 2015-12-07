@@ -14,37 +14,102 @@
 
 	<ui:define name="head">
 		<title>TinderDogs - Event</title>
-		<h:outputStylesheet name="event.css" library="css" />
+		<h:outputStylesheet name="entry.css" library="css" />
 	</ui:define>
 
 	<ui:define name="content">
 		<div class="content-block">
-			<div class="event-wrapper ">
+
+			<img class="event-creator-img-right"
+				src="../images/profile/#{eventController.profile.profilePic}" />
+			<div class="event-content">
+				<h3 style="margin-top: 6px">#{eventController.event.title}</h3>
+				<p class="event-creator">#{eventController.profile.name}</p>
+				<p style="margin-top: 20px; font-weight: bold; font-size: 14px;">5
+					km away</p>
+				<p class="vspace">#{eventController.event.description}</p>
+				<p style="margin-top: 20px;" />
 
 
-				<H2>#{eventController.event.title}</H2>
-				<p>#{eventController.event.description}</p>
+				<h4>Dogs</h4>
+				<p style="">
+					<ui:repeat var="d" value="#{eventController.dogs}">
+						<h:graphicImage class="event-dog-img"
+							value="/images/dog/#{d.picture}" />
+					</ui:repeat>
+				</p>
+
+				<h4>Humans</h4>
+				<p style="">
+					<ui:repeat var="p" value="#{eventController.profiles}">
+						<h:graphicImage class="event-user-join-img"
+							value="/images/profile/#{p.profilePic}" />
+					</ui:repeat>
+				</p>
+
+
+
+				<p style="margin-top: 20px;" />
+				<div style="margin-left: -8px;">
+					<a href="#" class="icon-link" style="width: 64px;"><i
+						class="material-icons">view_day</i><span>View</span></a> <a href="#"
+						class="icon-link" style="width: 64px;"><i
+						class="material-icons" style="font-size: 24px;">done</i><span>Join</span></a>
+				</div>
 
 			</div>
+			<div class="clear" />
+
+
+
 		</div>
 
+
 		<div class="content-block">
-			<h4>Comments</h4>
-			<h:panelGroup id="comment">
-				<ul>
+			<div class="event-content">
+
+				<h2>Comments</h2>
+				<h:panelGroup id="comment">
 					<ui:repeat var="comment" value="#{eventController.comments}">
-						<div>
-							<h5>#{comment.userID}</h5>
-							<p>#{comment.comment}</p>
-							<p>#{comment.dateTime}</p>
+
+
+						<div class="event-comment-wrapper">
+
+							<h:outputText class="event-comment-date"
+								value="#{comment.dateTime}">
+								<f:convertDateTime pattern="yyyy. MM. dd. ' - ' HH:mm"
+									timeZone="EST" type="date" />
+							</h:outputText>
+
+							<h:graphicImage class="event-comment-img"
+								value="/images/profile/#{eventController.profile.profilePic}" />
+
+							<div class="event-comment-author">#{comment.userID}</div>
+							<div class="event-comment">#{comment.comment}</div>
 						</div>
+						<div class="clear" />
 					</ui:repeat>
-
-				</ul>
-			</h:panelGroup>
+				</h:panelGroup>
 
 
 
+				<h:form>
+					<h:inputTextarea class="event-comment-input" rows="7" 
+					value="#{eventController.comment.comment}" />
+
+					<br />
+
+					<h:commandLink class="icon-link action-button"
+						action="#{eventController.saveData}">
+						<i class="material-icons">done</i>
+						<span>Post</span>
+					</h:commandLink>
+
+				</h:form>
+
+
+
+			</div>
 		</div>
 	</ui:define>
 

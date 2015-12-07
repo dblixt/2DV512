@@ -9,9 +9,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.dao.CommentsDAO;
+import dv512.dao.DogsDAO;
 import dv512.dao.EventsDAO;
+import dv512.dao.ProfilesDAO;
 import dv512.model.Comment;
+import dv512.model.Dog;
 import dv512.model.Event;
+import dv512.model.Profile;
 
 @Named
 @ViewScoped
@@ -23,42 +27,80 @@ public class EventController implements Serializable {
 	private EventsDAO eventsDAO;
 
 	@Inject
+	private ProfilesDAO profilesDAO;
+
+	@Inject
 	private CommentsDAO commentsDAO;
+
+	@Inject
+	private DogsDAO dogsDAO;
 
 	@Inject
 	private LoginController loginController;
 
 	private Event event;
+	private Profile creator;
 
+	private Comment comment;
+
+	private List<Profile> profiles = new ArrayList<>();
 	private List<Comment> comments = new ArrayList<>();
+	private List<Dog> dogs = new ArrayList<>();
 
 	public Event getEvent() {
 		return event;
 	}
-	
+
+	public Comment setComment() {
+		return comment;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public Profile getProfile() {
+		return creator;
+	}
+
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
 
 	public List<Comment> getComments() {
 		return comments;
 	}
 
+	public List<Dog> getDogs() {
+		return dogs;
+	}
+
 	public void loadData() {
 
-		//For testing
+
+		// For testing
 		event = eventsDAO.get(1);
 		comments = commentsDAO.listAll(1);
-		
-		if (event == null) {
+		creator = profilesDAO.get(1);
+		dogs = dogsDAO.listAll(1);
+		profiles = profilesDAO.listAllEvent(1);
 
-			System.out.println("Loading profile data!");
-			event = eventsDAO.get(event.getId());
-			comments = commentsDAO.listAll(event.getId());
+		if (comment == null) {
+			comment = new Comment();
+			comment.setUserID(loginController.getUserId());
+			comment.setEventId(event.getId());
 		}
+
 	}
 
 	public String saveData() {
-		// save changes to database.
 
-		return "profile.xhtml?faces-redirect=true";
+		// save changes to database.
+		comment.setDateTime(System.currentTimeMillis());
+		commentsDAO.insert(comment);
+
+		return "eventview.xhtml?faces-redirect=true";
+
 	}
 
 }

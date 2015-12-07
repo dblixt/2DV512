@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -95,6 +97,32 @@ public class EventsDAO implements Serializable {
 		event.setLatitude(56.8483223);
 		event.setLatitude(14.8193872);
 		insert(event);
+		
+		eventJoin(1,1,System.currentTimeMillis());
+
+	}
+
+	public boolean eventJoin(int userId, int eventId, long date) {
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement(
+					"INSERT INTO EventJoins(user_id, event_id, date) VALUES(?,?,?)");
+			stmt.setInt(1, userId);
+			stmt.setInt(2, eventId);
+			stmt.setLong(3, date);
+			stmt.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return false;
 
 	}
 
