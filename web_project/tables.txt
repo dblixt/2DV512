@@ -32,7 +32,7 @@ CREATE TABLE Dogs
   PRIMARY KEY(id)
 );
 
-CREATE TABLE Event
+CREATE TABLE Events
 (
   event_id INT NOT NULL,
   user_id INT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE Event
   PRIMARY KEY(event_id)
 );
 
-CREATE TABLE Comment
+CREATE TABLE Comments
 (
   comment_id INT NOT NULL,
   user_id INT NOT NULL,

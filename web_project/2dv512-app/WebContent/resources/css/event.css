@@ -1,0 +1,15 @@
+.event-wrapper {
+	position: relative;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: red;
+	
+}
+
+.event-wrapper h2 {
+	color: blue;
+}
+
+.event-wrapper .comment{
+	
+}
