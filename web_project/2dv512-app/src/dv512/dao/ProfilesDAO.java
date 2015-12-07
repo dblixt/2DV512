@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,7 +14,7 @@ import dv512.controller.util.DbManager;
 import dv512.model.Profile;
 
 @Named
-@SessionScoped
+@ApplicationScoped
 public class ProfilesDAO implements Serializable {
 
 	private static final long serialVersionUID = 5568131005011243224L;
@@ -83,5 +83,37 @@ public class ProfilesDAO implements Serializable {
 		
 		return false;
 	}
+	
+	public boolean insert(Profile profile){
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			
+			stmt = con.prepareStatement("INSERT INTO Profiles(user_id,name,gender,description,pos_lat,pos_lng,img) VALUES(?,?,?,?,?,?,?)");
+			stmt.setInt(1, profile.getUserId());
+			stmt.setString(2, profile.getName());
+			stmt.setString(3, null);
+			stmt.setString(4, null);
+			stmt.setString(5, null);
+			stmt.setString(6, null);
+			stmt.setString(7, null);
+			
+			stmt.executeUpdate();
+								
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}	
+		
+		return true;
+	}
+	
+	
 	
 }

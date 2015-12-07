@@ -6,7 +6,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.RegisterDAO;
+import dv512.dao.ProfilesDAO;
+import dv512.dao.UserDAO;
+import dv512.model.Profile;
 import dv512.model.User;
 
 @Named
@@ -26,10 +28,13 @@ public class RegisterController implements Serializable {
 	private int mode = DEFAULT_MODE;
 
 	private User user = new User();
-	
+	private Profile profile = new Profile();
 
 	@Inject
-	private RegisterDAO registerDAO;
+	private UserDAO userDAO;
+	
+	@Inject
+	private ProfilesDAO profileDAO;
 	
 	public User getUser(){
 		return user;
@@ -56,7 +61,16 @@ public class RegisterController implements Serializable {
 	}
 
 	public void register() {
-		mode = registerDAO.register(user);
+		boolean userDOAResponse = userDAO.insert(user);
+		
+		profile.setName(user.getName());
+		profile.setUserId(user.getId());
+		
+		boolean profileDOAResponse = profileDAO.insert(profile);
+		if(userDOAResponse == true && profileDOAResponse == true) {
+			mode = SUCCESS_MODE;
+		}
+		else mode = FAILED_MODE;
 	}
 
 }
