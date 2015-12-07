@@ -1,0 +1,48 @@
+.list-event-wrapper {
+	
+}
+
+.event-creator-img {
+	float: left;
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
+}
+
+.event-dog-img {
+	display: inline-block;
+	height: 48px;
+	width: 48px;
+	object-fit: cover;
+}
+
+.event-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.event-creator {
+	color: #5397AD;
+	font-size: 14px;
+}
+
+
+
+p {
+	margin: 0px;
+}
+
+
+.vspace {
+	margin-top: 12px;
+}
+
+
+h3 {
+	margin: 0;
+	display: inline-block;
+}
+
+
+
+
