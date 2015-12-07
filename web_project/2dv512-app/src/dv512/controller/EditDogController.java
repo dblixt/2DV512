@@ -30,7 +30,7 @@ public class EditDogController implements Serializable {
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
 	
-	@Inject
+	
 	private User thisUser;
 	
 	

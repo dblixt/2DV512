@@ -35,7 +35,7 @@ public class EditProfileController implements Serializable {
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
 		
-	@Inject 
+	
 	private User thisUser;
 	
 	

@@ -16,13 +16,13 @@ import dv512.model.User;
 
 @Named
 @ApplicationScoped
-public class UserDAO implements Serializable{
+public class UserDAO implements Serializable {
 
 	private static final long serialVersionUID = -8679482635026754077L;
-	
+
 	@Inject
 	private DbManager dbManager;
-		
+
 	public boolean insert(User user) {
 		Connection con = null;
 		PreparedStatement s = null;
@@ -36,23 +36,47 @@ public class UserDAO implements Serializable{
 			s.setString(2, user.getPassword());
 			s.executeUpdate();
 
-			
 			// retrieve auto generated user id.
 			ResultSet key = s.getGeneratedKeys();
 			if (key.next()) {
 				user.setId(key.getInt("id"));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-			
+
 		} finally {
 			dbManager.close(con);
 			dbManager.close(s);
 		}
 		return true;
 	}
-	
-	
+
+	public boolean get(User user) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("SELECT id FROM Users WHERE email = ? AND password = ?");
+			stmt.setString(1, user.getEmail());
+			stmt.setString(2, user.getPassword());
+
+			ResultSet r = stmt.executeQuery();
+			if (r != null && r.next()) {
+				System.out.println("User verification succeded!");
+				user.setId(r.getInt("id"));				
+				user.setPassword(null); // do not store it.
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return false;
+	}
+
 }

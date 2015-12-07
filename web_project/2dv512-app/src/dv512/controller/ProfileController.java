@@ -22,7 +22,7 @@ public class ProfileController {
 	@Inject 
 	private ProfilesDAO profilesDAO;
 	
-	@Inject 
+	
 	private User thisUser;
 	
 

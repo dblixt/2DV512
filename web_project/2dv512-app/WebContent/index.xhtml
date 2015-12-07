@@ -108,11 +108,11 @@
 
 						<label>Email:</label>
 						<br />
-						<h:inputText id="email" value="#{loginController.email}" />
+						<h:inputText id="email" value="#{loginController.user.email}" />
 						<br />
 						<label>Password:</label>
 						<br />
-						<h:inputSecret id="password" value="#{loginController.password}" />
+						<h:inputSecret id="password" value="#{loginController.user.password}" />
 						<br />
 						<h:outputText id="login_error"
 							value="Incorrect email or password, please try again."
