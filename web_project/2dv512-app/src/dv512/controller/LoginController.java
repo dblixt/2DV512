@@ -2,21 +2,16 @@ package dv512.controller;
 
 
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.controller.util.DbManager;
+import dv512.dao.UserDAO;
 import dv512.model.User;
 
 
 @Named
-@SessionScoped
+@ApplicationScoped
 public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1610404137333266630L;
 
@@ -26,33 +21,17 @@ public class LoginController implements Serializable {
 	
 
 	@Inject
-	private DbManager dbManager;
+	private UserDAO userDAO;
 	
-
+	
 	private User user = new User();
-	
-	private String password;
 
 	private int retryCount = 0;
-	
-
-	public void setEmail(String email) {
-		user.setEmail(email);
+		
+	public User getUser(){
+		return user;
 	}
 	
-	public String getEmail() {
-		return user.getEmail();
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-
 	public int getRetryCount() {
 		return retryCount;
 	}
@@ -64,43 +43,24 @@ public class LoginController implements Serializable {
 	public int getUserId() {
 		return user.getId();
 	}
-
 	
 	public String login() {	
-		Connection con = null;
-		PreparedStatement stmt = null;
-		try {
-			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT id FROM Users WHERE email = ? AND password = ?");
-			stmt.setString(1, user.getEmail());
-			stmt.setString(2, password);
-			
-			ResultSet r = stmt.executeQuery();
-			if(r != null && r.next()) {
-				System.out.println("User verification succeded!");
-				user.setId(r.getInt("id"));
-				retryCount = 0;
-				password = null; // do not store it.
-				return ACTION_LOGIN_SUCCESS;
-			}
+		boolean userDOAResponse = userDAO.get(user);
+		if(userDOAResponse == true){
+			retryCount = 0;
+			return ACTION_LOGIN_SUCCESS;
 		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		else {
+			retryCount++;
+			return ACTION_LOGIN_FAIL;
 		}
-		finally {
-			dbManager.close(stmt);
-			dbManager.close(con);
-		}
-		
-		retryCount++;
-		return ACTION_LOGIN_FAIL;
 	}
 	
 	public String logout() {
 		user.setId(-1);
 		retryCount = 0;
-		setEmail(null);
-		setPassword(null);
+		user.setEmail(null);
+		user.setPassword(null);
 		return ACTION_LOGOUT;
 	}
 	

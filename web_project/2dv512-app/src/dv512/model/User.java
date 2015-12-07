@@ -1,6 +1,7 @@
 package dv512.model;
 
-public class User {
+public class User{
+	
 	private int id = -1;
 	
 	private String name;
@@ -36,5 +37,6 @@ public class User {
 
 	public String getPassword() {
 		return password;
-	}	
+	}
+	
 }
