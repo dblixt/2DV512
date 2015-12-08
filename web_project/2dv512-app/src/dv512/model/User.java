@@ -2,6 +2,9 @@ package dv512.model;
 
 public class User{
 	
+	public static final int UNKNOWN_ID = -1;
+	
+	
 	private int id = -1;
 	
 	private String name;

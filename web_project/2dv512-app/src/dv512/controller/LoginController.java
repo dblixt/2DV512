@@ -19,15 +19,18 @@ public class LoginController implements Serializable {
 	public static final String ACTION_LOGIN_FAIL = "fail";	
 	public static final String ACTION_LOGOUT = "logout";
 	
-
 	@Inject
 	private UsersDAO userDAO;
 	
-	
-	private User user = new User();
+	private User user;
 
 	private int retryCount = 0;
 		
+	
+	public LoginController() {
+		user = new User();
+	}
+	
 	public User getUser(){
 		return user;
 	}
@@ -37,7 +40,7 @@ public class LoginController implements Serializable {
 	}
 	
 	public boolean isVerified() {
-	    return user.getId() != -1;
+	    return user.getId() != User.UNKNOWN_ID;
 	}
 	
 	public int getUserId() {
@@ -45,8 +48,7 @@ public class LoginController implements Serializable {
 	}
 	
 	public String login() {	
-		boolean userDOAResponse = userDAO.get(user);
-		if(userDOAResponse == true){
+		if(userDAO.verify(user)) {
 			retryCount = 0;
 			return ACTION_LOGIN_SUCCESS;
 		}
@@ -57,7 +59,7 @@ public class LoginController implements Serializable {
 	}
 	
 	public String logout() {
-		user.setId(-1);
+		user.setId(User.UNKNOWN_ID);
 		retryCount = 0;
 		user.setEmail(null);
 		user.setPassword(null);

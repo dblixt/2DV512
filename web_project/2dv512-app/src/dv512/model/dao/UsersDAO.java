@@ -19,7 +19,7 @@ import dv512.model.User;
 public class UsersDAO implements Serializable {
 
 	private static final long serialVersionUID = -8679482635026754077L;
-
+	
 	@Inject
 	private DbManager dbManager;
 
