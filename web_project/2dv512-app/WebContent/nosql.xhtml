@@ -11,5 +11,10 @@
 		<f:event type="preRenderView" listener="#{nosqlController.test}" />
 	</f:metadata>
 
+	<ui:define name="content">
+		<h:outputText value="#{nosqlController.user.email}" />
+		<h:graphicImage url="/attachment?id=#{nosqlController.user.id}&amp;name=#{nosqlController.user.profile.dogs[0].picture}" />
+	
+	</ui:define>
 </ui:composition>
 </html>
