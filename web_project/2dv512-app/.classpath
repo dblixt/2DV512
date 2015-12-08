@@ -20,7 +20,11 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/2dv512-app/dep-jar/javadoc/imgscalr-lib-4.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="dep-jar/org.ektorp-1.4.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/org.ektorp-1.4.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://ektorp.org/javadoc/ektorp/1.4.1/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
