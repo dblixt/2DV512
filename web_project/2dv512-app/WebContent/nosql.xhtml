@@ -5,11 +5,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<ui:composition template="/template/layoutIndex.xhtml">
+<ui:composition template="/template/layoutUser.xhtml">
 
-	
-
-
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{nosqlController.test}" />
+	</f:metadata>
 
 </ui:composition>
 </html>
