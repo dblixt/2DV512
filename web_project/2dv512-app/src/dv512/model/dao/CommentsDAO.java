@@ -1,4 +1,4 @@
-package dv512.dao;
+package dv512.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -8,11 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dv512.controller.util.DbManager;
 import dv512.model.Comment;
 
+@Named
+@ApplicationScoped
 public class CommentsDAO implements Serializable {
 
 	/**

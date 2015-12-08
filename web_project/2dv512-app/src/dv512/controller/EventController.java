@@ -8,14 +8,14 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.CommentsDAO;
-import dv512.dao.DogsDAO;
-import dv512.dao.EventsDAO;
-import dv512.dao.ProfilesDAO;
 import dv512.model.Comment;
 import dv512.model.Dog;
 import dv512.model.Event;
 import dv512.model.Profile;
+import dv512.model.dao.CommentsDAO;
+import dv512.model.dao.DogsDAO;
+import dv512.model.dao.EventsDAO;
+import dv512.model.dao.ProfilesDAO;
 
 @Named
 @ViewScoped

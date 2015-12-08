@@ -1,4 +1,4 @@
-package dv512.dao;
+package dv512.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;

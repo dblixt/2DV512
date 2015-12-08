@@ -15,11 +15,11 @@ import javax.inject.Named;
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
-import dv512.dao.DogsDAO;
-import dv512.dao.ProfilesDAO;
 import dv512.model.Dog;
 import dv512.model.Profile;
 import dv512.model.User;
+import dv512.model.dao.DogsDAO;
+import dv512.model.dao.ProfilesDAO;
 
 @Named
 @ViewScoped

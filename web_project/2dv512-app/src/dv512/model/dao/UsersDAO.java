@@ -1,4 +1,4 @@
-package dv512.dao;
+package dv512.model.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -23,6 +23,16 @@ public class UsersDAO implements Serializable {
 	@Inject
 	private DbManager dbManager;
 
+	
+	/**
+	 * <p>Insert a new user into Users table.</p>
+	 * 
+	 * <p>The auto generated id will be set on
+	 * <code>user</code> if the insert is successful.</p>
+	 * 
+	 * @param user
+	 * @return true if insert was successful, false otherwise.
+	 */
 	public boolean insert(User user) {
 		Connection con = null;
 		PreparedStatement s = null;
@@ -53,7 +63,17 @@ public class UsersDAO implements Serializable {
 		return true;
 	}
 
-	public boolean get(User user) {
+	/**
+	 * Check if the combination of email and password
+	 * is valid.
+	 * 
+	 * Id will be set on user to the real database 
+	 * id if the combination is valid.
+	 * 
+	 * @param user
+	 * @return true if user is valid, false otherwise.
+	 */
+	public boolean verify(User user) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -66,39 +86,20 @@ public class UsersDAO implements Serializable {
 			if (r != null && r.next()) {
 				System.out.println("User verification succeded!");
 				user.setId(r.getInt("id"));				
-				user.setPassword(null); // do not store it.
+				user.setPassword(null); // no need to store.
 				return true;
 			}
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
 
 		return false;
 	}
-	
-	
-	
-	
-	
-	public User get(int id) {
-		// consider these two instead.
-		
-		return null;
-	}
-	
-	public User get(String email) {
-		// consider these two get methods instead.
-		
-		// this is a data access object, should keep separation of concerns.
-		// e.g no business logic in this class, leave it to controller 
-		// to verify that login credentials are correct.
-		
-		return null;
-	}
-	
 	
 
 }

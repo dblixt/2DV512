@@ -7,11 +7,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.DogsDAO;
-import dv512.dao.ProfilesDAO;
 import dv512.model.Dog;
 import dv512.model.Profile;
 import dv512.model.User;
+import dv512.model.dao.DogsDAO;
+import dv512.model.dao.ProfilesDAO;
 
 @Named
 @RequestScoped

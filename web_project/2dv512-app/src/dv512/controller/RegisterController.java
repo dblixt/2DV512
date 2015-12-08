@@ -6,10 +6,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.ProfilesDAO;
-import dv512.dao.UsersDAO;
 import dv512.model.Profile;
 import dv512.model.User;
+import dv512.model.dao.ProfilesDAO;
+import dv512.model.dao.UsersDAO;
 
 @Named
 @ViewScoped

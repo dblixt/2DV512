@@ -6,8 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.UsersDAO;
 import dv512.model.User;
+import dv512.model.dao.UsersDAO;
 
 
 @Named
