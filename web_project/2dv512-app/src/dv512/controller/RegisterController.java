@@ -1,15 +1,15 @@
 package dv512.controller;
 
 import java.io.Serializable;
+
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.Profile;
-import dv512.model.User;
-import dv512.model.dao.ProfilesDAO;
-import dv512.model.dao.UsersDAO;
+import dv512.controller.util.NosqlManager;
+import dv512.model.nosql.User;
+import dv512.model.service.UserService;
 
 @Named
 @ViewScoped
@@ -27,14 +27,17 @@ public class RegisterController implements Serializable {
 
 	private int mode = DEFAULT_MODE;
 
-	private User user = new User();
-
+	private User user;
+	
 	@Inject
-	private UsersDAO userDAO;
+	private UserService userService;
 
-	@Inject
-	private ProfilesDAO profileDAO;
-
+	
+	public RegisterController() {
+		user = new User();
+	}
+	
+	
 	
 	public User getUser() {
 		return user;
@@ -61,19 +64,18 @@ public class RegisterController implements Serializable {
 	}
 
 	public void register() {
-		boolean userDOAResponse = userDAO.insert(user);
-
-		Profile p = new Profile();
-		p.setName(user.getName());
-		p.setUserId(user.getId());
-
-		boolean profileDOAResponse = profileDAO.insert(p);
-		if (userDOAResponse == true && profileDOAResponse == true) {
+		System.out.println("Register user: " + user.getEmail());
+		
+		try {
+			userService.create(user);
 			mode = SUCCESS_MODE;
-		} 
-		else {
-			mode = FAILED_MODE;
+			return;
 		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+				
+		mode = FAILED_MODE;
 	}
 
 }

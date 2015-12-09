@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.DbManager;
-import dv512.model.User;
+import dv512.model.OldUser;
 
 @Named
 @ApplicationScoped
@@ -33,7 +33,7 @@ public class UsersDAO implements Serializable {
 	 * @param user
 	 * @return true if insert was successful, false otherwise.
 	 */
-	public boolean insert(User user) {
+	public boolean insert(OldUser user) {
 		Connection con = null;
 		PreparedStatement s = null;
 
@@ -73,7 +73,7 @@ public class UsersDAO implements Serializable {
 	 * @param user
 	 * @return true if user is valid, false otherwise.
 	 */
-	public boolean verify(User user) {
+	public boolean verify(OldUser user) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {

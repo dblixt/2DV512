@@ -1,6 +1,6 @@
 package dv512.model;
 
-public class User{
+public class OldUser{
 	
 	public static final int UNKNOWN_ID = -1;
 	

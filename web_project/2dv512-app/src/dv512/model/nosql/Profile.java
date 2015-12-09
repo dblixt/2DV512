@@ -1,5 +1,6 @@
 package dv512.model.nosql;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
@@ -12,6 +13,10 @@ public class Profile {
 	private double latitude;
 	
 	private List<Dog> dogs;
+	
+	public Profile() {
+		dogs = new ArrayList<>();
+	}
 	
 	public String getName() {
 		return name;

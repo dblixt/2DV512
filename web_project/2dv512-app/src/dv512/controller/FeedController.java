@@ -50,10 +50,10 @@ public class FeedController implements Serializable {
 		ev.setTitle("Walk around the Park");
 		
 			
-		e.setCreator(profilesDAO.get(thisUser.getUserId()));
-		e.setDogs(dogsDAO.listAll(thisUser.getUserId()));
+		//e.setCreator(profilesDAO.get(thisUser.getUserId()));
+		//e.setDogs(dogsDAO.listAll(thisUser.getUserId()));
 		
-		ev.setUserId(e.getCreator().getUserId());
+		//ev.setUserId(e.getCreator().getUserId());
 		
 		e.setDistance(5);
 		e.setJoinCount(3);

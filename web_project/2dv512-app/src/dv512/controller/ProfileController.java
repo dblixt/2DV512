@@ -1,67 +1,59 @@
 package dv512.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.Dog;
-import dv512.model.Profile;
-import dv512.model.User;
-import dv512.model.dao.DogsDAO;
-import dv512.model.dao.ProfilesDAO;
+import dv512.model.nosql.Dog;
+import dv512.model.nosql.Profile;
+import dv512.model.nosql.User;
+import dv512.model.service.UserService;
 
 @Named
 @RequestScoped
 public class ProfileController {
 	
 	@Inject 
-	private DogsDAO dogsDAO;	
-	@Inject 
-	private ProfilesDAO profilesDAO;
-	
-	@Inject 
 	private LoginController thisUser;
 	
+	@Inject
+	private UserService userService;
+		
+	private User userProfile;
 
-	private Profile profile;	
-	private List<Dog> dogs = new ArrayList<Dog>();
 	
-	private int viewUserId = -1;
+	private String viewUserId = null;
 	
 	
-	public int getId() {
+	public String getId() {
 		return viewUserId;
 	}
 	
-	public void setId(int id) {
-		if(id > 0) {
+	public void setId(String id) {
+		if(id != null) {
 			viewUserId = id;
 		}		
 	}
 	
 	public Profile getProfile() {
-		return profile;
+		return userProfile.getProfile();
 	}
 	
 	public List<Dog> getDogs() {
-		return dogs;
+		return userProfile.getProfile().getDogs();
 	}
 	
 	
 	public void loadData() {
-		if(viewUserId == -1) {
+		if(viewUserId == null) {
 			setId(thisUser.getUserId());
 		}
 		
-		if(profile == null) {
-			profile = profilesDAO.get(thisUser.getUserId());		
-			dogs = dogsDAO.listAll(thisUser.getUserId());			
+		if(userProfile == null) {
+			userProfile = userService.get(viewUserId);	
 		}	
 	}
 	
-
-
 }

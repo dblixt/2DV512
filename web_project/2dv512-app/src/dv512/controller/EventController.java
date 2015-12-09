@@ -87,7 +87,7 @@ public class EventController implements Serializable {
 
 		if (comment == null) {
 			comment = new Comment();
-			comment.setUserID(loginController.getUserId());
+			//comment.setUserID(loginController.getUserId());
 			comment.setEventId(event.getId());
 		}
 

@@ -1,6 +1,5 @@
 package dv512.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,11 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
-import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
+import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
-import dv512.model.User;
-import dv512.model.dao.DogsDAO;
 
 @Named
 @ViewScoped
@@ -24,9 +21,6 @@ public class EditDogController implements Serializable {
 
 	private static final long serialVersionUID = -1036810508598748155L;
 
-	@Inject 
-	private DogsDAO dogsDAO;	
-	
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
 	
@@ -50,6 +44,7 @@ public class EditDogController implements Serializable {
 			public void onUploadFile(String filename, InputStream is) {
 				System.out.println("upload dog callback.");
 				
+				/*
 				File path = ImgUtils.createPath(ImgUtils.TYPE_DOG_PIC, thisUser.getUserId());
 
 				if (ImgUtils.saveImage(path, is)) {
@@ -60,6 +55,8 @@ public class EditDogController implements Serializable {
 					// is called.
 					dog.setPicture(path.getName());
 				}
+				
+				*/
 			}
 		});
 	}
@@ -83,6 +80,7 @@ public class EditDogController implements Serializable {
 	
 	
 	public void loadData() {
+		/*
 		if(dog == null) {
 			if(editDogId == -1) {
 				// add new dog mode.
@@ -95,9 +93,11 @@ public class EditDogController implements Serializable {
 			// edit dog mode, load data.
 			dog = dogsDAO.get(editDogId);	
 		}		
+		*/
 	}
 	
 	public String saveData() {		
+		/*
 		if(dog.getId() == -1) {
 			dogsDAO.insert(dog);
 		}
@@ -109,8 +109,10 @@ public class EditDogController implements Serializable {
 		for(String name : pendImgDel) {
 			ImgUtils.delete(name, ImgUtils.TYPE_DOG_PIC);
 		}
-	
+		*/
+		
 		return "editprofile.xhtml?faces-redirect=true";
+		
 	}
 		
 }

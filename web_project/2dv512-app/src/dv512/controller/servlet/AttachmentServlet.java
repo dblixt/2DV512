@@ -30,7 +30,7 @@ public class AttachmentServlet extends HttpServlet {
 		if(dbc == null) {
 			dbc = db.createConnector("app-db", true);		
 		}
-		
+
 		String id = req.getParameter("id");
 		String name = req.getParameter("name");
 	
@@ -39,7 +39,8 @@ public class AttachmentServlet extends HttpServlet {
 		resp.setHeader("Content-Type", getServletContext().getMimeType(name));
         resp.setHeader("Content-Length", String.valueOf(req.getContentLength()));
         resp.setHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
-		
+        
+        
         InputStream is = null;
         OutputStream os = null;
         try {
@@ -68,5 +69,8 @@ public class AttachmentServlet extends HttpServlet {
         	}
         }       
 	}
+	
+
+	
 
 }

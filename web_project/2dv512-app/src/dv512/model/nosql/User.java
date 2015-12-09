@@ -13,6 +13,11 @@ public class User extends CouchDbDocument {
 	
 	private Profile profile;
 
+	public User() {
+		profile = new Profile();
+	}
+	
+	
 	public String getEmail() {
 		return email;
 	}

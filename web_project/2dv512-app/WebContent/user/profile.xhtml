@@ -40,7 +40,7 @@
 
 					<h4>Dogs</h4>
 					<ul>
-						<ui:repeat var="d" value="#{profileController.dogs}">
+						<ui:repeat var="d" value="#{profileController.profile.dogs}">
 							<li>
 								<h:graphicImage value="/images/dog/#{d.picture}" />
 								<div class="center-vert">
@@ -63,7 +63,7 @@
 					</h:link>
 					
 					<div class="clear" />
-					<h:graphicImage id="view-profile-img" value="/images/profile/#{profileController.profile.profilePic}" />
+					<h:graphicImage id="view-profile-img" value="/attachment?id=#{profileController.id}&amp;name=profile_pic" />
 				</div>
 			</div>
 		</div>
