@@ -42,11 +42,11 @@
 					<ul>
 						<ui:repeat var="d" value="#{profileController.profile.dogs}">
 							<li>
-								<h:graphicImage value="/images/dog/#{d.picture}" />
+								<h:graphicImage value="/img/#{d.image}" />
 								<div class="center-vert">
 									<h5>#{d.name}</h5>
 									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
-									<p>#{d.race}</p>
+									<p>#{d.breed}</p>
 								</div>
 								<div class="clear" />
 							</li>

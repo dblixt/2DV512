@@ -76,4 +76,11 @@ public class Profile {
 		this.dogs = dogs;
 	}
 
+	public void addDog(Dog dog) {
+		if(dogs == null) {
+			dogs = new ArrayList<>();
+		}
+		dogs.add(dog);
+	}
+	
 }

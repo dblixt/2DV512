@@ -3,6 +3,7 @@ package dv512.controller;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
 import dv512.controller.util.ImgUtils;
+import dv512.model.nosql.Dog;
 import dv512.model.nosql.Profile;
 import dv512.model.nosql.User;
 import dv512.model.service.ImageService;
@@ -37,7 +39,7 @@ public class EditProfileController implements Serializable {
 	private ImageService imageService;
 	
 	private User user;
-	private List<String> pendImgDelete = new ArrayList<>();
+	private List<String> pendImgDel = new ArrayList<>();
 	
 
 	@PostConstruct
@@ -49,7 +51,7 @@ public class EditProfileController implements Serializable {
 				InputStream resizedIs = ImgUtils.scaleImage(is);
 						
 				if(user.getProfile().getImage() != null) {
-					pendImgDelete.add(user.getProfile().getImage());
+					pendImgDel.add(user.getProfile().getImage());
 				}
 						
 				String id = imageService.create(resizedIs);
@@ -72,19 +74,15 @@ public class EditProfileController implements Serializable {
 	public void removeDog(int id) {
 		// add do list of pending dog deletions, won't actually happen
 		// until saveData is called, which gives the user a chance to abort
-		// id desired.
+		// if desired.
 		
-		
-		
-		
-		/*Iterator<Dog> itr = dogs.iterator();
+		Iterator<Dog> itr = getProfile().getDogs().iterator();
 		while(itr.hasNext()) {
 			Dog d = itr.next();
 			if(d.getId() == id) {
-				pendDogDel.add(d);
 				itr.remove();
 			}
-		}*/
+		}
 	}
 	
 
@@ -99,21 +97,6 @@ public class EditProfileController implements Serializable {
 		userService.update(user);
 		
 		//TODO: delete old image documents.
-		
-		/*
-		// save changes to database.
-		profilesDAO.update(profile);
-		
-		// remove deleted dogs from database.
-		for(Dog d : pendDogDel) {
-			dogsDAO.delete(d.getId());
-		}
-		
-		// remove ghost profile pics from storage.
-		for(String name : pendImgDel) {
-			ImgUtils.delete(name, ImgUtils.TYPE_PROFILE_PIC);
-		}		
-		*/
 		
 		return "profile.xhtml?faces-redirect=true";
 	}

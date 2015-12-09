@@ -18,13 +18,12 @@ import dv512.controller.util.ImgUtils;
 
 @WebServlet("/img/*")
 public class ImageServlet extends HttpServlet {
-
 	private static final long serialVersionUID = 1L;
 	
 	@Resource(name = "couchdb/nosql-app-db")
 	protected CouchDbInstance db;
 	
-	CouchDbConnector dbc = null;
+	private CouchDbConnector dbc = null;
 		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
@@ -32,8 +31,7 @@ public class ImageServlet extends HttpServlet {
 			dbc = db.createConnector("app-img-db", true);		
 		}
 
-		String id = req.getPathInfo().substring(1);
-		
+		String id = req.getPathInfo().substring(1);		
 		System.out.println("id=" + id );
 		
 		resp.setHeader("Content-Type", ImgUtils.IMAGE_MIME_TYPE);
@@ -47,7 +45,7 @@ public class ImageServlet extends HttpServlet {
     		is = dbc.getAttachment(id, "img");
             os = resp.getOutputStream();
     		
-    		byte[] buffer = new byte[1024000];
+    		byte[] buffer = new byte[1024*100];
     		int len;
     		while ((len = is.read(buffer)) != -1) {
     		    os.write(buffer, 0, len);

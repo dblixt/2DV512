@@ -1,5 +1,7 @@
 package dv512.model.nosql;
 
+import java.util.Random;
+
 public class Dog {
 	
 	private int id;
@@ -10,6 +12,12 @@ public class Dog {
 	private String breed;
 	private String picture;
 	
+	private String image;
+	
+	public static final int generateId() {
+		return new Random().nextInt(1000 * 1000);
+		
+	}
 	
 	public int getId() {
 		return id;
@@ -59,7 +67,15 @@ public class Dog {
 		this.picture = picture;
 	}
 
+	public String getImage() {
+		return image;
+	}
 
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(this == obj) {
@@ -72,5 +88,5 @@ public class Dog {
 		
 		return false;
 	}
-	
+
 }
