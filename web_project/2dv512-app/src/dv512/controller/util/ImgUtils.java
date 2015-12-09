@@ -20,7 +20,7 @@ public class ImgUtils {
 	private final static File PATH_DOG = new File("images/dog");
 	
 	public final static String IMAGE_FORMAT = "jpg";
-	public final static String IAMGE_MIME_TYPE = "image/jpeg";
+	public final static String IMAGE_MIME_TYPE = "image/jpeg";
 	private final static int SAVE_SIZE = 500;
 	
 	

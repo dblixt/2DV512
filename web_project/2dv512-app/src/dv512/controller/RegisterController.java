@@ -7,7 +7,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.controller.util.NosqlManager;
 import dv512.model.nosql.User;
 import dv512.model.service.UserService;
 

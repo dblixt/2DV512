@@ -12,6 +12,8 @@ public class Profile {
 	private double longitude;
 	private double latitude;
 	
+	private String image;
+	
 	private List<Dog> dogs;
 	
 	public Profile() {
@@ -58,6 +60,14 @@ public class Profile {
 		this.latitude = latitude;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	public List<Dog> getDogs() {
 		return dogs;
 	}

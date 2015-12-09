@@ -24,17 +24,17 @@ public class UserService implements Serializable {
 	private NosqlManager mgr;
 	
 	public void create(User user) {
-		CouchDbConnector c = mgr.getCon();
+		CouchDbConnector c = mgr.getConnection();
 		c.create(user);
 	}
 	
 	public User get(String id) {
-		CouchDbConnector c = mgr.getCon();
+		CouchDbConnector c = mgr.getConnection();
 		return c.get(User.class, id);
 	}
 	
 	public void update(User user) {
-		CouchDbConnector c = mgr.getCon();
+		CouchDbConnector c = mgr.getConnection();
 		c.update(user);
 	}
 	
@@ -45,7 +45,7 @@ public class UserService implements Serializable {
 	 * @return the full user object from database on success, null otherwise.
 	 */
 	public User verify(User user) {
-		CouchDbConnector c = mgr.getCon();
+		CouchDbConnector c = mgr.getConnection();
 		
 		ComplexKey key = ComplexKey.of(user.getEmail(), user.getPassword());
 		
@@ -74,10 +74,5 @@ public class UserService implements Serializable {
 		return null;		
 	}
 	
-	
-	public void createAttachment(User userDoc, AttachmentInputStream ais) {
-		CouchDbConnector c = mgr.getCon();
-		c.createAttachment(userDoc.getId(), userDoc.getRevision(), ais);		
-	}
-	
+
 }
