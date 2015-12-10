@@ -13,7 +13,7 @@ import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
 
 import dv512.controller.util.NosqlManager;
-import dv512.model.nosql.User;
+import dv512.model.User;
 
 @Named
 @ApplicationScoped

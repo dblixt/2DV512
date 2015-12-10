@@ -99,8 +99,8 @@
 				<div class="right">		
 					<h:graphicImage id="view-profile-img" value="/img/#{editProfileController.profile.image}" />												
 					<h:form enctype="multipart/form-data" prependId="false">		
-						<div class="wrapper-file-input icon-link">
-						<i class="material-icons">mode_edit</i><span>Change</span>
+						<div class="icon-link wrapper-file-input">
+							<i class="material-icons">mode_edit</i><span>Change</span>
 							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
 								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":view-profile-img" />
 							</h:inputFile>							

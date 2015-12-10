@@ -14,9 +14,9 @@ import javax.inject.Named;
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
 import dv512.controller.util.ImgUtils;
-import dv512.model.nosql.Dog;
-import dv512.model.nosql.Profile;
-import dv512.model.nosql.User;
+import dv512.model.Dog;
+import dv512.model.Profile;
+import dv512.model.User;
 import dv512.model.service.ImageService;
 import dv512.model.service.UserService;
 

@@ -6,9 +6,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.nosql.Dog;
-import dv512.model.nosql.Profile;
-import dv512.model.nosql.User;
+import dv512.model.Dog;
+import dv512.model.Profile;
+import dv512.model.User;
 import dv512.model.service.UserService;
 
 @Named
@@ -38,11 +38,18 @@ public class ProfileController {
 	}
 	
 	public Profile getProfile() {
-		return userProfile.getProfile();
+		if(userProfile != null) {
+			return userProfile.getProfile();
+		}
+		
+		return null;
 	}
 	
 	public List<Dog> getDogs() {
-		return userProfile.getProfile().getDogs();
+		if(userProfile != null) {
+			return userProfile.getProfile().getDogs();
+		}
+		return null;
 	}
 	
 	

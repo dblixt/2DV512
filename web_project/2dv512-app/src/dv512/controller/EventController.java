@@ -1,26 +1,17 @@
 package dv512.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import dv512.model.Comment;
-import dv512.model.Dog;
-import dv512.model.Event;
-import dv512.model.Profile;
-import dv512.model.dao.CommentsDAO;
-import dv512.model.dao.DogsDAO;
-import dv512.model.dao.EventsDAO;
-import dv512.model.dao.ProfilesDAO;
 
 @Named
 @ViewScoped
 public class EventController implements Serializable {
 
+	/*
+	
+	
 	private static final long serialVersionUID = 6667656806561372380L;
 
 	@Inject
@@ -102,5 +93,7 @@ public class EventController implements Serializable {
 		return "eventview.xhtml?faces-redirect=true";
 
 	}
+	
+	*/
 
 }

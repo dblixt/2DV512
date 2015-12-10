@@ -7,7 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.nosql.User;
+import dv512.model.User;
 import dv512.model.service.UserService;
 
 

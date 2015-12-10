@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -12,10 +11,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
-import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
-import dv512.model.nosql.Dog;
-import dv512.model.nosql.User;
+import dv512.controller.util.ImgUtils;
+import dv512.model.Dog;
+import dv512.model.Image;
+import dv512.model.User;
 import dv512.model.service.ImageService;
 import dv512.model.service.UserService;
 
@@ -119,6 +119,10 @@ public class EditDogController implements Serializable {
 	public String saveData() {		
 		userService.update(user);		
 		// TODO: remove images.		
+		
+		
+		
+		
 		return "editprofile.xhtml?faces-redirect=true";
 		
 	}

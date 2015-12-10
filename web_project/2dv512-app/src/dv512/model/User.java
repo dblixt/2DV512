@@ -1,4 +1,4 @@
-package dv512.model.nosql;
+package dv512.model;
 
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;
