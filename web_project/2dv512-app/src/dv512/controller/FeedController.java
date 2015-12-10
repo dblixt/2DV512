@@ -1,10 +1,13 @@
 package dv512.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import dv512.model.Event;
 
 @Named
 @ViewScoped
@@ -18,9 +21,9 @@ public class FeedController implements Serializable {
 	//private List<FeedEvent> events;
 	
 	
-	//public List<FeedEvent> getEvents() {
-	//	return events;
-	//}
+	public List<Event> getEvents() {
+		return null;
+	}
 	
 	
 	
