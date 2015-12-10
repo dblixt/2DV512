@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+
+	<ui:define name="head">
+		<h:outputStylesheet name="createevent.css" library="css" />
+		<h:outputStylesheet name="calenderview.css" library="css" />
+		<h:outputStylesheet name="map.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
+		<h:outputScript name="prototype.js" library="js" />
+		<h:outputScript name="calenderview.js" library="js" />
+		<h:outputScript>
+			 function setupCalendars() {
+        // Embedded Calendar
+        Calendar.setup(
+          {
+            dateField: 'dateField',
+            parentElement: 'embeddedCalendar'
+          }
+        )
+      }
+
+      Event.observe(window, 'load', function() { setupCalendars() })		
+		</h:outputScript>
+		<h:outputScript>
+			setLocation(0,0);	
+			setAllowEdit(true);
+		</h:outputScript>
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
+			async="async" defer="defer">
+			
+		</script>
+
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="content-block">
+			<h:form id="createevent" prependId="false">
+				<h3>Create Event</h3>
+				<br />
+				<br />
+				<label>Title:</label>
+				<br />
+				<h:inputText value="#{createEventController.event.title}"></h:inputText>
+				<br />
+				<br />
+				<label>Description:</label>
+				<br />
+				<h:inputTextarea rows="4" cols="40"
+					value="#{createEventController.event.description}"></h:inputTextarea>
+
+				<div class="calendarbox">
+					<div id="embeddedCalendar" class="calendar"></div>
+					<h:inputHidden id="date" value="#{createEventController.event.date}"></h:inputHidden>
+						
+						<div id="dateField" class="date">
+							<label>Select date</label>
+						</div>
+
+						<div class="time">
+							<br /> <span class="hour"> <label>Hour</label>
+							</span> <span class="minute"> <label>Minutes</label>
+							</span> <br /> <span class="hour"> <h:inputText
+									value="#{createEventController.event.hour}"></h:inputText>
+
+							</span> <span class="minute"> <h:inputText
+									value="#{createEventController.event.minutes}"></h:inputText>
+							</span>
+						</div>
+				</div>
+
+				<div class="clear"></div>
+
+				<div class="center">
+					<label>Select location for event</label> <input id="pac-input"
+						class="controls" type="text" placeholder="Search"></input>
+					<div id="map"></div>
+					<h:inputHidden id="lat"
+						value="#{createEventController.event.latitude}" />
+					<h:inputHidden id="lng"
+						value="#{createEventController.event.longitude}" />
+					<h:commandButton value="Create"
+						action="#{createEventController.createEvent}"></h:commandButton>
+					<br />
+					<h:commandButton value="Cancel"></h:commandButton>
+				</div>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
