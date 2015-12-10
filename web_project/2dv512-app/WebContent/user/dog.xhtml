@@ -22,7 +22,7 @@
 		<div class="content-block">
 			<div class="profile-wrapper">
 				<div class="left">
-					<h3><h:outputText value="#{editDogController.id > 0 ? 'Edit dog' : 'Add new dog'}" /></h3>
+					<h3><h:outputText value="#{editDogController.id != -1 ? 'Edit dog' : 'Add new dog'}" /></h3>
 					
 					<h:form>
 						<label class="label-header">Name:</label>
@@ -38,7 +38,7 @@
 						<h:inputText value="#{editDogController.dog.age}"/>
 						
 						<label class="label-header">Race:</label>
-						<h:inputText value="#{editDogController.dog.race}"/>
+						<h:inputText value="#{editDogController.dog.breed}"/>
 						
 						<br /><br /><br /><br />
 						
@@ -52,7 +52,7 @@
 				</div>
 
 				<div class="right">		
-					<h:graphicImage id="view-profile-img" value="/images/dog/#{editDogController.dog.picture}" />												
+					<h:graphicImage id="view-profile-img" value="/img/#{editDogController.dog.image}" />												
 					<h:form enctype="multipart/form-data" prependId="false">		
 						<div class="wrapper-file-input icon-link">
 						<i class="material-icons">mode_edit</i><span>Change</span>

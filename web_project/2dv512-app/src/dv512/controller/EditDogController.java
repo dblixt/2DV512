@@ -1,6 +1,5 @@
 package dv512.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,11 +11,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
-import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
-import dv512.dao.DogsDAO;
+import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
+import dv512.model.Image;
 import dv512.model.User;
+import dv512.model.service.ImageService;
+import dv512.model.service.UserService;
 
 @Named
 @ViewScoped
@@ -25,19 +26,21 @@ public class EditDogController implements Serializable {
 	private static final long serialVersionUID = -1036810508598748155L;
 
 	@Inject 
-	private DogsDAO dogsDAO;	
-	
-	@Inject 
 	private FileUploadHandler fileUploadHandler;
 	
 	@Inject
-	private LoginController thisUser;
+	private LoginController session;
 	
+	@Inject
+	private UserService userService;
+	@Inject
+	private ImageService imageService;
 	
 	
 	/** Id of the dog to edit if in edit mode. */
 	private int editDogId = -1;
 	
+	private User user;
 	private Dog dog;	
 	private List<String> pendImgDel = new ArrayList<>();
 	
@@ -50,16 +53,14 @@ public class EditDogController implements Serializable {
 			public void onUploadFile(String filename, InputStream is) {
 				System.out.println("upload dog callback.");
 				
-				File path = ImgUtils.createPath(ImgUtils.TYPE_DOG_PIC, thisUser.getUserId());
-
-				if (ImgUtils.saveImage(path, is)) {
-					// add old profile img to pending deletes.
-					pendImgDel.add(dog.getPicture());
-
-					// set new profile image, not saved in db until saveData()
-					// is called.
-					dog.setPicture(path.getName());
+				InputStream resizedIs = ImgUtils.scaleImage(is);
+				
+				if(dog.getImage() != null) {
+					pendImgDel.add(dog.getImage());
 				}
+						
+				String id = imageService.create(resizedIs);
+				dog.setImage(id);
 			}
 		});
 	}
@@ -83,34 +84,47 @@ public class EditDogController implements Serializable {
 	
 	
 	public void loadData() {
-		if(dog == null) {
-			if(editDogId == -1) {
-				// add new dog mode.
-				dog = new Dog();
-				dog.setId(-1);
-				dog.setUserId(thisUser.getUserId());
-				return;
-			}
-
-			// edit dog mode, load data.
-			dog = dogsDAO.get(editDogId);	
-		}		
+		if(user == null) {
+			user = userService.get(session.getUserId());
+			
+			if(user != null) {
+				if(editDogId == -1) {
+					dog = new Dog();
+					dog.setId(Dog.generateId());
+					user.getProfile().addDog(dog);
+					return;
+				}
+				
+				List<Dog> dogs = user.getProfile().getDogs();
+				
+				for(Dog d : dogs) {
+					if(editDogId == d.getId()) {
+						dog = d;
+						return;
+					}
+				}
+				
+				// if still null, then dog for id did not exist.
+				// switch to add mode.
+				if(dog == null) {
+					setId(-1);
+					dog = new Dog();
+					dog.setId(Dog.generateId());
+					user.getProfile().addDog(dog);
+				}
+			}			
+		}
 	}
 	
 	public String saveData() {		
-		if(dog.getId() == -1) {
-			dogsDAO.insert(dog);
-		}
-		else {
-			dogsDAO.update(dog);
-		}
+		userService.update(user);		
+		// TODO: remove images.		
 		
-		// remove ghost profile pics from storage.
-		for(String name : pendImgDel) {
-			ImgUtils.delete(name, ImgUtils.TYPE_DOG_PIC);
-		}
-	
+		
+		
+		
 		return "editprofile.xhtml?faces-redirect=true";
+		
 	}
 		
 }

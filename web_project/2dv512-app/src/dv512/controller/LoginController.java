@@ -2,12 +2,13 @@ package dv512.controller;
 
 
 import java.io.Serializable;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.dao.UsersDAO;
 import dv512.model.User;
+import dv512.model.service.UserService;
 
 
 @Named
@@ -19,15 +20,18 @@ public class LoginController implements Serializable {
 	public static final String ACTION_LOGIN_FAIL = "fail";	
 	public static final String ACTION_LOGOUT = "logout";
 	
-
-	@Inject
-	private UsersDAO userDAO;
+	@Inject 
+	private UserService userService;
 	
-	
-	private User user = new User();
+	private User user;
 
 	private int retryCount = 0;
 		
+	
+	public LoginController() {
+		user = new User();
+	}
+	
 	public User getUser(){
 		return user;
 	}
@@ -37,16 +41,17 @@ public class LoginController implements Serializable {
 	}
 	
 	public boolean isVerified() {
-	    return user.getId() != -1;
+	    return user.getId() != null;
 	}
 	
-	public int getUserId() {
+	public String getUserId() {
 		return user.getId();
 	}
 	
 	public String login() {	
-		boolean userDOAResponse = userDAO.get(user);
-		if(userDOAResponse == true){
+		User result = userService.verify(user);
+		if(result != null) {
+			user = result;
 			retryCount = 0;
 			return ACTION_LOGIN_SUCCESS;
 		}
@@ -57,10 +62,8 @@ public class LoginController implements Serializable {
 	}
 	
 	public String logout() {
-		user.setId(-1);
+		user = new User();
 		retryCount = 0;
-		user.setEmail(null);
-		user.setPassword(null);
 		return ACTION_LOGOUT;
 	}
 	

@@ -1,42 +1,45 @@
 package dv512.model;
 
-public class User{
-	
-	private int id = -1;
-	
-	private String name;
-	private String password;
-	private String email;
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+import org.ektorp.support.CouchDbDocument;
+import org.ektorp.support.TypeDiscriminator;
 
-	public void setPassword(String password) {
-		this.password = password;
+public class User extends CouchDbDocument {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@TypeDiscriminator // email is unique field for user documents. No other document will contain this field.
+	private String email;	
+	private String password;
+	
+	private Profile profile;
+
+	public User() {
+		profile = new Profile();
+	}
+	
+	
+	public String getEmail() {
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
 	public String getPassword() {
 		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 	
 }

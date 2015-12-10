@@ -51,9 +51,9 @@
 						<h4>Dogs</h4>
 						<h:panelGroup id="doglist">
 						<ul>					
-						<ui:repeat var="d" value="#{editProfileController.dogs}">
+						<ui:repeat var="d" value="#{editProfileController.profile.dogs}">
 							<li>
-								<h:graphicImage value="/images/dog/#{d.picture}" />
+								<h:graphicImage value="/img/#{d.image}" />
 								<h:commandLink class="icon-link center-vert" style="right: 0px;" actionListener="#{editProfileController.removeDog(d.id)}">
 									<i class="material-icons">clear</i>	
 									<f:ajax execute="@this" render=":form1:doglist" />
@@ -62,12 +62,11 @@
 									<i class="material-icons">mode_edit</i>
 									<f:param name="id" value="#{d.id}"/>
 								</h:link>
-								
-								
+															
 								<div class="center-vert">
 									<h5>#{d.name}</h5>
 									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
-									<p>#{d.race}</p>
+									<p>#{d.breed}</p>
 								</div>
 								<div class="clear" />
 							</li>
@@ -95,14 +94,13 @@
 							<i class="material-icons">cancel</i><span>Cancel</span>
 						</h:link>
 					</h:form>
-
 				</div>
 
 				<div class="right">		
-					<h:graphicImage id="view-profile-img" value="/images/profile/#{editProfileController.profile.profilePic}" />												
+					<h:graphicImage id="view-profile-img" value="/img/#{editProfileController.profile.image}" />												
 					<h:form enctype="multipart/form-data" prependId="false">		
-						<div class="wrapper-file-input icon-link">
-						<i class="material-icons">mode_edit</i><span>Change</span>
+						<div class="icon-link wrapper-file-input">
+							<i class="material-icons">mode_edit</i><span>Change</span>
 							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
 								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":view-profile-img" />
 							</h:inputFile>							
@@ -112,6 +110,5 @@
 			</div>
 		</div>
 	</ui:define>
-
 </ui:composition>
 </html>
