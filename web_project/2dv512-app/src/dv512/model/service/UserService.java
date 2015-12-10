@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.ektorp.AttachmentInputStream;
 import org.ektorp.ComplexKey;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
@@ -23,9 +22,17 @@ public class UserService implements Serializable {
 	@Inject 
 	private NosqlManager mgr;
 	
-	public void create(User user) {
-		CouchDbConnector c = mgr.getConnection();
-		c.create(user);
+	public boolean create(User user) {
+		try {
+			CouchDbConnector c = mgr.getConnection();
+			c.create(user);
+			return true;
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return false;
 	}
 	
 	public User get(String id) {
@@ -33,9 +40,17 @@ public class UserService implements Serializable {
 		return c.get(User.class, id);
 	}
 	
-	public void update(User user) {
-		CouchDbConnector c = mgr.getConnection();
-		c.update(user);
+	public boolean update(User user) {
+		try {
+			CouchDbConnector c = mgr.getConnection();
+			c.update(user);
+			return true;
+		}
+		catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -74,5 +89,4 @@ public class UserService implements Serializable {
 		return null;		
 	}
 	
-
 }

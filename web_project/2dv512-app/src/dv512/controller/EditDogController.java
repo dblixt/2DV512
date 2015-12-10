@@ -12,9 +12,9 @@ import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
+import dv512.controller.util.IDUtils;
 import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
-import dv512.model.Image;
 import dv512.model.User;
 import dv512.model.service.ImageService;
 import dv512.model.service.UserService;
@@ -22,8 +22,7 @@ import dv512.model.service.UserService;
 @Named
 @ViewScoped
 public class EditDogController implements Serializable {
-
-	private static final long serialVersionUID = -1036810508598748155L;
+	private static final long serialVersionUID = 1L;
 
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
@@ -90,7 +89,7 @@ public class EditDogController implements Serializable {
 			if(user != null) {
 				if(editDogId == -1) {
 					dog = new Dog();
-					dog.setId(Dog.generateId());
+					dog.setId(IDUtils.generateIntID());
 					user.getProfile().addDog(dog);
 					return;
 				}
@@ -109,7 +108,7 @@ public class EditDogController implements Serializable {
 				if(dog == null) {
 					setId(-1);
 					dog = new Dog();
-					dog.setId(Dog.generateId());
+					dog.setId(IDUtils.generateIntID());
 					user.getProfile().addDog(dog);
 				}
 			}			
@@ -117,12 +116,9 @@ public class EditDogController implements Serializable {
 	}
 	
 	public String saveData() {		
-		userService.update(user);		
-		// TODO: remove images.		
-		
-		
-		
-		
+		userService.update(user);				
+		imageService.delete(pendImgDel);
+	
 		return "editprofile.xhtml?faces-redirect=true";
 		
 	}

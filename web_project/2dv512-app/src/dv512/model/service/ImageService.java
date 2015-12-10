@@ -41,14 +41,23 @@ public class ImageService implements Serializable {
 		return id;
 	}
 	
+	/**
+	 * Delete multiple image documents from the 
+	 * database. The database will be queried for
+	 * the documents of the given id:s. All
+	 * will then be deleted in a bulk operation
+	 * resulting in a total of two database calls.
+	 * @param ids
+	 * @return
+	 */
 	public boolean delete(List<String> ids) {
 		try {
 			CouchDbConnector c = mgr.getImgConnection();
 			
 			ViewQuery q = new ViewQuery()
 					.dbPath(c.getDatabaseName())
-					.viewName("image")
-					.designDocId("get_all")
+					.viewName("find")
+					.designDocId("_design/image")
 					.keys(ids)
 					.reduce(false);
 		
@@ -68,4 +77,5 @@ public class ImageService implements Serializable {
 			
 		return false;		
 	}
+	
 }
