@@ -12,6 +12,7 @@ import dv512.model.Comment;
 import dv512.model.Dog;
 import dv512.model.Event;
 import dv512.model.Profile;
+import dv512.model.dao.CommentsCouchDAO;
 import dv512.model.dao.CommentsDAO;
 import dv512.model.dao.DogsDAO;
 import dv512.model.dao.EventsDAO;
@@ -31,6 +32,9 @@ public class EventController implements Serializable {
 
 	@Inject
 	private CommentsDAO commentsDAO;
+	
+	@Inject
+	private CommentsCouchDAO commentsCouchDAO;
 
 	@Inject
 	private DogsDAO dogsDAO;
