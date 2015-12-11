@@ -1,5 +1,6 @@
 package dv512.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,7 +8,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dv512.model.Event;
+import dv512.model.User;
 
 @Named
 @ViewScoped
@@ -21,7 +26,11 @@ public class FeedController implements Serializable {
 	//private List<FeedEvent> events;
 	
 	
-	public List<Event> getEvents() {
+	public List<Event> getEvents() throws JsonProcessingException, IOException {
+		
+		System.out.println(new ObjectMapper().writeValueAsString(new User()));
+		
+		
 		return null;
 	}
 	
