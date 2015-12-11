@@ -3,17 +3,13 @@ package dv512.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Profile {
 
 	private String name;
 	private String gender;
 	private String description;
 
-	@JsonIgnore
 	private double longitude;
-	@JsonIgnore
 	private double latitude;
 	
 	private String image;
