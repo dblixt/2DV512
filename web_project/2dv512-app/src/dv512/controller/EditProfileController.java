@@ -95,8 +95,7 @@ public class EditProfileController implements Serializable {
 	
 	public String saveData() {		
 		userService.update(user);
-		
-		//TODO: delete old image documents.
+		imageService.delete(pendImgDel);
 		
 		return "profile.xhtml?faces-redirect=true";
 	}

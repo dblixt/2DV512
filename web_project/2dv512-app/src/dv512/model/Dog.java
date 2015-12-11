@@ -1,7 +1,5 @@
 package dv512.model;
 
-import java.util.Random;
-
 public class Dog {
 	
 	private int id;
@@ -13,12 +11,7 @@ public class Dog {
 	private String picture;
 	
 	private String image;
-	
-	public static final int generateId() {
-		return new Random().nextInt(1000 * 1000);
 		
-	}
-	
 	public int getId() {
 		return id;
 	}
