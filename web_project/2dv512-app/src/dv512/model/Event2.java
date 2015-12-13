@@ -6,6 +6,8 @@ import java.util.List;
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Event2 extends CouchDbDocument {
 	private static final long serialVersionUID = 1L;
 
@@ -16,6 +18,9 @@ public class Event2 extends CouchDbDocument {
 	private long date;		
 	private double longitude;
 	private double latitude;
+	
+	@JsonIgnore
+	private double distance;
 	
 	private List<User> joins = new ArrayList<>();
 	
@@ -68,6 +73,15 @@ public class Event2 extends CouchDbDocument {
 		this.latitude = latitude;
 	}
 
+	public double getDistance() {
+		return distance;
+	}
+	
+	public void setDistance(double distance) {
+		this.distance = distance;	
+	}
+
+	
 	public List<User> getJoins() {
 		return joins;
 	}

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.javadocmd.simplelatlng.LatLng;
 
 import dv512.model.Event;
+import dv512.model.Profile;
 import dv512.model.service.EventService;
 
 @Named
@@ -30,25 +31,21 @@ public class FeedController implements Serializable {
 	
 	public List<Event> getEvents() throws JsonProcessingException, IOException {
 		
-		/*Event2 e = new Event2();
-		e.setTitle("Test event");
-		e.setLongitude(thisUser.getUser().getProfile().getLongitude());
-		e.setLatitude(thisUser.getUser().getProfile().getLatitude());
-		
-		
-		eventService.create(e);*/
-		
-		LatLng l = new LatLng(thisUser.getUser().getProfile().getLatitude(), thisUser.getUser().getProfile().getLongitude());
-		
-		eventService.find(l, 10);
-		
+	
 
 		return null;
 	}
 	
 	
 	
-	public void loadData() {
+	public void loadData() throws IOException {
+		Profile profile = thisUser.getUser().getProfile();
+		LatLng origin = new LatLng(profile.getLatitude(), profile.getLongitude());
+		
+		eventService.find(origin, 5);
+		
+
+		
 		//events = new ArrayList<>();
 		
 		//FeedEvent e = new FeedEvent();

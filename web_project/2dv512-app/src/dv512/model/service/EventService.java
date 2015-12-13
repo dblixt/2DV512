@@ -2,6 +2,8 @@ package dv512.model.service;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,6 +13,7 @@ import javax.inject.Named;
 import org.ektorp.CouchDbConnector;
 
 import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
 import com.javadocmd.simplelatlng.window.RectangularWindow;
 
@@ -51,36 +54,72 @@ public class EventService implements Serializable {
 	}
 	
 	
-	public List<Event2> find(LatLng origin, double radiusKm) throws IOException {
-		// create a rectangular window for query parameters.
-		RectangularWindow window = new RectangularWindow(origin, 10, LengthUnit.KILOMETER);
-		
-		LuceneConnector lc = new LuceneConnector(mgr.getConnection());
+	
+	
+	
+	public List<Event2> find(LatLng origin, double radiusKm) throws IOException {		
+		try {
+			LuceneConnector lc = new LuceneConnector(mgr.getConnection());
 			
+			LuceneQuery q = buildFindQuery(origin, radiusKm);
+			System.out.println(q.buildQuery());
+			
+			List<Event2> events = lc.queryIndex(q, Event2.class);			
+			Iterator<Event2> itr = events.iterator();
+			
+			// calculate distance for all results, remove those who
+			// are outside or search radius.
+			while(itr.hasNext()) {
+				Event2 e = itr.next();			
+				LatLng location = new LatLng(e.getLatitude(), e.getLongitude());	
+				
+				double dist = LatLngTool.distance(origin, location, LengthUnit.KILOMETER);
+				if(dist > radiusKm) {
+					itr.remove();
+					continue;
+				}
+				else {
+					e.setDistance(dist);
+				}
+											
+				System.out.println("name: " + e.getTitle() + " distance: " + e.getDistance() + " km");
+			}			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	private LuceneQuery buildFindQuery(LatLng origin, double radiousKm) {
+		// create a rectangular window for query parameters.
+		RectangularWindow window = new RectangularWindow(
+				origin, 2*radiousKm, LengthUnit.KILOMETER);
+		
+		// show events that are at most 1 day old.
+		long dateLowerBound = Instant.now().getEpochSecond() - (24*3600);
+		
 		LuceneQuery q = new LuceneQuery();
+		q.dbPath(mgr.getConnection().getDatabaseName());
 		q.designDocId("_design/geo");
 		q.indexName("_search/events");
 		q.includeDocs(true);
 		q.limit(100);
-		q.sort("\"-date\"");
+		q.sort("\"date\"");
 		q.query("lng:[" + window.getLeftLongitude() 
 				+ " TO " 
 				+ window.getRightLongitude() 
 				+ "] AND lat:[" 
 				+ window.getMinLatitude() 
 				+ " TO " + window.getMaxLatitude()
-				+ "]"
+				+ "] AND date:["
+				+ dateLowerBound
+				+ " TO INFINITY ]"
 		);
 		
-	
-		List<Event2> events = lc.queryIndex(q, Event2.class);
-		
-		for(Event2 e : events) {
-			System.out.println("name: " + e.getTitle());
-		}
-				
-		return null;
+		return q;
 	}
-	
 	
 }
