@@ -19,7 +19,6 @@ import com.javadocmd.simplelatlng.window.RectangularWindow;
 
 import dv512.controller.util.NosqlManager;
 import dv512.model.Event;
-import dv512.model.Event;
 import dv512.model.lucene.LuceneConnector;
 import dv512.model.lucene.LuceneQuery;
 
@@ -36,13 +35,7 @@ public class EventService implements Serializable {
 		CouchDbConnector c = mgr.getConnection();
 		c.create(event);
 	}
-	
-	public void create(Event event)  {
-		CouchDbConnector c = mgr.getConnection();
-		c.create(event);
-	}
-	
-	
+			
 	public Event get(String id)  {
 		CouchDbConnector c = mgr.getConnection();
 		return c.get(Event.class, id);

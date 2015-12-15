@@ -34,7 +34,7 @@ public class CreateEventController implements Serializable {
 	public void createEvent() {
 		System.out.println("Creating event");
 		createTestData();		
-		event.setUserId(loginController.getUserId());
+		//event.setUserId(loginController.getUserId());
 		try{
 		eventService.create(event);
 		System.out.println("Event created");
@@ -57,8 +57,8 @@ public class CreateEventController implements Serializable {
 			dog.setName("Name"+i);
 			dogs.add(dog);
 		}
-		event.setDogs(dogs);
-		event.setProfiles(profiles);
+		//event.setDogs(dogs);
+		//event.setProfiles(profiles);
 	}
 
 
