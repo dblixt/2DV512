@@ -3,11 +3,11 @@ package dv512.model;
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;
 
-public class User extends CouchDbDocument {
-	
+
+public class User extends CouchDbDocument {	
 	private static final long serialVersionUID = 1L;
-	
-	@TypeDiscriminator // email is unique field for user documents. No other document will contain this field.
+		
+	@TypeDiscriminator
 	private String email;	
 	private String password;
 	

@@ -27,7 +27,7 @@ public class NosqlManager implements Serializable {
 
 	public CouchDbConnector getConnection() {
 		if(dbc == null) {
-			dbc = db.createConnector(DATABASE_NAME, true);		
+			dbc = db.createConnector(DATABASE_NAME, true);
 		}
 		
 		return dbc;
