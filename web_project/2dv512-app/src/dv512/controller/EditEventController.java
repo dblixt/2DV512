@@ -1,21 +1,17 @@
 package dv512.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.Dog;
 import dv512.model.Event;
-import dv512.model.Profile;
+import dv512.model.Event.User;
 import dv512.model.service.EventService;
 
 @Named
 @ViewScoped
-public class CreateEventController implements Serializable {
+public class EditEventController implements Serializable {
 
 	private static final long serialVersionUID = 6667656806561372380L;
 
@@ -24,17 +20,26 @@ public class CreateEventController implements Serializable {
 	@Inject
 	private LoginController loginController;
 	
-
 	private Event event = new Event();
+	
+	/*id of event if in edit mode*/
+	private int editEventId = -1;
 	
 	public Event getEvent() {
 		return event;
 	}
+	public int getEditEventId() {
+		return editEventId;
+	}
+
+	public void setEditEventId(int eventId) {
+		editEventId = eventId;
+	}
 
 	public void createEvent() {
 		System.out.println("Creating event");
-		createTestData();		
-		//event.setUserId(loginController.getUserId());
+		//createTestData();		
+		event.setCreator(User.from(loginController.getUser()));
 		try{
 		eventService.create(event);
 		System.out.println("Event created");
@@ -44,23 +49,13 @@ public class CreateEventController implements Serializable {
 		}
 	}
 	
-	//Just to insert some data into the event for testing
-	private void createTestData(){
-		List<Dog> dogs = new ArrayList<>();
-		List<Profile> profiles = new ArrayList<>();
-		for(int i = 0; i < 4; i++) {
-			Dog dog = new Dog();
-			Profile profile = new Profile();
-			profile.setName("User"+i);
-			profiles.add(profile);
-			dog.setAge(i);
-			dog.setName("Name"+i);
-			dogs.add(dog);
+	public void loadEvent(){
+		if(editEventId != -1){
+			event = new Event();
 		}
-		//event.setDogs(dogs);
-		//event.setProfiles(profiles);
+		//event = eventService.get(eventId);
 	}
 
-
+	
 }
 

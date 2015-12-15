@@ -7,7 +7,11 @@
 
 
 <ui:composition template="/template/layoutUser.xhtml">
-
+	<f:metadata>
+		<f:viewParam name="id" value="#{editEventController.editEventId}" />
+		<f:event type="preRenderView" listener="#{editEventController.loadEvent}" />
+	</f:metadata>
+	
 	<ui:define name="head">
 		<h:outputStylesheet name="createevent.css" library="css" />
 		<h:outputStylesheet name="calenderview.css" library="css" />
@@ -16,15 +20,45 @@
 		<h:outputScript name="prototype.js" library="js" />
 		<h:outputScript name="calenderview.js" library="js" />
 		<h:outputScript>
-			 function setupCalendars() {
-        // Embedded Calendar
-        Calendar.setup(
-          {
-            dateField: 'dateField',
-            parentElement: 'embeddedCalendar'
-          }
-        )
-      }
+		var myCal;
+		var hour = 0;
+		var minute = 0;
+		var unixTime;
+		function setupCalendars() {
+        		// Embedded Calendar
+       		myCal = Calendar.setup(
+         	{
+              parentElement: 'embeddedCalendar'
+          	}
+        	)
+      	}      
+		
+		function calculateUnixTime() {
+			
+			var tempDate = new Date(myCal.date);
+			var year = tempDate.getFullYear();
+			var day = tempDate.getDate();
+			var month = tempDate.getMonth() + 1;
+			var newDate = new Date(year+'-'+month+'-'+day);	
+			unixTime = newDate.getTime() / 1000 +hour +minute;
+			
+			console.log(unixTime);
+			
+			var unixinput = document.getElementById('unixtime');
+			unixinput.value = unixTime;
+			
+		}
+		
+		function onHourChanged(value) {
+			hour = parseInt(value) * 3600
+			calculateUnixTime();
+		}
+		function onMinuteChanged(value) {
+	 		minute = parseInt(value) * 60;
+	 		calculateUnixTime();
+		}
+		
+      
 
       Event.observe(window, 'load', function() { setupCalendars() })		
 		</h:outputScript>
@@ -38,43 +72,42 @@
 			
 		</script>
 
+
 	</ui:define>
 
 	<ui:define name="content">
 
 		<div class="content-block">
 			<h:form id="createevent" prependId="false">
-				<h3>Create Event</h3>
+				<h3><h:outputText value="#{editDogController.id != -1 ? 'Edit Event' : 'Create Event'}" /></h3>
 				<br />
 				<br />
 				<label>Title:</label>
 				<br />
-				<h:inputText value="#{createEventController.event.title}"></h:inputText>
+				<h:inputText value="#{editEventController.event.title}"
+					required="true"></h:inputText>
 				<br />
 				<br />
 				<label>Description:</label>
 				<br />
 				<h:inputTextarea rows="4" cols="40"
-					value="#{createEventController.event.description}"></h:inputTextarea>
+					value="#{editEventController.event.description}"></h:inputTextarea>
 
 				<div class="calendarbox">
 					<div id="embeddedCalendar" class="calendar"></div>
-					<h:inputHidden id="date" value="#{createEventController.event.date}"></h:inputHidden>
-						
-						<div id="dateField" class="date">
-							<label>Select date</label>
-						</div>
 
-						<div class="time">
-							<br /> <span class="hour"> <label>Hour</label>
-							</span> <span class="minute"> <label>Minutes</label>
-							</span> <br /> <span class="hour"> <h:inputText
-									value="#{createEventController.event.hour}"></h:inputText>
+					<div class="time">
+						<br /> <span class="hour"> <label>Hour</label>
+						</span> <span class="minute"> <label>Minutes</label>
+						</span> <br /> <span class="hour"> <h:inputText id="hourinput"
+								onchange="onHourChanged(this.value)" required="true"></h:inputText>
 
-							</span> <span class="minute"> <h:inputText
-									value="#{createEventController.event.minutes}"></h:inputText>
-							</span>
-						</div>
+						</span> <span class="minute"> <h:inputText id="minuteinput"
+								onchange="onMinuteChanged(this.value)" required="true"></h:inputText>
+						</span>
+						<h:inputHidden id="unixtime"
+							value="#{editEventController.event.date}"></h:inputHidden>
+					</div>
 				</div>
 
 				<div class="clear"></div>
@@ -84,13 +117,13 @@
 						class="controls" type="text" placeholder="Search"></input>
 					<div id="map"></div>
 					<h:inputHidden id="lat"
-						value="#{createEventController.event.latitude}" />
+						value="#{editEventController.event.latitude}" />
 					<h:inputHidden id="lng"
-						value="#{createEventController.event.longitude}" />
+						value="#{editEventController.event.longitude}" />
 					<h:commandButton value="Create"
-						action="#{createEventController.createEvent}"></h:commandButton>
+						action="#{editEventController.createEvent}"></h:commandButton>
 					<br />
-					<h:commandButton value="Cancel"></h:commandButton>
+					<h:commandButton value="Cancel" action="feed"></h:commandButton>
 				</div>
 
 			</h:form>

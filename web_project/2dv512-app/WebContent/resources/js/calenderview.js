@@ -184,9 +184,7 @@ Calendar.defaultSelectHandler = function(calendar)
 
   // Update dateField value
   if (calendar.dateField.tagName == 'DIV'){
- 
-	Element.update("date", calendar.date.print(calendar.dateFormat))
-    Element.update(calendar.dateField, calendar.date.print(calendar.dateFormat))
+	// Element.update(calendar.dateField, calendar.date.print(calendar.dateFormat))
   }
   else if (calendar.dateField.tagName == 'INPUT') {
     calendar.dateField.value = calendar.date.print(calendar.dateFormat) }
@@ -851,3 +849,4 @@ Date.prototype.setFullYear = function(y) {
     this.setDate(28);
   this.__msh_oldSetFullYear(y);
 }
+
