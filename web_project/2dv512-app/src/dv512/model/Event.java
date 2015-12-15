@@ -15,8 +15,8 @@ public class Event {
 
 	private double distance;
 	
-	private User creator;	
-	private List<User> joins = new ArrayList<>();
+	private Profile creator;	
+	private List<Profile> joins = new ArrayList<>();
 	
 		
 	public int getId() {
@@ -27,11 +27,11 @@ public class Event {
 		this.id = id;
 	}
 	
-	public User getCreator() {
+	public Profile getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(Profile creator) {
 		this.creator = creator;
 	}
 	
@@ -84,11 +84,11 @@ public class Event {
 	}
 
 	
-	public List<User> getJoins() {
+	public List<Profile> getJoins() {
 		return joins;
 	}
 
-	public void setJoins(List<User> joins) {
+	public void setJoins(List<Profile> joins) {
 		this.joins = joins;
 	}
 
