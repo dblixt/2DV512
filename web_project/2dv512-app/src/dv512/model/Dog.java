@@ -8,7 +8,6 @@ public class Dog {
 	private String gender;
 	private int age;
 	private String breed;
-	private String picture;
 	
 	private String image;
 		
@@ -52,14 +51,6 @@ public class Dog {
 		this.breed = breed;
 	}
 	
-	public String getPicture() {
-		return picture;
-	}
-	
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-
 	public String getImage() {
 		return image;
 	}

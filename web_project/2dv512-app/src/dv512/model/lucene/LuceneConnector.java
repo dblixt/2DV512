@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * This is an extension of the ektorp 
  * library. Since ektorp did not have 
  * support for the lucene queries that
- * are supported by cloudant this had to be written.
+ * are supported by Cloudant this had to be written.
  *
  * @author Daniel Nilsson
  */

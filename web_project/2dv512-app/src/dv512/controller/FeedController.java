@@ -2,6 +2,7 @@ package dv512.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -12,6 +13,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.javadocmd.simplelatlng.LatLng;
 
 import dv512.model.Event;
+import dv512.model.Event;
+import dv512.model.Profile;
+import dv512.model.User;
 import dv512.model.service.EventService;
 
 @Named
@@ -25,31 +29,35 @@ public class FeedController implements Serializable {
 	@Inject
 	private EventService eventService;
 	
-	//private List<FeedEvent> events;
+	private List<Event> events;
 	
 	
 	public List<Event> getEvents() throws JsonProcessingException, IOException {
 		
-		/*Event2 e = new Event2();
-		e.setTitle("Test event");
-		e.setLongitude(thisUser.getUser().getProfile().getLongitude());
-		e.setLatitude(thisUser.getUser().getProfile().getLatitude());
-		
-		
-		eventService.create(e);*/
-		
-		LatLng l = new LatLng(thisUser.getUser().getProfile().getLatitude(), thisUser.getUser().getProfile().getLongitude());
-		
-		eventService.find(l, 10);
-		
+	
 
 		return null;
 	}
 	
 	
 	
-	public void loadData() {
-		//events = new ArrayList<>();
+	public void loadData() throws IOException {
+		//Profile profile = thisUser.getUser().getProfile();
+		//7LatLng origin = new LatLng(profile.getLatitude(), profile.getLongitude());
+		
+		//eventService.find(origin, 5);
+			
+		events = new ArrayList<>();
+		
+		Event e2 = new Event();
+		e2.setCreator(Event.User.from(thisUser.getUser()));
+		
+		
+		
+		
+		
+		
+		
 		
 		//FeedEvent e = new FeedEvent();
 		
