@@ -13,9 +13,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.javadocmd.simplelatlng.LatLng;
 
 import dv512.model.Event;
-import dv512.model.Event;
+import dv512.model.Event.User;
 import dv512.model.Profile;
-import dv512.model.User;
 import dv512.model.service.EventService;
 
 @Named
@@ -34,53 +33,26 @@ public class FeedController implements Serializable {
 	
 	public List<Event> getEvents() throws JsonProcessingException, IOException {
 		
+		return events;
+	}
 	
-
-		return null;
+	public List<Event.Dog> buildDogList(Event e) {
+		List<Event.Dog> dogs = new ArrayList<Event.Dog>();
+		
+		for(User u : e.getJoins()) {
+			dogs.addAll(u.getDogs());
+		}
+			
+		return dogs;
 	}
 	
 	
 	
 	public void loadData() throws IOException {
-		//Profile profile = thisUser.getUser().getProfile();
-		//7LatLng origin = new LatLng(profile.getLatitude(), profile.getLongitude());
+		Profile profile = thisUser.getUser().getProfile();
+		LatLng origin = new LatLng(profile.getLatitude(), profile.getLongitude());
 		
-		//eventService.find(origin, 5);
-			
-		events = new ArrayList<>();
-		
-		Event e2 = new Event();
-		e2.setCreator(Event.User.from(thisUser.getUser()));
-		
-		
-		
-		
-		
-		
-		
-		
-		//FeedEvent e = new FeedEvent();
-		
-		//Event ev = new Event();
-		//ev.setDateTime(System.currentTimeMillis());
-		//ev.setDescription("This is a long description of the event that will take place later this week.");
-		//ev.setId(1);
-		//ev.setTitle("Walk around the Park");
-		
-		
-		
-		
-			
-		//e.setCreator(profilesDAO.get(thisUser.getUserId()));
-		//e.setDogs(dogsDAO.listAll(thisUser.getUserId()));
-		
-		//ev.setUserId(e.getCreator().getUserId());
-		
-		//e.setDistance(5);
-		//e.setJoinCount(3);
-		//e.setEvent(ev);
-		
-		//events.add(e);		
+		events = eventService.find(origin, 5);			
 	}
 	
 }

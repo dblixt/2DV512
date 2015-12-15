@@ -10,6 +10,18 @@ app-db
   }
 }
 
+{
+  "_id": "_design/geo",
+  "_rev": "2-40da79a3bdd99e6703773a13c9ff66ac",
+  "views": {},
+  "language": "javascript",
+  "indexes": {
+    "events": {
+      "analyzer": "standard",
+      "index": "function (doc) {\n  if(doc.latitude && doc.longitude) {\n    index(\"lat\", doc.latitude, {\"store\": false});\n    index(\"lng\", doc.longitude, {\"store\": false});\n    index(\"date\", doc.date, {\"store\": false});\n  }\n}"
+    }
+  }
+}
 
 
 

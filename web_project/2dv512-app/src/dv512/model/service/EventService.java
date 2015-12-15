@@ -74,7 +74,9 @@ public class EventService implements Serializable {
 				}
 											
 				System.out.println("name: " + e.getTitle() + " distance: " + e.getDistance() + " km");
-			}			
+			}		
+			
+			return events;
 		}
 		catch(Exception e) {
 			e.printStackTrace();

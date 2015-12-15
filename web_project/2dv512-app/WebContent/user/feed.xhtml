@@ -18,30 +18,37 @@
 	<ui:define name="content">
 		<ui:repeat var="e" value="#{feedController.events}">
 			<div class="content-block">
-				<h:graphicImage class="event-creator-img" value="/images/profile/#{e.creator.profilePic}"/>				
+				<h:graphicImage class="event-creator-img" value="/img/#{e.creator.image}"/>				
 				<div class="event-content">
-					<h3 style="margin-top: 6px">#{e.event.title}</h3>
-					<p class="event-creator">#{e.creator.name}</p>
+					<h3 style="margin-top: 6px">#{e.title}</h3>
+					<h:link class="event-creator" value="#{e.creator.name}" outcome="profile">
+						<f:param name="id" value="#{e.creator.id}"/>
+					</h:link>
+					
 					<div style="margin-top: 12px;">
 						<i class="material-icons" style="display: inline-block; font-size: 14px; vertical-align: middle; color: #323232;">near_me</i>
-						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">#{e.distance} km away</p>
+						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+							<h:outputText value="#{e.distance}">
+								<f:convertNumber maxFractionDigits="1"/>
+							</h:outputText> km away						 
+						</p>
 					</div>
 					<p class="vspace" />
-					<p>#{e.event.description}</p>
+					<p>#{e.description}</p>
 					<p class="vspace" />
 					<div>
-						<ui:repeat var="d" value="#{e.dogs}">
-							<h:graphicImage class="event-dog-img" value="/images/dog/#{d.picture}"/>					
+						<ui:repeat var="d" value="#{feedController.buildDogList(e)}">
+							<h:graphicImage class="event-dog-img" value="/img/#{d.image}" title="#{d.name}"/>					
 						</ui:repeat>
 					</div>
 					<p style="margin-top: 20px;" />
 					<div style="margin-left: -8px;" >
 						<h:link class="icon-link" style="width: 64px; display: inline-block;" outcome="feed">
-							<f:param name="id" value="#{e.event.id}" />
+							<f:param name="id" value="#{e.id}" />
 							<i class="material-icons">view_day</i><span>View</span>
 						</h:link>
 						<h:link class="icon-link" style="width: 64px; display: inline-block; margin-left: 5px;" outcome="feed">
-							<f:param name="id" value="#{e.event.id}" />
+							<f:param name="id" value="#{e.id}" />
 							<i class="material-icons"  style="font-size: 24px;">done</i><span>Join</span>
 						</h:link>
 					</div>

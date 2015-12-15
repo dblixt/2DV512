@@ -23,8 +23,10 @@
 }
 
 .event-creator {
+	display: block;
 	color: #3F778A;
 	font-size: 14px;
+	text-decoration: none;
 }
 
 
