@@ -24,16 +24,16 @@ public class RegisterController implements Serializable {
 	private final int REGISTER_MODE = 1;
 	private final int SUCCESS_MODE = 2;
 	private final int FAILED_MODE = 3;
-
-	private int mode = DEFAULT_MODE;
-
-	private User user = new User();
-
+	
 	@Inject
 	private UsersDAO userDAO;
 
 	@Inject
 	private ProfilesDAO profileDAO;
+
+	private int mode = DEFAULT_MODE;
+
+	private User user = new User();
 
 	
 	public User getUser() {
@@ -63,8 +63,7 @@ public class RegisterController implements Serializable {
 	public void register() {
 		boolean userDOAResponse = userDAO.insert(user);
 
-		Profile p = new Profile();
-		p.setName(user.getName());
+		Profile p = user.getProfile();
 		p.setUserId(user.getId());
 
 		boolean profileDOAResponse = profileDAO.insert(p);

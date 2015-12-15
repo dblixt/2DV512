@@ -1,15 +1,19 @@
 package dv512.model;
 
-public class User{
+public class User{	
 	
 	public static final int UNKNOWN_ID = -1;
 	
-	
-	private int id = -1;
-	
-	private String name;
+	private int id = UNKNOWN_ID;
+	private String email;	
 	private String password;
-	private String email;
+	
+	private Profile profile;
+
+	
+	public User() {
+		profile = new Profile();
+	}
 	
 	public int getId() {
 		return id;
@@ -18,28 +22,29 @@ public class User{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	
+	public String getEmail() {
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
 	public String getPassword() {
 		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 	
 }

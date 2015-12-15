@@ -3,7 +3,6 @@ package dv512.model.dao;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,21 +15,18 @@ import dv512.model.Event;
 @Named
 @ApplicationScoped
 public class EventsDAO implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5573703730766227781L;
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private DbManager dbManager;
 
 	public Event get(int eventId) {
+		/*
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT * FROM Events WHERE id = ?");
+			stmt = con.prepareStatement("SELECT * FROM Events LEFT JOIN Profiles ON Events.user_id WHERE id = ?");
 			stmt.setInt(1, eventId);
 
 			ResultSet r = stmt.executeQuery();
@@ -53,11 +49,12 @@ public class EventsDAO implements Serializable {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
-
+		*/
 		return null;
 	}
 
 	public boolean insert(Event event) {
+		/*
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -78,12 +75,12 @@ public class EventsDAO implements Serializable {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
-
+		*/
 		return false;
 	}
 
 	public void createTestEvent() {
-
+		/*
 		Event event = new Event();
 
 		event.setUserId(1);
@@ -96,7 +93,7 @@ public class EventsDAO implements Serializable {
 		insert(event);
 		
 		eventJoin(1,1,System.currentTimeMillis());
-
+		*/
 	}
 
 	public boolean eventJoin(int userId, int eventId, long date) {

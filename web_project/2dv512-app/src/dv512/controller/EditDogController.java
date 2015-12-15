@@ -1,6 +1,5 @@
 package dv512.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,16 +11,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
-import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
+import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
-import dv512.model.User;
 import dv512.model.dao.DogsDAO;
+import dv512.model.dao.ImagesDAO;
 
 @Named
 @ViewScoped
 public class EditDogController implements Serializable {
-
 	private static final long serialVersionUID = -1036810508598748155L;
 
 	@Inject 
@@ -32,6 +30,9 @@ public class EditDogController implements Serializable {
 	
 	@Inject
 	private LoginController thisUser;
+	
+	@Inject
+	private ImagesDAO imagesDAO;
 	
 	
 	
@@ -50,16 +51,14 @@ public class EditDogController implements Serializable {
 			public void onUploadFile(String filename, InputStream is) {
 				System.out.println("upload dog callback.");
 				
-				File path = ImgUtils.createPath(ImgUtils.TYPE_DOG_PIC, thisUser.getUserId());
-
-				if (ImgUtils.saveImage(path, is)) {
-					// add old profile img to pending deletes.
-					pendImgDel.add(dog.getPicture());
-
-					// set new profile image, not saved in db until saveData()
-					// is called.
-					dog.setPicture(path.getName());
+				InputStream resizedIs = ImgUtils.scaleImage(is);
+				
+				if(dog.getImage() != null) {
+					pendImgDel.add(dog.getImage());
 				}
+						
+				String id = imagesDAO.create(resizedIs);
+				dog.setImage(id);
 			}
 		});
 	}
@@ -106,9 +105,7 @@ public class EditDogController implements Serializable {
 		}
 		
 		// remove ghost profile pics from storage.
-		for(String name : pendImgDel) {
-			ImgUtils.delete(name, ImgUtils.TYPE_DOG_PIC);
-		}
+		imagesDAO.delete(pendImgDel);
 	
 		return "editprofile.xhtml?faces-redirect=true";
 	}

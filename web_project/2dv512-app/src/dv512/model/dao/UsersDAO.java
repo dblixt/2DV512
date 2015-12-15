@@ -42,7 +42,7 @@ public class UsersDAO implements Serializable {
 
 			s = con.prepareStatement("INSERT INTO Users(email, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
 
-			s.setString(1, user.getName());
+			s.setString(1, user.getEmail());
 			s.setString(2, user.getPassword());
 			s.executeUpdate();
 

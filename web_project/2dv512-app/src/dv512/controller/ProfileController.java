@@ -1,15 +1,10 @@
 package dv512.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.Dog;
 import dv512.model.Profile;
-import dv512.model.User;
 import dv512.model.dao.DogsDAO;
 import dv512.model.dao.ProfilesDAO;
 
@@ -25,9 +20,7 @@ public class ProfileController {
 	@Inject 
 	private LoginController thisUser;
 	
-
 	private Profile profile;	
-	private List<Dog> dogs = new ArrayList<Dog>();
 	
 	private int viewUserId = -1;
 	
@@ -46,19 +39,14 @@ public class ProfileController {
 		return profile;
 	}
 	
-	public List<Dog> getDogs() {
-		return dogs;
-	}
-	
-	
 	public void loadData() {
 		if(viewUserId == -1) {
 			setId(thisUser.getUserId());
 		}
 		
 		if(profile == null) {
-			profile = profilesDAO.get(thisUser.getUserId());		
-			dogs = dogsDAO.listAll(thisUser.getUserId());			
+			profile = profilesDAO.get(thisUser.getUserId());	
+			profile.setDogs(dogsDAO.listAll(thisUser.getUserId()));		
 		}	
 	}
 	

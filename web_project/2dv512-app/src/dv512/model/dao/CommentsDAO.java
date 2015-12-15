@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,7 @@ import dv512.model.Comment;
 @Named
 @ApplicationScoped
 public class CommentsDAO implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2362157639058508206L;
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private DbManager dbManager;
@@ -35,8 +32,8 @@ public class CommentsDAO implements Serializable {
 			stmt = con.prepareStatement(
 					"INSERT INTO Comments(event_id,user_id, date, comment) VALUES(?,?,?,?)");
 			stmt.setInt(1, comment.getEventId());
-			stmt.setInt(2, comment.getUserID());
-			stmt.setLong(3, comment.getDateTime());
+			stmt.setInt(2, comment.getUserId());
+			stmt.setLong(3, comment.getDate());
 			stmt.setString(4, comment.getComment());
 			stmt.executeUpdate();
 			return true;
@@ -65,10 +62,10 @@ public class CommentsDAO implements Serializable {
 			while (r.next()) {
 
 				Comment comment = new Comment();
-				comment.setCommentId(r.getInt("id"));
+				comment.setId(r.getInt("id"));
 				comment.setEventId(r.getInt("event_id"));
-				comment.setUserID(r.getInt("user_id"));
-				comment.setDateTime(r.getLong("date"));
+				comment.setUserId(r.getInt("user_id"));
+				comment.setDate(r.getLong("date"));
 				comment.setComment(r.getString("comment"));
 
 				commentList.add(comment);
@@ -87,10 +84,10 @@ public class CommentsDAO implements Serializable {
 	public void createTestComment(){
 		
 		Comment comment = new Comment();
-		comment.setUserID(2);
+		comment.setUserId(2);
 		comment.setComment("Hello this is a test comment from user 2");
 		comment.setEventId(1);
-		comment.setDateTime(System.currentTimeMillis());
+		comment.setDate(Instant.now().getEpochSecond());
 		insert(comment);
 	}
 

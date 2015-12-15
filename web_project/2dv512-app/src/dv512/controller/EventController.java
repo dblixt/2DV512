@@ -87,7 +87,7 @@ public class EventController implements Serializable {
 
 		if (comment == null) {
 			comment = new Comment();
-			comment.setUserID(loginController.getUserId());
+			comment.setUserId(loginController.getUserId());
 			comment.setEventId(event.getId());
 		}
 
@@ -96,7 +96,7 @@ public class EventController implements Serializable {
 	public String saveData() {
 
 		// save changes to database.
-		comment.setDateTime(System.currentTimeMillis());
+		comment.setDate(System.currentTimeMillis());
 		commentsDAO.insert(comment);
 
 		return "eventview.xhtml?faces-redirect=true";

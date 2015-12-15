@@ -42,7 +42,7 @@ public class ProfilesDAO implements Serializable {
 				profile.setDescription(r.getString("description"));
 				profile.setLatitude(r.getDouble("pos_lat"));
 				profile.setLongitude(r.getDouble("pos_lng"));
-				profile.setProfilePic(r.getString("img"));	
+				profile.setImage(r.getString("img"));	
 			}		
 			
 			return profile;
@@ -67,7 +67,7 @@ public class ProfilesDAO implements Serializable {
 			stmt.setString(1, profile.getName());
 			stmt.setString(2, profile.getGender());
 			stmt.setString(3, profile.getDescription());
-			stmt.setString(4, profile.getProfilePic());
+			stmt.setString(4, profile.getImage());
 			stmt.setDouble(5, profile.getLongitude());
 			stmt.setDouble(6, profile.getLatitude());
 			stmt.setInt(7, profile.getUserId());

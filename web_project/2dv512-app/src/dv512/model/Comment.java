@@ -2,40 +2,50 @@ package dv512.model;
 
 public class Comment {
 	
-	private int commentId;
+	private int id;
 	private int eventId;
-	private int userID;
+	private int userId;
 	private String comment;
-	private long dateTime;
+	private long date;
 	
-	public int getCommentId() {
-		return commentId;
+	public int getId() {
+		return id;
 	}
-	public void setCommentId(int commentId) {
-		this.commentId = commentId;
+	
+	public void setId(int id) {
+		this.id = id;
 	}
+	
 	public int getEventId() {
 		return eventId;
 	}
+	
 	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
-	public int getUserID() {
-		return userID;
+	
+	public int getUserId() {
+		return userId;
 	}
-	public void setUserID(int userID) {
-		this.userID = userID;
+	
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
+	
 	public String getComment() {
 		return comment;
 	}
+	
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public long getDateTime() {
-		return dateTime;
+	
+	public long getDate() {
+		return date;
 	}
-	public void setDateTime(long dateTime) {
-		this.dateTime = dateTime;
+	
+	public void setDate(long date) {
+		this.date = date;
 	}
+	
 }

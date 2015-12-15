@@ -13,7 +13,7 @@ import dv512.model.dao.UsersDAO;
 @Named
 @ApplicationScoped
 public class LoginController implements Serializable {
-	private static final long serialVersionUID = 1610404137333266630L;
+	private static final long serialVersionUID = 1L;
 
 	public static final String ACTION_LOGIN_SUCCESS = "success";
 	public static final String ACTION_LOGIN_FAIL = "fail";	

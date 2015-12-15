@@ -1,6 +1,5 @@
 package dv512.controller;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,12 +12,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
-import dv512.controller.util.ImgUtils;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
+import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
 import dv512.model.Profile;
-import dv512.model.User;
 import dv512.model.dao.DogsDAO;
+import dv512.model.dao.ImagesDAO;
 import dv512.model.dao.ProfilesDAO;
 
 @Named
@@ -31,6 +30,8 @@ public class EditProfileController implements Serializable {
 	private ProfilesDAO profilesDAO;
 	@Inject 
 	private DogsDAO dogsDAO;	
+	@Inject
+	private ImagesDAO imagesDAO;
 		
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
@@ -40,7 +41,6 @@ public class EditProfileController implements Serializable {
 	
 	
 	private Profile profile;
-	private List<Dog> dogs = new ArrayList<>();
 	
 	private List<Dog> pendDogDel = new ArrayList<>();
 	private List<String> pendImgDel = new ArrayList<>();
@@ -51,15 +51,14 @@ public class EditProfileController implements Serializable {
 		fileUploadHandler.setFileUploadListener(new FileUploadListener() {			
 			@Override
 			public void onUploadFile(String filename, InputStream is) {				
-				File path = ImgUtils.createPath(ImgUtils.TYPE_PROFILE_PIC, thisUser.getUserId());
+				InputStream resizedIs = ImgUtils.scaleImage(is);
 				
-				if(ImgUtils.saveImage(path, is)) {
-					// add old profile img to pending deletes.
-					pendImgDel.add(profile.getProfilePic());
-					
-					// set new profile image, not saved in db until saveData() is called.
-					profile.setProfilePic(path.getName());			
-				}				
+				if(profile.getImage() != null) {
+					pendImgDel.add(profile.getImage());
+				}
+						
+				String id = imagesDAO.create(resizedIs);
+				profile.setImage(id);	
 			}
 		});
 	}
@@ -68,17 +67,13 @@ public class EditProfileController implements Serializable {
 	public Profile getProfile() {
 		return profile;
 	}
-	
-	public List<Dog> getDogs() {
-		return dogs;
-	}
-	
+
 	
 	public void removeDog(int id) {
 		// add do list of pending dog deletions, won't actually happen
 		// until saveData is called, which gives the user a chance to abort
 		// id desired.
-		Iterator<Dog> itr = dogs.iterator();
+		Iterator<Dog> itr = profile.getDogs().iterator();
 		while(itr.hasNext()) {
 			Dog d = itr.next();
 			if(d.getId() == id) {
@@ -93,7 +88,7 @@ public class EditProfileController implements Serializable {
 		if(profile == null) {
 			System.out.println("Loading profile data!");
 			profile = profilesDAO.get(thisUser.getUserId());		
-			dogs = dogsDAO.listAll(thisUser.getUserId());			
+			profile.setDogs(dogsDAO.listAll(thisUser.getUserId()));			
 		}
 	}
 	
@@ -107,9 +102,7 @@ public class EditProfileController implements Serializable {
 		}
 		
 		// remove ghost profile pics from storage.
-		for(String name : pendImgDel) {
-			ImgUtils.delete(name, ImgUtils.TYPE_PROFILE_PIC);
-		}
+		imagesDAO.delete(pendImgDel);
 		
 		return "profile.xhtml?faces-redirect=true";
 	}

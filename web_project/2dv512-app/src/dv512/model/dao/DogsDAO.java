@@ -38,10 +38,10 @@ public class DogsDAO implements Serializable {
 				d.setId(r.getInt("id"));
 				d.setUserId(r.getInt("user_id"));
 				d.setName(r.getString("name"));
-				d.setRace(r.getString("race"));
+				d.setBreed(r.getString("breed"));
 				d.setAge(r.getInt("age"));
 				d.setGender(r.getString("gender"));
-				d.setPicture(r.getString("img"));
+				d.setImage(r.getString("img"));
 				return d;
 			}
 		}
@@ -74,10 +74,10 @@ public class DogsDAO implements Serializable {
 				d.setId(r.getInt("id"));
 				d.setUserId(r.getInt("user_id"));
 				d.setName(r.getString("name"));
-				d.setRace(r.getString("race"));
+				d.setBreed(r.getString("breed"));
 				d.setAge(r.getInt("age"));
 				d.setGender(r.getString("gender"));
-				d.setPicture(r.getString("img"));
+				d.setImage(r.getString("img"));
 				
 				dl.add(d);
 			}	
@@ -99,13 +99,13 @@ public class DogsDAO implements Serializable {
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("INSERT INTO Dogs(user_id,name,race,age,gender,img) VALUES(?,?,?,?,?,?)");
+			stmt = con.prepareStatement("INSERT INTO Dogs(user_id,name,breed,age,gender,img) VALUES(?,?,?,?,?,?)");
 			stmt.setInt(1, dog.getUserId());
 			stmt.setString(2, dog.getName());
-			stmt.setString(3, dog.getRace());
+			stmt.setString(3, dog.getBreed());
 			stmt.setInt(4, dog.getAge());
 			stmt.setString(5, dog.getGender());
-			stmt.setString(6, dog.getPicture());
+			stmt.setString(6, dog.getImage());
 			
 									
 			stmt.executeUpdate();		
@@ -127,12 +127,12 @@ public class DogsDAO implements Serializable {
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();		
-			stmt = con.prepareStatement("UPDATE Dogs SET name = ?, gender = ?, race = ?, age = ?, img = ? WHERE id = ?");
+			stmt = con.prepareStatement("UPDATE Dogs SET name = ?, gender = ?, breed = ?, age = ?, img = ? WHERE id = ?");
 			stmt.setString(1, dog.getName());
 			stmt.setString(2, dog.getGender());
-			stmt.setString(3, dog.getRace());
+			stmt.setString(3, dog.getBreed());
 			stmt.setInt(4, dog.getAge());
-			stmt.setString(5, dog.getPicture());
+			stmt.setString(5, dog.getImage());
 			stmt.setInt(6, dog.getId());
 								
 			stmt.executeUpdate();		

@@ -117,6 +117,7 @@
 
 
 .wrapper-file-input {
+	display: block;
     overflow: hidden;
     position: relative;
     cursor: pointer;

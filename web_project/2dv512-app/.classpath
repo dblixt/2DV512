@@ -25,5 +25,10 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/2dv512-app/dep-jar/javadoc/imgscalr-lib-4.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="dep-jar/jackson-annotations-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/jackson-core-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/jackson-databind-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/org.ektorp-1.4.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/slf4j-api-1.6.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
