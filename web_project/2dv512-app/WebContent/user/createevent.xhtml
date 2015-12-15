@@ -35,7 +35,7 @@
         	
         	var prevDate = document.getElementById('unixtime').value;
         	console.log('prevDate',prevDate);
-        	if(prevDate != null){
+        	if(prevDate != 0){
         	prevDate = prevDate * 1000;
         	var newDate = new Date();
         	newDate.setTime(prevDate);
@@ -97,14 +97,13 @@
 			<h:form id="createevent" prependId="false">
 				<h3>
 					<h:outputText
-						value="#{editDogController.id != -1 ? 'Edit Event' : 'Create Event'}" />
+						value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
 				</h3>
 				<br />
 				<br />
 				<label>Title:</label>
 				<br />
-				<h:inputText value="#{editEventController.event.title}"
-					required="true"></h:inputText>
+				<h:inputText value="#{editEventController.event.title}"></h:inputText>
 				<br />
 				<br />
 				<label>Description:</label>
@@ -116,14 +115,14 @@
 					<div id="embeddedCalendar" class="calendar"></div>
 
 					<div class="time">
-						<br /> <span class="hour"> <label>Hour</label>
-						</span> <span class="minute"> <label>Minutes</label>
-						</span> <br /> <span class="hour"> <h:inputText id="hourinput"
-								onchange="onHourChanged(this.value)" required="true"></h:inputText>
+						<br /> <label id="hourlabel">Hour</label> <label>Minutes</label>
+						<br />
+						<h:inputText id="hourinput" onchange="onHourChanged(this.value)"
+							size="2"></h:inputText>
 
-						</span> <span class="minute"> <h:inputText id="minuteinput"
-								onchange="onMinuteChanged(this.value)" required="true"></h:inputText>
-						</span>
+						<h:inputText id="minuteinput"
+							onchange="onMinuteChanged(this.value)" size="2"></h:inputText>
+
 						<h:inputHidden id="unixtime"
 							value="#{editEventController.event.date}"></h:inputHidden>
 					</div>
@@ -139,10 +138,23 @@
 						value="#{editEventController.event.latitude}" />
 					<h:inputHidden id="lng"
 						value="#{editEventController.event.longitude}" />
-					<h:commandButton value="Create"
-						action="#{editEventController.createEvent}"></h:commandButton>
-					<br />
-					<h:commandButton value="Cancel" action="feed"></h:commandButton>
+					<h:commandLink class="icon-link inline createbutton"
+						action="#{editEventController.createEvent}"
+						rendered="#{editEventController.editEventId == -1}">
+						<i class="material-icons">done</i>
+						<span>Create Event</span>
+					</h:commandLink>
+					<h:commandLink class="icon-link inline createbutton"
+						action="#{editEventController.createEvent}"
+						rendered="#{editEventController.editEventId != -1}">
+						<i class="material-icons">done</i>
+						<span>Save</span>
+					</h:commandLink>
+					<h:link class="icon-link inline cancelbutton" outcome="feed">
+						<i class="material-icons">cancel</i>
+						<span>Cancel</span>
+					</h:link>
+
 				</div>
 
 			</h:form>

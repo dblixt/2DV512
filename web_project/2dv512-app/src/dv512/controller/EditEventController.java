@@ -14,7 +14,9 @@ import dv512.model.dao.EventsDAO;
 public class EditEventController implements Serializable {
 
 	private static final long serialVersionUID = 6667656806561372380L;
-
+	private final String CREATE_SUCESS = "success";
+	private final String CREATE_FAILED = "fail";
+	
 	@Inject
 	private EventsDAO eventDAO;
 	@Inject
@@ -36,7 +38,7 @@ public class EditEventController implements Serializable {
 		editEventId = eventId;
 	}
 
-	public void createEvent() {
+	public String createEvent() {
 		System.out.println("Creating event");
 		Profile p = new Profile();
 		p.setUserId(loginController.getUserId());
@@ -45,9 +47,11 @@ public class EditEventController implements Serializable {
 		try{
 		eventDAO.insert(event);
 		System.out.println("Event created");
+		return CREATE_SUCESS;
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("Failed to create event");
+			return CREATE_FAILED;
 		}
 	}
 	
