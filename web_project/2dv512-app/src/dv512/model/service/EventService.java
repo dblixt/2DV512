@@ -19,7 +19,7 @@ import com.javadocmd.simplelatlng.window.RectangularWindow;
 
 import dv512.controller.util.NosqlManager;
 import dv512.model.Event;
-import dv512.model.Event2;
+import dv512.model.Event;
 import dv512.model.lucene.LuceneConnector;
 import dv512.model.lucene.LuceneQuery;
 
@@ -37,7 +37,7 @@ public class EventService implements Serializable {
 		c.create(event);
 	}
 	
-	public void create(Event2 event)  {
+	public void create(Event event)  {
 		CouchDbConnector c = mgr.getConnection();
 		c.create(event);
 	}
@@ -55,22 +55,20 @@ public class EventService implements Serializable {
 	
 	
 	
-	
-	
-	public List<Event2> find(LatLng origin, double radiusKm) throws IOException {		
+	public List<Event> find(LatLng origin, double radiusKm) throws IOException {		
 		try {
 			LuceneConnector lc = new LuceneConnector(mgr.getConnection());
 			
 			LuceneQuery q = buildFindQuery(origin, radiusKm);
 			System.out.println(q.buildQuery());
 			
-			List<Event2> events = lc.queryIndex(q, Event2.class);			
-			Iterator<Event2> itr = events.iterator();
+			List<Event> events = lc.queryIndex(q, Event.class);			
+			Iterator<Event> itr = events.iterator();
 			
 			// calculate distance for all results, remove those who
 			// are outside or search radius.
 			while(itr.hasNext()) {
-				Event2 e = itr.next();			
+				Event e = itr.next();			
 				LatLng location = new LatLng(e.getLatitude(), e.getLongitude());	
 				
 				double dist = LatLngTool.distance(origin, location, LengthUnit.KILOMETER);

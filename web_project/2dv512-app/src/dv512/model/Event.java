@@ -4,40 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ektorp.support.CouchDbDocument;
+import org.ektorp.support.TypeDiscriminator;
 
-//import dv512.model.Comment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Event extends CouchDbDocument {
+	private static final long serialVersionUID = 1L;
 
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4462553807977479809L;
-	
-	private String userId;
-	private String date;
-	private int hour;
-	private int minutes;
+	@TypeDiscriminator
+	private User creator;	
 	private String title;
 	private String description;
+	private long date;		
 	private double longitude;
 	private double latitude;
 	
-	private String DateAndTime;
+	@JsonIgnore
+	private double distance;
 	
-	private List<Profile> profiles = new ArrayList<>();
-	//private List<Comment> comments = new ArrayList<>();
-	private List<Dog> dogs = new ArrayList<>();
-
-	public String getUserId() {
-		return userId;
+	private List<User> joins = new ArrayList<>();
+	
+	
+	public User getCreator() {
+		return creator;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
-
+	
 	public String getTitle() {
 		return title;
 	}
@@ -52,6 +47,14 @@ public class Event extends CouchDbDocument {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
 	}
 
 	public double getLongitude() {
@@ -70,58 +73,116 @@ public class Event extends CouchDbDocument {
 		this.latitude = latitude;
 	}
 
-	public List<Profile> getProfiles() {
-		return profiles;
-	}
-
-	public void setProfiles(List<Profile> profiles) {
-		this.profiles = profiles;
-	}
-
-	/*public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}*/
-
-	public List<Dog> getDogs() {
-		return dogs;
-	}
-
-	public void setDogs(List<Dog> dogs) {
-		this.dogs = dogs;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		System.out.println(date);
-		this.date = date;
-	}
-
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
-
-	public int getMinutes() {
-		return minutes;
-	}
-
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
+	public double getDistance() {
+		return distance;
 	}
 	
-	public String DateTimeToString(){
-		return date + " "+hour+":"+minutes; 
+	public void setDistance(double distance) {
+		this.distance = distance;	
+	}
+
+	
+	public List<User> getJoins() {
+		return joins;
+	}
+
+	public void setJoins(List<User> joins) {
+		this.joins = joins;
+	}
+
+
+	public static class User {
+		private String id;
+		private String name;
+		private String image;	
+		private List<Dog> dogs = new ArrayList<>();
+
+		
+		public static User from(dv512.model.User user) {
+			User u = new User();
+			u.id = user.getId();
+			u.name = user.getProfile().getName();
+			u.image = user.getProfile().getImage();
+			
+			for(dv512.model.Dog d : user.getProfile().getDogs()) {
+				u.dogs.add(Dog.from(d));
+			}
+			
+			return u;
+		}
+		
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getImage() {
+			return image;
+		}
+
+		public void setImage(String image) {
+			this.image = image;
+		}
+
+		public List<Dog> getDogs() {
+			return dogs;
+		}
+
+		public void setDogs(List<Dog> dogs) {
+			this.dogs = dogs;
+		}
+		
 	}
 	
+	public static class Dog {
+		private int id;
+		private String name;
+		private String image;
+
+
+		public static Dog from(dv512.model.Dog dog) {
+			Dog d = new Dog();
+			d.id = dog.getId();
+			d.name = dog.getName();
+			d.image = dog.getImage();
+			return d;			
+		}
+		
+		public int getId() {
+			return id;
+		}
+		
+		public void setId(int id) {
+			this.id = id;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+		public String getImage() {
+			return image;
+		}
+		
+		public void setImage(String image) {
+			this.image = image;
+		}
+	
+	}
 
 }
