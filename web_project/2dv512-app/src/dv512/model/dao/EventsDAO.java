@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import dv512.controller.util.DbManager;
 import dv512.model.Event;
+import dv512.model.Profile;
 
 @Named
 @ApplicationScoped
@@ -22,12 +23,20 @@ public class EventsDAO implements Serializable {
 	private DbManager dbManager;
 
 	public Event get(int eventId) {
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
+<<<<<<< HEAD
 			stmt = con.prepareStatement("SELECT * FROM Events WHERE id = ?");
+=======
+			stmt = con.prepareStatement("SELECT * FROM Events LEFT JOIN Profiles ON Events.user_id = Profiles.user_id WHERE id = ?");
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 			stmt.setInt(1, eventId);
 
 			ResultSet r = stmt.executeQuery();
@@ -35,14 +44,19 @@ public class EventsDAO implements Serializable {
 			Event event = new Event();
 			if (r != null && r.next()) {
 				event.setId(r.getInt("id"));
+<<<<<<< HEAD
 				event.setId(r.getInt("user_id"));
+=======
+				Profile p = new Profile();
+				p.setUserId(r.getInt("user_id"));
+				event.setCreator(p);
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 				event.setDate(r.getLong("date"));
 				event.setTitle(r.getString("title"));
 				event.setDescription(r.getString("description"));
 				event.setLongitude(r.getDouble("pos_lng"));
 				event.setLatitude(r.getDouble("pos_lat"));
 			}
-
 			return event;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,7 +64,11 @@ public class EventsDAO implements Serializable {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 		return null;
 
 		/*
@@ -76,14 +94,22 @@ public class EventsDAO implements Serializable {
 	}
 
 	public boolean insert(Event event) {
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
 					"INSERT INTO Events(user_id, date, title, description, pos_lng, pos_lat) VALUES(?,?,?,?,?,?)");
+<<<<<<< HEAD
 			stmt.setInt(1, event.getId());
+=======
+			stmt.setInt(1, event.getCreator().getUserId());
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 			stmt.setLong(2, event.getDate());
 			stmt.setString(3, event.getTitle());
 			stmt.setString(4, event.getDescription());
@@ -97,7 +123,11 @@ public class EventsDAO implements Serializable {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> refs/remotes/origin/dbPostNoSqlSwitch
 		return false;
 	}
 
