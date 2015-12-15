@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -53,29 +55,30 @@ public class EventsDAO implements Serializable {
 		return null;
 	}
 
-	public boolean insert(Event event) {
-		/*
+	public boolean insert(Event event) {		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
 					"INSERT INTO Events(user_id, date, title, description, pos_lng, pos_lat) VALUES(?,?,?,?,?,?)");
-			stmt.setInt(1, event.getUserId());
-			stmt.setLong(2, event.getDateTime());
+			stmt.setInt(1, event.getCreator().getId());
+			stmt.setLong(2, event.getDate());
 			stmt.setString(3, event.getTitle());
 			stmt.setString(4, event.getDescription());
 			stmt.setDouble(5, event.getLongitude());
 			stmt.setDouble(6, event.getLatitude());
 			stmt.executeUpdate();
 			return true;
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
-		*/
+		
 		return false;
 	}
 
@@ -120,4 +123,74 @@ public class EventsDAO implements Serializable {
 
 	}
 
+	
+	
+	public List<Event> feed() {
+		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = createFeedStatement(con);
+			
+			stmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return null;		
+	}
+	
+	private PreparedStatement createFeedStatement(Connection con) {
+		//String sql = "SELECT * FROM ("
+		
+		
+				
+		
+		
+				
+				/*
+				
+				
+				SELECT zip, primary_city,
+			       latitude, longitude, distance
+			  FROM (
+			 SELECT z.zip,
+			        z.primary_city,
+			        z.latitude, z.longitude,
+			        p.radius,
+			        p.distance_unit
+			                 * DEGREES(ACOS(COS(RADIANS(p.latpoint))
+			                 * COS(RADIANS(z.latitude))
+			                 * COS(RADIANS(p.longpoint - z.longitude))
+			                 + SIN(RADIANS(p.latpoint))
+			                 * SIN(RADIANS(z.latitude)))) AS distance
+			  FROM zip AS z
+			  JOIN ( 
+			        SELECT  42.81  AS latpoint,  -70.81 AS longpoint,
+			                50.0 AS radius,      111.045 AS distance_unit
+			    ) AS p ON 1=1
+			  WHERE z.latitude
+			     BETWEEN p.latpoint  - (p.radius / p.distance_unit)
+			         AND p.latpoint  + (p.radius / p.distance_unit)
+			    AND z.longitude
+			     BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
+			         AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
+			 ) AS d
+			 WHERE distance <= radius
+			 ORDER BY distance
+			 LIMIT 15
+		
+			 */
+		
+		
+		
+		return null;
+	}
+	
+	
 }

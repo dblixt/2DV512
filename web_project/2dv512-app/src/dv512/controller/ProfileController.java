@@ -5,17 +5,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.model.Profile;
-import dv512.model.dao.DogsDAO;
-import dv512.model.dao.ProfilesDAO;
+import dv512.model.dao.service.ProfileService;
 
 @Named
 @RequestScoped
 public class ProfileController {
 	
-	@Inject 
-	private DogsDAO dogsDAO;	
-	@Inject 
-	private ProfilesDAO profilesDAO;
+	@Inject
+	private ProfileService profileService;
 	
 	@Inject 
 	private LoginController thisUser;
@@ -45,11 +42,8 @@ public class ProfileController {
 		}
 		
 		if(profile == null) {
-			profile = profilesDAO.get(thisUser.getUserId());	
-			profile.setDogs(dogsDAO.listAll(thisUser.getUserId()));		
+			profile = profileService.load(thisUser.getUserId());
 		}	
 	}
 	
-
-
 }
