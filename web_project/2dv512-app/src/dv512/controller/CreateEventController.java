@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.model.Dog;
-import dv512.model.Event;
+import dv512.model.Event2;
 import dv512.model.Profile;
 import dv512.model.service.EventService;
 
@@ -25,16 +25,16 @@ public class CreateEventController implements Serializable {
 	private LoginController loginController;
 	
 
-	private Event event = new Event();
+	private Event2 event = new Event2();
 	
-	public Event getEvent() {
+	public Event2 getEvent() {
 		return event;
 	}
 
 	public void createEvent() {
 		System.out.println("Creating event");
 		createTestData();		
-		event.setUserId(loginController.getUserId());
+		event.setCreator(loginController.getUser());
 		try{
 		eventService.create(event);
 		System.out.println("Event created");
