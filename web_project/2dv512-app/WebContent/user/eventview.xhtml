@@ -9,7 +9,8 @@
 
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
-		<f:event type="preRenderView" listener="#{eventController.loadData}" />
+		<f:viewParam name="id" value="#{eventViewController.id}" />
+		<f:event type="preRenderView" listener="#{eventViewController.loadData}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -21,29 +22,29 @@
 		<div class="content-block">
 
 			<img class="event-creator-img-right"
-				src="../images/profile/#{eventController.profile.profilePic}" />
+				src="../img/#{eventViewController.profile.image}" />
 			<div class="event-content">
-				<h3 style="margin-top: 6px">#{eventController.event.title}</h3>
-				<p class="event-creator">#{eventController.profile.name}</p>
+				<h3 style="margin-top: 6px">#{eventViewController.event.title}</h3>
+				<p class="event-creator">#{eventViewController.profile.name}</p>
 				<p style="margin-top: 20px; font-weight: bold; font-size: 14px;">5
 					km away</p>
-				<p class="vspace">#{eventController.event.description}</p>
+				<p class="vspace">#{eventViewController.event.description}</p>
 				<p style="margin-top: 20px;" />
 
 
 				<h4>Dogs</h4>
 				<p style="">
-					<ui:repeat var="d" value="#{eventController.dogs}">
+					<ui:repeat var="d" value="#{eventViewController.dogs}">
 						<h:graphicImage class="event-dog-img"
-							value="/images/dog/#{d.picture}" />
+							value="/img/#{d.image}" />
 					</ui:repeat>
 				</p>
 
 				<h4>Humans</h4>
 				<p style="">
-					<ui:repeat var="p" value="#{eventController.profiles}">
+					<ui:repeat var="p" value="#{eventViewController.profiles}">
 						<h:graphicImage class="event-user-join-img"
-							value="/images/profile/#{p.profilePic}" />
+							value="/img/#{p.image}" />
 					</ui:repeat>
 				</p>
 
@@ -70,21 +71,21 @@
 
 				<h2>Comments</h2>
 				<h:panelGroup id="comment">
-					<ui:repeat var="comment" value="#{eventController.comments}">
+					<ui:repeat var="comment" value="#{eventViewController.comments}">
 
 
 						<div class="event-comment-wrapper">
 
 							<h:outputText class="event-comment-date"
-								value="#{comment.dateTime}">
+								value="#{comment.date}">
 								<f:convertDateTime pattern="yyyy. MM. dd. ' - ' HH:mm"
 									timeZone="EST" type="date" />
 							</h:outputText>
 
 							<h:graphicImage class="event-comment-img"
-								value="/images/profile/#{eventController.profile.profilePic}" />
+								value="/img/#{eventViewController.profile.image}" />
 
-							<div class="event-comment-author">#{comment.userID}</div>
+							<div class="event-comment-author">#{comment.userId}</div>
 							<div class="event-comment">#{comment.comment}</div>
 						</div>
 						<div class="clear" />
@@ -95,12 +96,12 @@
 
 				<h:form>
 					<h:inputTextarea class="event-comment-input" rows="7" 
-					value="#{eventController.comment.comment}" />
+					value="#{eventViewController.comment.comment}" />
 
 					<br />
 
 					<h:commandLink class="icon-link action-button"
-						action="#{eventController.saveData}">
+						action="#{eventViewController.saveData}">
 						<i class="material-icons">done</i>
 						<span>Post</span>
 					</h:commandLink>

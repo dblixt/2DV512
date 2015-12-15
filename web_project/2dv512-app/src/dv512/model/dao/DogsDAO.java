@@ -93,6 +93,42 @@ public class DogsDAO implements Serializable {
 		return dl;
 	}
 	
+	public List<Dog> listAllEvent(int eventId) {
+		List<Dog> dl = new ArrayList<>();
+		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("SELECT * FROM Dogs INNER JOIN EventJoins ON Dogs.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
+			stmt.setInt(1, eventId);
+			
+			ResultSet r = stmt.executeQuery();
+			
+			while(r.next()) {
+				Dog d = new Dog();
+				d.setId(r.getInt("id"));
+				d.setUserId(r.getInt("user_id"));
+				d.setName(r.getString("name"));
+				d.setBreed(r.getString("breed"));
+				d.setAge(r.getInt("age"));
+				d.setGender(r.getString("gender"));
+				d.setImage(r.getString("img"));
+				
+				dl.add(d);
+			}	
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}	
+		
+		return dl;
+	}
+	
 	
 	public boolean insert(Dog dog) {
 		Connection con = null;

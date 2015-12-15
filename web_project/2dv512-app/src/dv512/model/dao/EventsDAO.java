@@ -35,10 +35,18 @@ public class EventsDAO implements Serializable {
 
 			Event event = new Event();
 			if (r != null && r.next()) {
+				
+				Profile profile = new Profile();		
+				profile.setUserId(r.getInt("user_id"));
+				profile.setName(r.getString("name"));
+				profile.setGender(r.getString("gender"));
+				profile.setDescription(r.getString("description"));
+				profile.setLatitude(r.getDouble("pos_lat"));
+				profile.setLongitude(r.getDouble("pos_lng"));
+				profile.setImage(r.getString("img"));
+				
 				event.setId(r.getInt("id"));
-				Profile p = new Profile();
-				p.setUserId(r.getInt("user_id"));
-				event.setCreator(p);
+				event.setCreator(profile);
 				event.setDate(r.getLong("date"));
 				event.setTitle(r.getString("title"));
 				event.setDescription(r.getString("description"));
@@ -85,7 +93,6 @@ public class EventsDAO implements Serializable {
 	public void createTestEvent() {
 		/*
 		Event event = new Event();
-
 		event.setUserId(1);
 		event.setDateTime(System.currentTimeMillis());
 		event.setTitle("Wark in the park");
