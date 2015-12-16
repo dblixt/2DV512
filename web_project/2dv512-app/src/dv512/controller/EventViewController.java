@@ -41,7 +41,7 @@ public class EventViewController implements Serializable {
 	private Event event;
 	private Profile creator;
 	private Comment comment;
-	private int eventId;
+	private int eventId = -1;
 
 	private List<Profile> profiles = new ArrayList<>();
 	private List<Comment> comments = new ArrayList<>();
@@ -69,7 +69,8 @@ public class EventViewController implements Serializable {
 	}
 
 	public Profile getProfile() {
-		return creator;
+		
+		return event.getCreator();
 	}
 
 	public List<Profile> getProfiles() {
@@ -86,13 +87,15 @@ public class EventViewController implements Serializable {
 
 	public void loadData() {
 
-		event = eventsDAO.get(1);
-		comments = commentsDAO.listAll(1);
-		creator = profilesDAO.get(1);
-		dogs = dogsDAO.listAll(1);
-		profiles = profilesDAO.listAllEvent(1);
-
-
+		if(eventId != -1){
+			
+			event = eventsDAO.get(eventId);
+			comments = commentsDAO.listAll(eventId);
+			dogs = dogsDAO.listAllEvent(eventId);
+			profiles = profilesDAO.listAllEvent(eventId);
+			
+		}
+		
 		if (comment == null) {
 			comment = new Comment();
 			comment.setUserId(loginController.getUserId());
