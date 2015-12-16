@@ -5,9 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -17,9 +15,7 @@ import javax.inject.Named;
 import com.javadocmd.simplelatlng.LatLng;
 
 import dv512.controller.util.DbManager;
-import dv512.model.Dog;
 import dv512.model.Event;
-import dv512.model.FeedEvent;
 import dv512.model.Profile;
 
 @Named
@@ -126,8 +122,8 @@ public class EventsDAO implements Serializable {
 	}
 
 
-	public List<FeedEvent> feed(int userId, LatLng origin, double radius) {
-		List<FeedEvent> feed = new ArrayList<>();
+	public List<Event> feed(int userId, LatLng origin, double radius) {
+		List<Event> feed = new ArrayList<>();
 			
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -137,7 +133,7 @@ public class EventsDAO implements Serializable {
 			
 			ResultSet r = stmt.executeQuery();
 			while(r.next()) {
-				FeedEvent e = new FeedEvent();
+				Event e = new Event();
 				e.setId(r.getInt("id"));
 				e.getCreator().setId(r.getInt("user_id"));
 				e.getCreator().setName(r.getString("creator_name"));
@@ -150,10 +146,6 @@ public class EventsDAO implements Serializable {
 				e.setJoined(r.getInt("joined") > 0);
 				e.setDistance(r.getDouble("distance"));		
 				feed.add(e);
-			}
-			
-			if(!feed.isEmpty()) {
-				fetchDogs(con, feed);
 			}		
 		} 
 		catch (SQLException e) {
@@ -166,85 +158,16 @@ public class EventsDAO implements Serializable {
 
 		return feed;		
 	}
-	
-	
-	
-	private void fetchDogs(Connection con, List<FeedEvent> events) {
-//		SELECT event_id, LISTAGG(id, ',') AS dog_ids, LISTAGG(name, ',') AS dog_names, LISTAGG(img, ',') AS dog_imgs FROM (
-//			SELECT e.id AS event_id,d.id,d.name,d.img FROM Events AS e
-//			JOIN Dogs AS d ON d.user_id = e.user_id
-//			WHERE e.id IN(1,2)
-//			UNION 
-//			SELECT e.event_id AS event_id,d.id,d.name, d.img 
-//			FROM EventJoins AS e JOIN Dogs AS d ON e.user_id = d.user_id
-//			WHERE e.event_id IN(1,2)
-//		) GROUP BY event_id
 		
-		HashMap<Integer, FeedEvent> map = new HashMap<>();
-		
-		StringBuilder ids = new StringBuilder();
-		for(int i = 0; i < events.size(); i++) {
-			FeedEvent e = events.get(i);			
-			map.put(e.getId(), e);
-			
-			ids.append(e.getId());
-			if(i < events.size() - 1) {
-				ids.append(',');
-			}			
-		}
-					
-		String sql = 
-				"SELECT event_id, LISTAGG(img, ',') AS dog_imgs FROM ( " + 
-				"	SELECT e.id AS event_id,d.img FROM Events AS e " + 
-				"	JOIN Dogs AS d ON d.user_id = e.user_id " + 
-				"	WHERE e.id IN(" + ids + ") " + 
-				"	UNION " + 
-				"	SELECT e.event_id AS event_id,d.img " + 
-				"	FROM EventJoins AS e JOIN Dogs AS d ON e.user_id = d.user_id " + 
-				"	WHERE e.event_id IN(" + ids + ") " + 
-				") GROUP BY event_id";
-		
-
-		Statement stmt = null;
-		try {
-			stmt = con.createStatement();
-
-			ResultSet r = stmt.executeQuery(sql);
-			while(r.next()) {
-				int id = r.getInt("event_id");
-				
-				FeedEvent e = map.get(id);				
-				if(e != null) {
-					String dogImages[] = r.getString("dog_imgs").split(",");
-					
-					int len = dogImages.length;
-					for(int i = 0; i < (len > 6 ? 6 : len); i++) {
-						Dog d = new Dog();
-						d.setImage(dogImages[i]);
-						e.getDogs().add(d);
-					}
-				}
-			}
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		finally {
-			dbManager.close(stmt);
-		}
-	}
-	
 	private PreparedStatement createFeedStatement(Connection con, 
 			int userId, LatLng origin, double radius) throws SQLException {
 //		-------------------------------------------
-//		Two part query for fetching feed.
 // 		Efficiency: not sure, given index on 
 //		-------------------------------------------
 //		Events.user_id
 //		Events.pos_lat
 //		Events.pos_lng
 //		Events.date
-//		Dogs.user_id
 //		EventJoins.user_id
 //		EventJoins.event_id
 //		-------------------------------------------
@@ -281,9 +204,7 @@ public class EventsDAO implements Serializable {
 //		LEFT JOIN EventJoins AS j ON j.event_id = s.id AND j.user_id = userId 
 //		WHERE distance <= radius
 //
-
-		
-				
+	
 		String sql = 
 				"SELECT s.id, s.user_id, u.name AS creator_name, u.img AS creator_img, s.date, " + 
 				"s.title, s.description, s.pos_lat, s.pos_lng, j.user_id AS joined, distance, radius FROM ( " + 

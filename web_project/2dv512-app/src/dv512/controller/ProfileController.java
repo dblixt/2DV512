@@ -36,13 +36,18 @@ public class ProfileController {
 		return profile;
 	}
 	
+	public boolean isEditAllowed() {
+		return viewUserId == thisUser.getUserId();
+	}
+	
+	
 	public void loadData() {
 		if(viewUserId == -1) {
 			setId(thisUser.getUserId());
 		}
 		
 		if(profile == null) {
-			profile = profileService.load(thisUser.getUserId());
+			profile = profileService.load(viewUserId);
 		}	
 	}
 	

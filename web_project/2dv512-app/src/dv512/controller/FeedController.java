@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import com.javadocmd.simplelatlng.LatLng;
 
-import dv512.model.FeedEvent;
+import dv512.model.Event;
 import dv512.model.dao.EventsDAO;
 
 @Named
@@ -20,18 +20,29 @@ public class FeedController implements Serializable {
 	@Inject
 	private EventsDAO events;
 	
-	private List<FeedEvent> feed;
-	
+	private List<Event> feed;
 	
 	
 	@Inject
 	private LoginController thisUser;
 
 	
-	public List<FeedEvent> getEvents() {
+	public List<Event> getEvents() {
 		return feed;
 	}
 
+	
+	public String joinEvent() {
+		
+		return null;		
+	}
+	
+	public String leaveEvent() {
+		
+		
+		return null;
+	}
+	
 	
 	public void loadData() {
 		feed = events.feed(thisUser.getUserId(), 
