@@ -1,8 +1,5 @@
 package dv512.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Event {
 
 	private int id;
@@ -13,10 +10,10 @@ public class Event {
 	private double longitude;
 	private double latitude;
 
+	private boolean isJoined;
 	private double distance;
 	
 	private Profile creator;	
-	private List<Profile> joins = new ArrayList<>();
 	
 	
 	public Event() {
@@ -87,13 +84,14 @@ public class Event {
 		this.distance = distance;	
 	}
 
-	
-	public List<Profile> getJoins() {
-		return joins;
-	}
 
-	public void setJoins(List<Profile> joins) {
-		this.joins = joins;
+	public boolean isJoined() {
+		return isJoined;
+	}
+	
+
+	public void setJoined(boolean isJoined) {
+		this.isJoined = isJoined;
 	}
 
 }

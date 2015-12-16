@@ -37,9 +37,11 @@
 					<p>#{e.description}</p>
 					<p class="vspace" />
 					<div>
-						<ui:repeat var="d" value="#{feedController.buildDogList(e)}">
-							<h:graphicImage class="event-dog-img" value="/img/#{d.image}" title="#{d.name}"/>					
+					<!--  
+						<ui:repeat var="d" value="#{e.dogs}">
+							<h:graphicImage class="event-dog-img" value="/img/#{d.image}"/>					
 						</ui:repeat>
+					-->
 					</div>
 					<p style="margin-top: 20px;" />
 					<div style="margin-left: -8px;" >
