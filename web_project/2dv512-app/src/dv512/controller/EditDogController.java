@@ -92,7 +92,7 @@ public class EditDogController implements Serializable {
 			}
 
 			// edit dog mode, load data.
-			dog = dogsDAO.get(editDogId);	
+			dog = dogsDAO.get(editDogId);
 		}		
 	}
 	
