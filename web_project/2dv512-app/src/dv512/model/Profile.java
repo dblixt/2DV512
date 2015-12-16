@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Profile {
 
-	private int id;
 	private int userId;
 	private String name;
 	private String gender;
@@ -22,20 +21,12 @@ public class Profile {
 		dogs = new ArrayList<>();
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(int id) {
+		this.userId = id;
 	}
 
 	public String getName() {

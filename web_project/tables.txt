@@ -36,11 +36,12 @@ CREATE TABLE Events
 (
   id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL,
-  date BIGINT NOT NULL,
+  utc_date BIGINT NOT NULL,
   title VARCHAR(128),
   description VARCHAR(1024),
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
+  utc_date_modified BIGINT NOT NULL,
   CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
   PRIMARY KEY(id)
 );
@@ -59,11 +60,22 @@ CREATE TABLE Comments
 
 CREATE TABLE EventJoins
 (
-  id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   user_id INT NOT NULL,
   event_id INT NOT NULL,
-  date BIGINT NOT NULL,
+  utc_date BIGINT NOT NULL,
+  approved BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_event_id FOREIGN KEY(event_id) REFERENCES Events(id) ON DELETE RESTRICT,
-  PRIMARY KEY(id)
+  CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT
+);
+
+CREATE TABLE Notifications
+(
+	id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+	type INT NOT NULL,
+	receiver_user_id INT NOT NULL,
+	trigger_user_id INT NOT NULL,
+	event_id INT NOT NULL,
+	comment_id INT,
+	utc_date BIGINT NOT NULL
 );
 
