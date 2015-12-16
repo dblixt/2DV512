@@ -1,17 +1,26 @@
 package dv512.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import dv512.model.Comment;
+import dv512.model.Dog;
+import dv512.model.Event;
+import dv512.model.Profile;
+import dv512.model.dao.CommentsDAO;
+import dv512.model.dao.DogsDAO;
+import dv512.model.dao.EventsDAO;
+import dv512.model.dao.ProfilesDAO;
 
 @Named
 @ViewScoped
-public class EventController implements Serializable {
+public class EventViewController implements Serializable {
 
-	/*
-	
-	
 	private static final long serialVersionUID = 6667656806561372380L;
 
 	@Inject
@@ -31,12 +40,21 @@ public class EventController implements Serializable {
 
 	private Event event;
 	private Profile creator;
-
 	private Comment comment;
+	private int eventId;
 
 	private List<Profile> profiles = new ArrayList<>();
 	private List<Comment> comments = new ArrayList<>();
 	private List<Dog> dogs = new ArrayList<>();
+
+	public int getId() {
+		return eventId;
+	}
+
+	public void setId(int id) {
+		System.out.println("setId " + id);
+		eventId = id;
+	}
 
 	public Event getEvent() {
 		return event;
@@ -68,17 +86,16 @@ public class EventController implements Serializable {
 
 	public void loadData() {
 
-
-		// For testing
 		event = eventsDAO.get(1);
 		comments = commentsDAO.listAll(1);
 		creator = profilesDAO.get(1);
 		dogs = dogsDAO.listAll(1);
 		profiles = profilesDAO.listAllEvent(1);
 
+
 		if (comment == null) {
 			comment = new Comment();
-			//comment.setUserID(loginController.getUserId());
+			comment.setUserId(loginController.getUserId());
 			comment.setEventId(event.getId());
 		}
 
@@ -87,13 +104,11 @@ public class EventController implements Serializable {
 	public String saveData() {
 
 		// save changes to database.
-		comment.setDateTime(System.currentTimeMillis());
+		comment.setDate(System.currentTimeMillis());
 		commentsDAO.insert(comment);
 
 		return "eventview.xhtml?faces-redirect=true";
 
 	}
-	
-	*/
 
 }

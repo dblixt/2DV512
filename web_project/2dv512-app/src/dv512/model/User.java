@@ -1,22 +1,27 @@
 package dv512.model;
 
-import org.ektorp.support.CouchDbDocument;
-import org.ektorp.support.TypeDiscriminator;
-
-
-public class User extends CouchDbDocument {	
-	private static final long serialVersionUID = 1L;
-		
-	@TypeDiscriminator
+public class User{	
+	
+	public static final int UNKNOWN_ID = -1;
+	
+	private int id = UNKNOWN_ID;
 	private String email;	
 	private String password;
 	
 	private Profile profile;
 
+	
 	public User() {
 		profile = new Profile();
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public String getEmail() {
 		return email;

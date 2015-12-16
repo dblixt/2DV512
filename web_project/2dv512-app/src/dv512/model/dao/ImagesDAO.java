@@ -1,4 +1,4 @@
-package dv512.model.service;
+package dv512.model.dao;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -21,15 +21,15 @@ import dv512.model.Image;
 
 @Named
 @ApplicationScoped
-public class ImageService implements Serializable {
+public class ImagesDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Inject 
 	private NosqlManager mgr;
 	
 	
 	public String create(InputStream is) {
-		CouchDbConnector c = mgr.getImgConnection();
+		CouchDbConnector c = mgr.getConnection();
 		
 		AttachmentInputStream ais = new AttachmentInputStream(
 				"img", is, ImgUtils.IMAGE_MIME_TYPE);
@@ -52,7 +52,7 @@ public class ImageService implements Serializable {
 	 */
 	public boolean delete(List<String> ids) {
 		try {
-			CouchDbConnector c = mgr.getImgConnection();
+			CouchDbConnector c = mgr.getConnection();
 			
 			ViewQuery q = new ViewQuery()
 					.dbPath(c.getDatabaseName())
@@ -77,5 +77,9 @@ public class ImageService implements Serializable {
 			
 		return false;		
 	}
+	
+	
+	
+	
 	
 }

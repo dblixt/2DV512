@@ -3,12 +3,12 @@ package dv512.model;
 public class Dog {
 	
 	private int id;
+	private int userId;
 	
 	private String name;
 	private String gender;
 	private int age;
 	private String breed;
-	private String picture;
 	
 	private String image;
 		
@@ -18,6 +18,14 @@ public class Dog {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 	public String getName() {
@@ -52,14 +60,6 @@ public class Dog {
 		this.breed = breed;
 	}
 	
-	public String getPicture() {
-		return picture;
-	}
-	
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-
 	public String getImage() {
 		return image;
 	}

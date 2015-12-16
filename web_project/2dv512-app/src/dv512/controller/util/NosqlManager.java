@@ -14,16 +14,13 @@ import org.ektorp.CouchDbInstance;
 public class NosqlManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DATABASE_NAME = "app-db";
-	private static final String DATABASE_NAME_IMG ="app-img-db";
+	private static final String DATABASE_NAME ="app-img-db";
 	
 	
 	@Resource(name = "couchdb/nosql-app-db")
 	private CouchDbInstance db;
 	
 	private CouchDbConnector dbc;
-	private CouchDbConnector dbcImg;
-	
 
 	public CouchDbConnector getConnection() {
 		if(dbc == null) {
@@ -32,13 +29,5 @@ public class NosqlManager implements Serializable {
 		
 		return dbc;
 	}
-	
-	public CouchDbConnector getImgConnection() {
-		if(dbcImg == null) {
-			dbcImg = db.createConnector(DATABASE_NAME_IMG, true);		
-		}
-		
-		return dbcImg;
-	}
-	
+
 }

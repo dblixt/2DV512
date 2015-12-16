@@ -1,43 +1,41 @@
 package dv512.model;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Event {
 
-import org.ektorp.support.CouchDbDocument;
+	private int id;
 
-//import dv512.model.Comment;
-
-public class Event extends CouchDbDocument {
-
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4462553807977479809L;
-	
-	private String userId;
-	private String date;
-	private int hour;
-	private int minutes;
 	private String title;
 	private String description;
+	private long date;		
 	private double longitude;
 	private double latitude;
-	
-	private String DateAndTime;
-	
-	private List<Profile> profiles = new ArrayList<>();
-	//private List<Comment> comments = new ArrayList<>();
-	private List<Dog> dogs = new ArrayList<>();
 
-	public String getUserId() {
-		return userId;
+	private boolean isJoined;
+	private double distance;
+	
+	private Profile creator;	
+	
+	
+	public Event() {
+		creator = new Profile();
+	}
+			
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public Profile getCreator() {
+		return creator;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCreator(Profile creator) {
+		this.creator = creator;
 	}
-
+	
 	public String getTitle() {
 		return title;
 	}
@@ -52,6 +50,14 @@ public class Event extends CouchDbDocument {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
 	}
 
 	public double getLongitude() {
@@ -70,58 +76,22 @@ public class Event extends CouchDbDocument {
 		this.latitude = latitude;
 	}
 
-	public List<Profile> getProfiles() {
-		return profiles;
-	}
-
-	public void setProfiles(List<Profile> profiles) {
-		this.profiles = profiles;
-	}
-
-	/*public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}*/
-
-	public List<Dog> getDogs() {
-		return dogs;
-	}
-
-	public void setDogs(List<Dog> dogs) {
-		this.dogs = dogs;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		System.out.println(date);
-		this.date = date;
-	}
-
-	public int getHour() {
-		return hour;
-	}
-
-	public void setHour(int hour) {
-		this.hour = hour;
-	}
-
-	public int getMinutes() {
-		return minutes;
-	}
-
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
+	public double getDistance() {
+		return distance;
 	}
 	
-	public String DateTimeToString(){
-		return date + " "+hour+":"+minutes; 
+	public void setDistance(double distance) {
+		this.distance = distance;	
+	}
+
+
+	public boolean isJoined() {
+		return isJoined;
 	}
 	
+
+	public void setJoined(boolean isJoined) {
+		this.isJoined = isJoined;
+	}
 
 }

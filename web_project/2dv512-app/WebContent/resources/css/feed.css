@@ -4,8 +4,8 @@
 
 .event-creator-img {
 	float: left;
-	height: 54px;
-	width: 54px;
+	height: 64px;
+	width: 64px;
 	object-fit: cover;
 }
 
@@ -23,8 +23,10 @@
 }
 
 .event-creator {
+	display: block;
 	color: #3F778A;
 	font-size: 14px;
+	text-decoration: none;
 }
 
 

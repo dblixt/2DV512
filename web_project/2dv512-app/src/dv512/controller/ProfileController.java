@@ -1,65 +1,53 @@
 package dv512.controller;
 
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dv512.model.Dog;
 import dv512.model.Profile;
-import dv512.model.User;
-import dv512.model.service.UserService;
+import dv512.model.dao.service.ProfileService;
 
 @Named
 @RequestScoped
 public class ProfileController {
 	
+	@Inject
+	private ProfileService profileService;
+	
 	@Inject 
 	private LoginController thisUser;
 	
-	@Inject
-	private UserService userService;
-		
-	private User userProfile;
-
+	private Profile profile;	
 	
-	private String viewUserId = null;
+	private int viewUserId = -1;
 	
 	
-	public String getId() {
+	public int getId() {
 		return viewUserId;
 	}
 	
-	public void setId(String id) {
-		if(id != null) {
+	public void setId(int id) {
+		if(id > 0) {
 			viewUserId = id;
 		}		
 	}
 	
 	public Profile getProfile() {
-		if(userProfile != null) {
-			return userProfile.getProfile();
-		}
-		
-		return null;
+		return profile;
 	}
 	
-	public List<Dog> getDogs() {
-		if(userProfile != null) {
-			return userProfile.getProfile().getDogs();
-		}
-		return null;
+	public boolean isEditAllowed() {
+		return viewUserId == thisUser.getUserId();
 	}
 	
 	
 	public void loadData() {
-		if(viewUserId == null) {
+		if(viewUserId == -1) {
 			setId(thisUser.getUserId());
 		}
 		
-		if(userProfile == null) {
-			userProfile = userService.get(viewUserId);	
+		if(profile == null) {
+			profile = profileService.load(viewUserId);
 		}	
 	}
 	

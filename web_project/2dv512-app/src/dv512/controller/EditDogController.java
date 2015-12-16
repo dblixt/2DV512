@@ -12,34 +12,33 @@ import javax.inject.Named;
 
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
-import dv512.controller.util.IDUtils;
 import dv512.controller.util.ImgUtils;
 import dv512.model.Dog;
-import dv512.model.User;
-import dv512.model.service.ImageService;
-import dv512.model.service.UserService;
+import dv512.model.dao.DogsDAO;
+import dv512.model.dao.ImagesDAO;
 
 @Named
 @ViewScoped
 public class EditDogController implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1036810508598748155L;
 
+	@Inject 
+	private DogsDAO dogsDAO;	
+	
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
 	
 	@Inject
-	private LoginController session;
+	private LoginController thisUser;
 	
 	@Inject
-	private UserService userService;
-	@Inject
-	private ImageService imageService;
+	private ImagesDAO imagesDAO;
+	
 	
 	
 	/** Id of the dog to edit if in edit mode. */
 	private int editDogId = -1;
 	
-	private User user;
 	private Dog dog;	
 	private List<String> pendImgDel = new ArrayList<>();
 	
@@ -58,7 +57,7 @@ public class EditDogController implements Serializable {
 					pendImgDel.add(dog.getImage());
 				}
 						
-				String id = imageService.create(resizedIs);
+				String id = imagesDAO.create(resizedIs);
 				dog.setImage(id);
 			}
 		});
@@ -83,44 +82,32 @@ public class EditDogController implements Serializable {
 	
 	
 	public void loadData() {
-		if(user == null) {
-			user = userService.get(session.getUserId());
-			
-			if(user != null) {
-				if(editDogId == -1) {
-					dog = new Dog();
-					dog.setId(IDUtils.generateIntID());
-					user.getProfile().addDog(dog);
-					return;
-				}
-				
-				List<Dog> dogs = user.getProfile().getDogs();
-				
-				for(Dog d : dogs) {
-					if(editDogId == d.getId()) {
-						dog = d;
-						return;
-					}
-				}
-				
-				// if still null, then dog for id did not exist.
-				// switch to add mode.
-				if(dog == null) {
-					setId(-1);
-					dog = new Dog();
-					dog.setId(IDUtils.generateIntID());
-					user.getProfile().addDog(dog);
-				}
-			}			
-		}
+		if(dog == null) {
+			if(editDogId == -1) {
+				// add new dog mode.
+				dog = new Dog();
+				dog.setId(-1);
+				dog.setUserId(thisUser.getUserId());
+				return;
+			}
+
+			// edit dog mode, load data.
+			dog = dogsDAO.get(editDogId);
+		}		
 	}
 	
 	public String saveData() {		
-		userService.update(user);				
-		imageService.delete(pendImgDel);
+		if(dog.getId() == -1) {
+			dogsDAO.insert(dog);
+		}
+		else {
+			dogsDAO.update(dog);
+		}
+		
+		// remove ghost profile pics from storage.
+		imagesDAO.delete(pendImgDel);
 	
 		return "editprofile.xhtml?faces-redirect=true";
-		
 	}
 		
 }
