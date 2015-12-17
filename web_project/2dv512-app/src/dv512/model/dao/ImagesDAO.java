@@ -15,8 +15,8 @@ import org.ektorp.BulkDeleteDocument;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.ViewQuery;
 
+import dv512.controller.util.DbManager;
 import dv512.controller.util.ImgUtils;
-import dv512.controller.util.NosqlManager;
 import dv512.model.Image;
 
 @Named
@@ -25,11 +25,11 @@ public class ImagesDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject 
-	private NosqlManager mgr;
+	private DbManager mgr;
 	
 	
 	public String create(InputStream is) {
-		CouchDbConnector c = mgr.getConnection();
+		CouchDbConnector c = mgr.getImgConnection();
 		
 		AttachmentInputStream ais = new AttachmentInputStream(
 				"img", is, ImgUtils.IMAGE_MIME_TYPE);
@@ -52,7 +52,7 @@ public class ImagesDAO implements Serializable {
 	 */
 	public boolean delete(List<String> ids) {
 		try {
-			CouchDbConnector c = mgr.getConnection();
+			CouchDbConnector c = mgr.getImgConnection();
 			
 			ViewQuery q = new ViewQuery()
 					.dbPath(c.getDatabaseName())
