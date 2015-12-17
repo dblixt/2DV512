@@ -17,12 +17,12 @@
 
 	<ui:define name="content">
 		<ui:repeat var="e" value="#{feedController.events}">
-			<div class="content-block">
+			<h:form class="content-block">
 				<h:graphicImage class="event-creator-img" value="/img/#{e.creator.image}"/>				
 				<div class="event-content">
 					<h3 style="margin-top: 6px">#{e.title}</h3>
 					<h:link class="event-creator" value="#{e.creator.name}" outcome="profile">
-						<f:param name="id" value="#{e.creator.id}"/>
+						<f:param name="id" value="#{e.creator.userId}"/>
 					</h:link>
 					
 					<div style="margin-top: 12px;">
@@ -43,14 +43,30 @@
 							<f:param name="id" value="#{e.id}" />
 							<i class="material-icons">view_day</i><span>View</span>
 						</h:link>
-						<h:link class="icon-link" style="width: 64px; display: inline-block; margin-left: 5px;" outcome="feed">
+						<h:commandLink class="icon-link" style="width: 64px; display: inline-block; margin-left: 5px;" 
+							action="#{feedController.joinEvent(e)}" rendered="#{e.joinStatus == 0 and !feedController.isOwnEvent(e.creator.userId)}">
 							<f:param name="id" value="#{e.id}" />
+							<f:ajax execute="@form" render="@form"/>
 							<i class="material-icons"  style="font-size: 24px;">done</i><span>Join</span>
-						</h:link>
+						</h:commandLink>
+						<ui:fragment rendered="#{e.joinStatus == 1 and !feedController.isOwnEvent(e.creator.userId)}">
+							<div class="icon-link" style="display: inline-block; margin-left: 5px; background: none;"><i class="material-icons">hourglass_empty</i><span>Join Requested</span></div>							
+						</ui:fragment>
+						<h:commandLink class="icon-link" style="width: 72px; display: inline-block; margin-left: 5px;" 
+							action="#{feedController.leaveEvent(e)}" rendered="#{e.joinStatus == 2 and !feedController.isOwnEvent(e.creator.userId)}">
+							<f:param name="id" value="#{e.id}" />
+							<f:ajax execute="@form" render="@form"/>
+							<i class="material-icons"  style="font-size: 24px;">clear</i><span>Leave</span>
+						</h:commandLink>
+						<h:link class="icon-link" style="width: 64px; display: inline-block;" 
+							outcome="editevent" rendered="#{feedController.isOwnEvent(e.creator.userId)}">
+							<f:param name="id" value="#{e.id}" />
+							<i class="material-icons">mode_edit</i><span>Edit</span>
+						</h:link>						
 					</div>
 				</div>
 				<div class="clear" />
-			</div>
+			</h:form>
 		</ui:repeat>
 	</ui:define>
 </ui:composition>

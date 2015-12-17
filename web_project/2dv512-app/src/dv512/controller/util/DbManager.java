@@ -5,12 +5,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
 
+import org.ektorp.CouchDbConnector;
+import org.ektorp.CouchDbInstance;
 
-@Stateless
+
+@ApplicationScoped
 @Named
 public class DbManager {
 
@@ -18,6 +21,18 @@ public class DbManager {
 	@Resource(lookup = "jdbc/app-db")
 	private DataSource dataSource;
 	
+	@Resource(name = "couchdb/nosql-app-db")
+	private CouchDbInstance db;	
+	private CouchDbConnector dbc;
+	
+	
+	public CouchDbConnector getImgConnection() {
+		if(dbc == null) {
+			dbc = db.createConnector("app-img-db", true);
+		}
+		
+		return dbc;
+	}
 
 	public Connection getConnection() throws SQLException {
 		if(dataSource != null) {

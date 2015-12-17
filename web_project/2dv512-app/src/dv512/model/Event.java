@@ -2,6 +2,11 @@ package dv512.model;
 
 public class Event {
 
+	public static final int JOIN_STATUS_UNJOINED = 0;
+	public static final int JOIN_STATUS_JOIN_REQUESTED = 1;
+	public static final int JOIN_STATUS_JOINED = 2;
+	
+	
 	private int id;
 
 	private String title;
@@ -10,7 +15,7 @@ public class Event {
 	private double longitude;
 	private double latitude;
 
-	private boolean isJoined;
+	private int joinStatus;
 	private double distance;
 	
 	private Profile creator;	
@@ -85,13 +90,13 @@ public class Event {
 	}
 
 
-	public boolean isJoined() {
-		return isJoined;
+	public int getJoinStatus() {
+		return joinStatus;
 	}
 	
 
-	public void setJoined(boolean isJoined) {
-		this.isJoined = isJoined;
+	public void setJoinStatus(int status) {
+		this.joinStatus = status;
 	}
 
 }
