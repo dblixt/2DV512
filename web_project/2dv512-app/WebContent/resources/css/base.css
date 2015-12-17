@@ -100,7 +100,9 @@ nav #profile-summary {
 nav #profile-summary #profile-img {
 	display: block;
 	width: 202px;
+	height: 202px;
 	margin: 24px;
+	object-fit: cover;
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);

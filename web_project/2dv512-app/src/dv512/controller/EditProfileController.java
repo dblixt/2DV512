@@ -25,9 +25,11 @@ import dv512.model.dao.ProfilesDAO;
 public class EditProfileController implements Serializable {
 
 	private static final long serialVersionUID = -43584334356821659L;
-	
+		
 	@Inject 
-	private ProfilesDAO profilesDAO;
+	private UserController thisUser;	
+	@Inject 
+	private ProfilesDAO profilesDAO;	
 	@Inject 
 	private DogsDAO dogsDAO;	
 	@Inject
@@ -36,10 +38,6 @@ public class EditProfileController implements Serializable {
 	@Inject 
 	private FileUploadHandler fileUploadHandler;
 		
-	@Inject 
-	private LoginController thisUser;
-	
-	
 	private Profile profile;
 	
 	private List<Dog> pendDogDel = new ArrayList<>();
@@ -103,6 +101,9 @@ public class EditProfileController implements Serializable {
 		
 		// remove ghost profile pics from storage.
 		imagesDAO.delete(pendImgDel);
+		
+		// reload data in user controller since it has changed.
+		thisUser.reload();
 		
 		return "profile.xhtml?faces-redirect=true";
 	}

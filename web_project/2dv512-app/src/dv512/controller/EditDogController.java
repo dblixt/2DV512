@@ -23,18 +23,17 @@ public class EditDogController implements Serializable {
 	private static final long serialVersionUID = -1036810508598748155L;
 
 	@Inject 
-	private DogsDAO dogsDAO;	
+	private UserController thisUser;
 	
 	@Inject 
-	private FileUploadHandler fileUploadHandler;
-	
-	@Inject
-	private LoginController thisUser;
+	private DogsDAO dogsDAO;	
 	
 	@Inject
 	private ImagesDAO imagesDAO;
 	
-	
+	@Inject 
+	private FileUploadHandler fileUploadHandler;
+		
 	
 	/** Id of the dog to edit if in edit mode. */
 	private int editDogId = -1;
