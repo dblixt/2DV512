@@ -21,8 +21,7 @@
 	<ui:define name="content">
 		<div class="content-block">
 
-			<img class="event-creator-img-right"
-				src="../img/#{eventViewController.profile.image}" />
+			<h:graphicImage class="event-creator-img-right" value="/img/profile/#{eventViewController.profile.image}"/>
 			<div class="event-content">
 				<h3 style="margin-top: 6px">#{eventViewController.event.title}</h3>
 				<p class="event-creator">#{eventViewController.profile.name}</p>
@@ -36,7 +35,7 @@
 				<p style="">
 					<ui:repeat var="d" value="#{eventViewController.dogs}">
 						<h:graphicImage class="event-dog-img"
-							value="/img/#{d.image}" />
+							value="/img/dog/#{d.image}" />
 					</ui:repeat>
 				</p>
 
@@ -44,11 +43,9 @@
 				<p style="">
 					<ui:repeat var="p" value="#{eventViewController.profiles}">
 						<h:graphicImage class="event-user-join-img"
-							value="/img/#{p.image}" />
+							value="/img/dog/#{p.image}" />
 					</ui:repeat>
 				</p>
-
-
 
 				<p style="margin-top: 20px;" />
 				<div style="margin-left: -8px;">
@@ -83,7 +80,7 @@
 							</h:outputText>
 
 							<h:graphicImage class="event-comment-img"
-								value="/img/#{eventViewController.profile.image}" />
+								value="/img/profile/#{eventViewController.profile.image}" />
 
 							<div class="event-comment-author">#{comment.userId}</div>
 							<div class="event-comment">#{comment.comment}</div>

@@ -20,6 +20,9 @@ public class LoginController implements Serializable {
 	public static final String ACTION_LOGOUT = "logout";
 	
 	@Inject
+	private UserController thisUser;
+	
+	@Inject
 	private UsersDAO userDAO;
 	
 	private User user;
@@ -50,6 +53,7 @@ public class LoginController implements Serializable {
 	public String login() {	
 		if(userDAO.verify(user)) {
 			retryCount = 0;
+			thisUser.setUserId(user.getId());
 			return ACTION_LOGIN_SUCCESS;
 		}
 		else {
@@ -60,9 +64,10 @@ public class LoginController implements Serializable {
 	
 	public String logout() {
 		user.setId(User.UNKNOWN_ID);
+		thisUser.setUserId(User.UNKNOWN_ID);
 		retryCount = 0;
 		user.setEmail(null);
-		user.setPassword(null);
+		user.setPassword(null);		
 		return ACTION_LOGOUT;
 	}
 	

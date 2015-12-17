@@ -10,9 +10,8 @@
 
 		<nav>
 			<div id="profile-summary">
-				<h:graphicImage id="profile-img" name="no_profile_img.jpg"
-					library="img" />
-				<h2>Daniel Nilsson</h2>
+				<h:graphicImage id="profile-img" value="/img/profile/#{userController.profile.image}" />
+				<h2>#{userController.profile.name}</h2>
 			</div>
 
 			<ul>
