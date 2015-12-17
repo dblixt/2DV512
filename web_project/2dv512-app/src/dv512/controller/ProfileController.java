@@ -11,14 +11,13 @@ import dv512.model.dao.service.ProfileService;
 @RequestScoped
 public class ProfileController {
 	
+	@Inject 
+	private UserController thisUser;
+	
 	@Inject
 	private ProfileService profileService;
-	
-	@Inject 
-	private LoginController thisUser;
-	
-	private Profile profile;	
-	
+		
+	private Profile profile;		
 	private int viewUserId = -1;
 	
 	

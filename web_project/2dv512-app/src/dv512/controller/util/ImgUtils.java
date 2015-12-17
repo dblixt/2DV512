@@ -24,8 +24,15 @@ public class ImgUtils {
 			BufferedImage small = Scalr.resize(img, Scalr.Method.SPEED, 
 					Scalr.Mode.AUTOMATIC, SAVE_SIZE, SAVE_SIZE, Scalr.OP_ANTIALIAS);
 			
+			// workaround for incorrect color if passed in image has an alpha channel.
+			int w = small.getWidth();
+			int h = small.getHeight();
+			BufferedImage smallRgb = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			int[] rgb = small.getRGB(0, 0, w, h, null, 0, w);
+			smallRgb.setRGB(0, 0, w, h, rgb, 0, w);
+						
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(small, IMAGE_FORMAT, os);
+			ImageIO.write(smallRgb, IMAGE_FORMAT, os);
 			
 			return new ByteArrayInputStream(os.toByteArray());
 		} 

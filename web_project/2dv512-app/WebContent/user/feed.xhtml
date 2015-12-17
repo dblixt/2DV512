@@ -18,7 +18,7 @@
 	<ui:define name="content">
 		<ui:repeat var="e" value="#{feedController.events}">
 			<h:form class="content-block">
-				<h:graphicImage class="event-creator-img" value="/img/#{e.creator.image}"/>				
+				<h:graphicImage class="event-creator-img" value="/img/profile/#{e.creator.image}"/>				
 				<div class="event-content">
 					<h3 style="margin-top: 6px">#{e.title}</h3>
 					<h:link class="event-creator" value="#{e.creator.name}" outcome="profile">

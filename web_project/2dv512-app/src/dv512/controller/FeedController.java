@@ -23,6 +23,9 @@ public class FeedController implements Serializable {
 	private static final long serialVersionUID = 1127731622673465704L;
 
 	@Inject
+	private UserController thisUser;
+	
+	@Inject
 	private EventsDAO events;
 	
 	@Inject 
@@ -35,10 +38,6 @@ public class FeedController implements Serializable {
 	private Profile profile;
 	private List<Event> feed;
 	
-	
-	@Inject
-	private LoginController thisUser;
-
 	
 	public List<Event> getEvents() {
 		return feed;

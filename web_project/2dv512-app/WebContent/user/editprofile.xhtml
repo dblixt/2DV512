@@ -53,7 +53,7 @@
 						<ul>					
 						<ui:repeat var="d" value="#{editProfileController.profile.dogs}">
 							<li>
-								<h:graphicImage value="/img/#{d.image}" />
+								<h:graphicImage value="/img/dog/#{d.image}" />
 								<h:commandLink class="icon-link center-vert" style="right: 0px;" actionListener="#{editProfileController.removeDog(d.id)}">
 									<i class="material-icons">clear</i>	
 									<f:ajax execute="@this" render=":form1:doglist" />
@@ -97,7 +97,7 @@
 				</div>
 
 				<div class="right">		
-					<h:graphicImage id="view-profile-img" value="/img/#{editProfileController.profile.image}" />												
+					<h:graphicImage id="view-profile-img" value="/img/profile/#{editProfileController.profile.image}" />												
 					<h:form enctype="multipart/form-data" prependId="false">		
 						<div class="icon-link wrapper-file-input">
 							<i class="material-icons">mode_edit</i><span>Change</span>
