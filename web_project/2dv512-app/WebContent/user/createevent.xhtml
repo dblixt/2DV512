@@ -78,10 +78,12 @@
 
       Event.observe(window, 'load', function() { setupCalendars() })		
 		</h:outputScript>
+		
 		<h:outputScript>
 			setLocation(0,0);	
 			setAllowEdit(true);
 		</h:outputScript>
+		
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
 			async="async" defer="defer">

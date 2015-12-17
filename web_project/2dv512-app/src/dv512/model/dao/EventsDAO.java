@@ -250,4 +250,3 @@ public class EventsDAO implements Serializable {
 	
 }
 
-}
