@@ -71,8 +71,7 @@ public class EventsDAO implements Serializable {
 		return null;
 	}
 
-	public boolean insert(Event event) {
-		
+	public boolean insert(Event event) {		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -88,9 +87,11 @@ public class EventsDAO implements Serializable {
 			stmt.setLong(7,  Instant.now().getEpochSecond());
 			stmt.executeUpdate();
 			return true;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
@@ -121,33 +122,30 @@ public class EventsDAO implements Serializable {
 		}
 
 		return false;
-	}
 
+	}
+	
 	public boolean leave(int userId, int eventId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement(
-					"DELETE FROM EventJoins WHERE user_id = ? AND event_id = ?");
+			stmt = con.prepareStatement("DELETE FROM EventJoins WHERE user_id = ? AND event_id = ?");
 			stmt.setInt(1, userId);
 			stmt.setInt(2, eventId);
 			stmt.executeUpdate();
 			return true;
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
-		finally {
+		} finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
-		
+
 		return false;
 	}
+
 	
-
-
 	public List<Event> feed(int userId, LatLng origin, double radius) {
 		List<Event> feed = new ArrayList<>();
 			
@@ -239,6 +237,8 @@ public class EventsDAO implements Serializable {
 				"	AND e.pos_lng " + 
 				"		BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
 				"		AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
+				"	ORDER BY date " + 
+				"	FETCH FIRST 100 ROWS ONLY " + 
 				") AS s " + 
 				"LEFT JOIN Profiles AS u ON u.user_id = s.user_id " + 
 				"LEFT JOIN EventJoins AS j ON j.event_id = s.id AND j.user_id = ? " +
