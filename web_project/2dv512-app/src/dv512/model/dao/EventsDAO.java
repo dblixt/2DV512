@@ -27,8 +27,7 @@ public class EventsDAO implements Serializable {
 	@Inject
 	private DbManager dbManager;
 
-	public Event get(int eventId) {
-		
+	public Event get(int eventId) {		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -39,7 +38,7 @@ public class EventsDAO implements Serializable {
 			ResultSet r = stmt.executeQuery();
 
 			Event event = new Event();
-			if (r != null && r.next()) {
+			if (r.next()) {
 				
 				Profile profile = new Profile();		
 				profile.setUserId(r.getInt("user_id"));
@@ -237,8 +236,6 @@ public class EventsDAO implements Serializable {
 				"	AND e.pos_lng " + 
 				"		BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
 				"		AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
-				"	ORDER BY date " + 
-				"	FETCH FIRST 100 ROWS ONLY " + 
 				") AS s " + 
 				"LEFT JOIN Profiles AS u ON u.user_id = s.user_id " + 
 				"LEFT JOIN EventJoins AS j ON j.event_id = s.id AND j.user_id = ? " +
