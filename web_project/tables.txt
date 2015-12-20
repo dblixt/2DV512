@@ -72,10 +72,9 @@ CREATE TABLE Notifications
 (
 	id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
 	type INT NOT NULL,
-	receiver_user_id INT NOT NULL,
-	trigger_user_id INT NOT NULL,
+	target_user_id INT NOT NULL,
+	source_user_id INT NOT NULL,
 	event_id INT NOT NULL,
-	comment_id INT,
 	utc_date BIGINT NOT NULL
 );
 

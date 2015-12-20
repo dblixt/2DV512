@@ -53,9 +53,9 @@ public class FeedController implements Serializable {
 			
 			Notification n = new Notification();
 			n.setType(Notification.TYPE_REQUEST_JOIN);
-			n.setReceiverUserId(e.getCreator().getUserId());
-			n.setTriggerUserId(thisUser.getUserId());
-			n.setEventId(e.getId());			
+			n.getTargetUser().setUserId(e.getCreator().getUserId());
+			n.getSourceUser().setUserId(thisUser.getUserId());
+			n.getEvent().setId(e.getId());			
 			notifications.insert(n);			
 		}		
 		return null;		
