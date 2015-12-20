@@ -124,6 +124,30 @@ public class EventsDAO implements Serializable {
 
 	}
 	
+	public boolean approveJoin(int userId, int eventId) {		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement(
+					"UPDATE EventJoins SET approved = 1 WHERE user_id = ? AND event_id = ?");
+			
+			stmt.setInt(1, userId);
+			stmt.setInt(2, eventId);
+			stmt.executeUpdate();
+			return true;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return false;	
+	}
+	
 	public boolean leave(int userId, int eventId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -144,6 +168,7 @@ public class EventsDAO implements Serializable {
 		return false;
 	}
 
+	
 	
 	public List<Event> feed(int userId, LatLng origin, double radius) {
 		List<Event> feed = new ArrayList<>();

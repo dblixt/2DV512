@@ -11,10 +11,16 @@ public class Notification {
 	
 	private int id;
 	private int type;
-	private int receiverUserId; // id of user that has received the notification.
-	private int triggerUserId; // id of user that caused notification to be sent.
-	private int eventId; // which event this notification is concerning.
-	private int commentId; // only for TYPE_COMMENT_POSTED
+	private Profile sourceUser;
+	private Profile targetUser;
+	private Event event;
+	private long date;
+	
+	public Notification() {
+		sourceUser = new Profile();
+		targetUser = new Profile();
+		setEvent(new Event());
+	}
 	
 	public int getId() {
 		return id;
@@ -32,36 +38,50 @@ public class Notification {
 		this.type = type;
 	}
 
-	public int getReceiverUserId() {
-		return receiverUserId;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setReceiverUserId(int receiverUserId) {
-		this.receiverUserId = receiverUserId;
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+	
+	public long getDate() {
+		return date;
 	}
 
-	public int getTriggerUserId() {
-		return triggerUserId;
+	public void setDate(long date) {
+		this.date = date;
+	}
+	
+	
+	public Profile getSourceUser() {
+		return sourceUser;
+	}
+	
+	public void setSourceUser(Profile p) {
+		sourceUser = p;
+	}
+	
+	public Profile getTargetUser() {
+		return targetUser;
+	}
+	
+	public void setTargetUser(Profile p) {
+		targetUser = p;
 	}
 
-	public void setTriggerUserId(int triggerUserId) {
-		this.triggerUserId = triggerUserId;
+	
+	
+	
+	public boolean isTypeJoinRequest() {
+		return type == TYPE_REQUEST_JOIN;
+	}
+	
+	public boolean isTypeJoinApproved() {
+		return type == TYPE_JOIN_APPROVED;
 	}
 
-	public int getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
-	}
-
-	public int getCommentId() {
-		return commentId;
-	}
-
-	public void setCommentId(int commentId) {
-		this.commentId = commentId;
-	}
+	
 	
 }

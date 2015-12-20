@@ -1,6 +1,8 @@
 html, body {
 	background-color: #e9eaed;
 	margin: 0 auto;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
 }
 
 header {
@@ -58,7 +60,6 @@ header #content #logout > a {
 	border: none;
 	color: #ffffff;
 	cursor: pointer;
-	font-family: Roboto;
 	font-size: 14px;	
 	text-decoration: none;
 	margin: 0;
@@ -76,7 +77,6 @@ header #content #logout > i {
 header h1{
 	display: inline;
 	font-size: 30px;
-	font-family: Cabin;
 	color: #ffffff;
 	line-height: 64px;
 	margin-left: 10px;
@@ -89,7 +89,6 @@ nav  {
 	width: 250px;	
 	height: 100%;
 	margin-top: 64px;
-	font-family: Roboto;
 }
 
 nav #profile-summary {
@@ -153,7 +152,6 @@ nav ul li:hover {
 
 
 
-
 .wrapper {
 	width: 860px;
 	margin: 0 auto;
@@ -178,7 +176,6 @@ nav ul li:hover {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	margin-bottom: 16px;
-	font-family: Cabin;
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
