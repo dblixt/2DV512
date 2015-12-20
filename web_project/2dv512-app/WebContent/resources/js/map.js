@@ -5,7 +5,9 @@ var latitude;
 var longitude;
 
 var allowEditLocation = false;
+var allowGeoLocation = true;
 var locationSet = true;
+
 
 function initMap() {
 	console.log("initMap()");
@@ -34,7 +36,7 @@ function initMap() {
 		setLocation(latitude, longitude); // refresh marker location.
 	}
 	
-	if(!locationSet && allowEditLocation) {
+	if(!locationSet && allowEditLocation && allowGeoLocation) {
 		requestGeoLocation();
 	}
 }
@@ -192,16 +194,6 @@ function setAllowEdit(allowEdit) {
 	allowEditLocation = allowEdit;
 }
 
-
-
-
-
-// jQuery(document).ready(function($) {
-// jQuery.getScript('http://www.geoplugin.net/javascript.gp', function()
-// {
-// var country = geoplugin_countryName();
-// var zone = geoplugin_region();
-// var district = geoplugin_city();
-// console.log("Your location is: " + country + ", " + zone + ", " + district);
-// });
-// });
+function setAllowGeoLocation(allowGeo) {
+	allowGeoLocation = allowGeo;
+}
