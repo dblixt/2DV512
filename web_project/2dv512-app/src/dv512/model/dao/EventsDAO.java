@@ -99,7 +99,7 @@ public class EventsDAO implements Serializable {
 	}
 
 	
-	public boolean join(int userId, int eventId, long date) {
+	public boolean join(int userId, int eventId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -108,7 +108,7 @@ public class EventsDAO implements Serializable {
 					"INSERT INTO EventJoins(user_id, event_id, utc_date) VALUES(?,?,?)");
 			stmt.setInt(1, userId);
 			stmt.setInt(2, eventId);
-			stmt.setLong(3, date);
+			stmt.setLong(3, Instant.now().getEpochSecond());
 			stmt.executeUpdate();
 			return true;
 		} 

@@ -17,7 +17,15 @@
 				<i class="material-icons">view_stream</i> 
 				<h:link outcome="feed" value="Home" />
 			</li>
-
+			<li>
+				<i class="material-icons">notifications</i>
+				<h:link outcome="notifications" value="Notifications" />
+				<ui:fragment rendered="#{userController.notificationCount > 0}">
+					<div class="nav-info-square">
+						#{userController.notificationCount}
+					</div>
+				</ui:fragment>
+			</li>
 			<li>
 				<i class="material-icons">account_circle</i>
 				<h:link outcome="profile" value="My Profile" />
@@ -25,12 +33,9 @@
 			<li>
 				<i class="material-icons">event</i>
 				<h:link outcome="createevent" value="Create Event" />
-			</li>
-			<li>
-				<i class="material-icons">notifications</i>
-				<h:link outcome="notifications" value="Notifications" />
-			</li>
+			</li>		
 		</ul>
+		<div class="clear" />
 	</nav>
 </ui:composition>
 </html>

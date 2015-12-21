@@ -145,6 +145,20 @@ nav ul li a {
 	margin-left: 10px;
 }
 
+nav ul li .nav-info-square {
+	display: inline-block; 
+	position:absolute; 
+	background: #72889C;
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	padding: 1.5px 5.5px;
+	right: 8px; 
+	top: 50%; 
+	transform: translateY(-50%);
+	border-radius: 2px;
+}
+
 nav ul li:hover {
 	background-color: #DDDDDD;
 	border-radius: 2px;	

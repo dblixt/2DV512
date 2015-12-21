@@ -1,7 +1,6 @@
 package dv512.controller;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,17 +35,15 @@ public class NotificationsController implements Serializable{
 	
 	
 	public void approveJoin(Notification n) {
-		if(events.approveJoin(n.getSourceUser().getUserId(), n.getEvent().getId())) {
-			
+		if(events.approveJoin(n.getSourceUser().getUserId(), n.getEvent().getId())) {			
 			// send notification to tell that request has been approved.
-			Notification approved = new Notification();
-			approved.setType(Notification.TYPE_JOIN_APPROVED);
-			approved.setDate(Instant.now().getEpochSecond());
-			approved.getSourceUser().setUserId(thisUser.getUserId());
-			approved.getTargetUser().setUserId(n.getSourceUser().getUserId());
-			approved.getEvent().setId(n.getEvent().getId());
-			notifications.insert(approved);
+			Notification approved = Notification.create(
+					Notification.TYPE_JOIN_APPROVED, 
+					thisUser.getUserId(),
+					n.getSourceUser().getUserId(), 
+					n.getEvent().getId());
 			
+			notifications.insert(approved);			
 			remove(n);
 		}
 	}
