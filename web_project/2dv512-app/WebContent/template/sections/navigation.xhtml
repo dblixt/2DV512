@@ -4,34 +4,33 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-<body>
+<ui:composition>
+	<nav>
+		<div id="profile-summary">
+			<h:graphicImage id="profile-img"
+				value="/img/profile/#{userController.profile.image}" />
+			<h2>#{userController.profile.name}</h2>
+		</div>
 
-	<ui:composition>
+		<ul>
+			<li>
+				<i class="material-icons">view_stream</i> 
+				<h:link outcome="feed" value="Home" />
+			</li>
 
-		<nav>
-			<div id="profile-summary">
-				<h:graphicImage id="profile-img" value="/img/profile/#{userController.profile.image}" />
-				<h2>#{userController.profile.name}</h2>
-			</div>
-
-			<ul>
-				<li><i class="material-icons">view_stream</i> <h:link
-						outcome="feed" value="Home" /></li>
-
-				<li><i class="material-icons">account_circle</i> <h:link
-						outcome="profile" value="My Profile" /></li>
-
-				<li><i class="material-icons">event</i> <h:link
-						outcome="createevent" value="Create Event" /></li>
-
-				<li><i class="material-icons">notifications</i> <h:link
-						outcome="createevent" value="Edit Event">
-						<f:param name="id" value="3"></f:param>
-					</h:link></li>
-			</ul>
-		</nav>
-
-	</ui:composition>
-
-</body>
+			<li>
+				<i class="material-icons">account_circle</i>
+				<h:link outcome="profile" value="My Profile" />
+			</li>
+			<li>
+				<i class="material-icons">event</i>
+				<h:link outcome="createevent" value="Create Event" />
+			</li>
+			<li>
+				<i class="material-icons">notifications</i>
+				<h:link outcome="notifications" value="Notifications" />
+			</li>
+		</ul>
+	</nav>
+</ui:composition>
 </html>

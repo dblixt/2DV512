@@ -1,0 +1,52 @@
+.list-event-wrapper {
+	
+}
+
+.user-img {
+	float: left;
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
+}
+
+.block-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.date{
+	font-size: 13px;
+}
+
+.text-link {
+	text-decoration: none;
+	color: #435F8C;
+	font-weight: bold;
+}
+
+.remove {
+	position: absolute;
+	right: 6px;
+	top: 6px;
+}
+
+
+
+p {
+	margin: 0px;
+}
+
+
+.vspace {
+	margin-top: 12px;
+}
+
+
+h3 {
+	margin: 0;
+	display: inline-block;
+}
+
+
+
+
