@@ -9,3 +9,4 @@ Things left to do:
 - Change database to not store passwords in clear text, resech for appropriate method, some form hash + salt - ?
 - Implement forget password functionality with email sending - ?
 - Implement admin mode according to requirement specification -?
+- Clean up css, make sure all pages have the same style, 1 - 2 css files for the entire style.
