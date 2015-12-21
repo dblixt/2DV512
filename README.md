@@ -10,3 +10,5 @@ Things left to do:
 - Implement forget password functionality with email sending - ?
 - Implement admin mode according to requirement specification -?
 - Clean up css, make sure all pages have the same style, 1 - 2 css files for the entire style.
+- Consider validation on all input boxes...
+- Investigate need for cross site scripting protection? Not sure if it is build in in jsf
