@@ -9,7 +9,8 @@
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
 		<f:viewParam name="id" value="#{editEventController.editEventId}" />
-		<f:event type="preRenderView" listener="#{editEventController.loadEvent}" />
+		<f:event type="preRenderView"
+			listener="#{editEventController.loadEvent}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -18,8 +19,8 @@
 		<h:outputStylesheet name="map.css" library="css" />
 		<h:outputScript name="map.js" library="js" />
 		<h:outputScript name="prototype.js" library="js" />
-		<h:outputScript name="calenderview.js" library="js" /> 
-		
+		<h:outputScript name="calenderview.js" library="js" />
+
 		<h:outputScript>
 			var myCal;
 			var hour = 0;
@@ -76,23 +77,23 @@
       		});		
 		</h:outputScript>
 		<h:outputScript>
-			setLocation(0,0);	
+			setLocation(#{editEventController.event.latitude}, #{editEventController.event.longitude});	
 			setAllowEdit(true);
 			setAllowGeoLocation(false);
-		</h:outputScript> 
-		
+		</h:outputScript>
+
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
-			async="async" defer="defer">		
+			async="async" defer="defer">
+			
 		</script>
-
-
 	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="createevent" prependId="false" class="content-block">
 			<h3>
-				<h:outputText value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
+				<h:outputText
+					value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
 			</h3>
 			<br />
 			<br />
@@ -103,38 +104,42 @@
 			<br />
 			<label>Description:</label>
 			<br />
-			<h:inputTextarea rows="4" cols="40" 
+			<h:inputTextarea rows="4" cols="40"
 				value="#{editEventController.event.description}">
 			</h:inputTextarea>
 
 			<div class="calendarbox">
 				<div id="embeddedCalendar" class="calendar"></div>
-				<div class="time">
-					<br /> <label id="hourlabel">Hour</label> <label>Minutes</label>
-					<br />
+				<div class="hour">
+					<label id="hourlabel">Hour</label><br />
 					<h:inputText id="hourinput" onchange="onHourChanged(this.value)"
 						size="2"></h:inputText>
 
+				</div>
+				<div class="minute">
+					<label id="minutelabel">Minutes</label> <br />
 					<h:inputText id="minuteinput"
 						onchange="onMinuteChanged(this.value)" size="2"></h:inputText>
-
-					<h:inputHidden id="unixtime"
-						value="#{editEventController.event.date}"></h:inputHidden>
 				</div>
+				<h:inputHidden id="unixtime"
+					value="#{editEventController.event.date}"></h:inputHidden>
+
 			</div>
 
 			<div class="clear" />
 
 			<div class="center">
-				<label>Select location for event</label> 
-				<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
+				<label>Select location for event</label> <input id="pac-input"
+					class="controls" type="text" placeholder="Search"></input>
 				<div id="map"></div>
-					
+
 				<h:inputHidden id="lat"
 					value="#{editEventController.event.latitude}" />
 				<h:inputHidden id="lng"
 					value="#{editEventController.event.longitude}" />
-						
+
+			</div>
+			
 				<h:commandLink class="icon-link inline createbutton"
 					action="#{editEventController.createEvent}"
 					rendered="#{editEventController.editEventId == -1}">
@@ -142,7 +147,7 @@
 					<span>Create</span>
 				</h:commandLink>
 				<h:commandLink class="icon-link inline createbutton"
-					action="#{editEventController.createEvent}"
+					action="#{editEventController.editEvent}"
 					rendered="#{editEventController.editEventId != -1}">
 					<i class="material-icons">save</i>
 					<span>Save</span>
@@ -151,7 +156,6 @@
 					<i class="material-icons">cancel</i>
 					<span>Cancel</span>
 				</h:link>
-			</div>
 		</h:form>
 	</ui:define>
 </ui:composition>
