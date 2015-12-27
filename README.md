@@ -6,7 +6,7 @@ Things left to do:
 - Finish edit event page (small fixes) - blixt (DONE)
 - Finish feed (show date, make edit button work) - blixt (DONE)
 - Finish notification system with the rest of the notification types - daniel
-- Change database to not store passwords in clear text, resech for appropriate method, some form hash + salt - daniel (DONE)
+- Change database to not store passwords in clear text. - daniel (DONE)
 - Implement forget password functionality with email sending - ?
 - Clean up css, make sure all pages have the same style, 1 - 2 css files for the entire style. - ?
 - Consider validation on all input boxes - ?
