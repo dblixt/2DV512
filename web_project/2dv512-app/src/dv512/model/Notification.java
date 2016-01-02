@@ -1,5 +1,7 @@
 package dv512.model;
 
+import java.time.Instant;
+
 public class Notification {
 
 	public static final int TYPE_REQUEST_JOIN = 1;
@@ -15,6 +17,17 @@ public class Notification {
 	private Profile targetUser;
 	private Event event;
 	private long date;
+	
+	
+	public static Notification create(int type, int srcUserId, int trgtUserId, int eventId) {
+		Notification n = new Notification();
+		n.setType(type);
+		n.getSourceUser().setUserId(srcUserId);
+		n.getTargetUser().setUserId(trgtUserId);
+		n.getEvent().setId(eventId);
+		n.setDate(Instant.now().getEpochSecond());
+		return n;
+	}
 	
 	public Notification() {
 		sourceUser = new Profile();
@@ -82,6 +95,5 @@ public class Notification {
 		return type == TYPE_JOIN_APPROVED;
 	}
 
-	
-	
+
 }

@@ -1,7 +1,6 @@
 package dv512.controller;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -45,17 +44,15 @@ public class FeedController implements Serializable {
 
 	
 	public String joinEvent(Event e) {
-		if(events.join(thisUser.getUserId(), e.getId(), 
-				Instant.now().getEpochSecond())) {
-			
+		if(events.join(thisUser.getUserId(), e.getId())) {		
 			e.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);			
-			System.out.println("Joined event: " + e.getId());		
-			
-			Notification n = new Notification();
-			n.setType(Notification.TYPE_REQUEST_JOIN);
-			n.getTargetUser().setUserId(e.getCreator().getUserId());
-			n.getSourceUser().setUserId(thisUser.getUserId());
-			n.getEvent().setId(e.getId());			
+
+			Notification n = Notification.create(
+					Notification.TYPE_REQUEST_JOIN, 
+					thisUser.getUserId(), 
+					e.getCreator().getUserId(), 
+					e.getId());
+				
 			notifications.insert(n);			
 		}		
 		return null;		
@@ -68,11 +65,10 @@ public class FeedController implements Serializable {
 		return null;
 	}
 	
-
+	
 	public boolean isOwnEvent(int creatorId) {
 		return creatorId == thisUser.getUserId();
 	}
-	
 	
 	
 	public void loadData() {	
