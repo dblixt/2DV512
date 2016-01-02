@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -61,4 +62,9 @@ public class PasswordUtils {
 		return true;
 	}
 
+	
+	public static String getToken() {
+		return UUID.randomUUID().toString().replace("-", "");
+	}
+	
 }

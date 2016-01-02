@@ -4,6 +4,7 @@ CREATE TABLE Users
   email VARCHAR(128) NOT NULL UNIQUE,
   password BLOB(512) NOT NULL,
   salt BLOB(256) NOT NULL,
+  reset_token CHAR(32),
   PRIMARY KEY(id)
 );
 

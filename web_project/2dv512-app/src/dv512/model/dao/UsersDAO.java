@@ -113,4 +113,72 @@ public class UsersDAO implements Serializable {
 		return false;
 	}
 	
+	
+	/**
+	 * Create a reset_token for the user of the given 
+	 * email. If no such user exists null will be returned.
+	 * @param user email address of the user
+	 * @return the created token if user exists, null otherwise.
+	 */
+	public String requestResetPassword(User user) {		
+		String token = PasswordUtils.getToken();
+			
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("UPDATE Users SET reset_token = ? WHERE email = ?", Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setString(1, token);
+			stmt.setString(2, user.getEmail());
+
+			int affected = stmt.executeUpdate();
+			
+			if(affected == 1) {
+				return token;
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			dbManager.close(con);
+			dbManager.close(stmt);
+		}
+		
+		return null;
+	}
+	
+	public boolean updatePassword(String resetToken, String password) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("UPDATE Users SET reset_token = NULL, password = ?, salt = ? WHERE reset_token = ?", Statement.RETURN_GENERATED_KEYS);
+			
+			byte[] salt = PasswordUtils.getNextSalt();
+			byte[] hashedPw = PasswordUtils.hash(password.toCharArray(), salt);
+			
+			stmt.setBlob(1, new ByteArrayInputStream(hashedPw), hashedPw.length);
+			stmt.setBlob(2, new ByteArrayInputStream(salt), salt.length);
+			stmt.setString(3, resetToken);
+	
+			int affected = stmt.executeUpdate();			
+			if(affected == 1) {
+				return true;
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			dbManager.close(con);
+			dbManager.close(stmt);
+		}
+		
+		return false;
+	}
+	
 }
