@@ -14,7 +14,7 @@
 	</f:metadata>
 
 	<ui:define name="head">
-		<title>TinderDogs - Dog</title>
+		<title>Internet of Dogs - Dog</title>
 		<h:outputStylesheet name="profile.css" library="css" />
 	</ui:define>
 
@@ -26,7 +26,8 @@
 					
 					<h:form>
 						<label class="label-header">Name:</label>
-						<h:inputText value="#{editDogController.dog.name}"/>
+						<h:inputText id="dog_name" required="true" requiredMessage="Enter your dogs name." value="#{editDogController.dog.name}"/>
+						<h:message for="dog_name" class="error-message"/>
 						
 						<label class="label-header">Gender:</label>
 						<h:selectOneRadio value="#{editDogController.dog.gender}">
@@ -35,10 +36,16 @@
 						</h:selectOneRadio>
 						
 						<label class="label-header">Age:</label>
-						<h:inputText value="#{editDogController.dog.age}"/>
+						<h:inputText id="dog_age" value="#{editDogController.dog.age}" validatorMessage="Not within allowed range (0-99).">
+							<f:validateLongRange minimum="0" maximum="99" />
+						</h:inputText>
+						<h:message for="dog_age" class="error-message"/>
 						
 						<label class="label-header">Breed:</label>
-						<h:inputText value="#{editDogController.dog.breed}"/>
+						<h:inputText id="dog_breed" value="#{editDogController.dog.breed}" 
+							required="true" requiredMessage="Enter breed."/>
+						<h:message for="dog_breed" class="error-message" />
+						
 						
 						<br /><br /><br /><br />
 						
