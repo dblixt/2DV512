@@ -9,6 +9,7 @@ tmp/
 *.swp
 *~.nib
 local.properties
+mailconfig.properties
 #.settings/
 .apt_generated/
 .loadpath

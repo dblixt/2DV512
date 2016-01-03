@@ -20,39 +20,28 @@
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
 	-moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
 	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
-	height: 300px;
-	
+	min-height: 300px;
+	padding: 10px 20px;	
 }
 
 h3 {
-	padding-top: 5px;
-	text-align: center;
+	display: block;
+	margin: 0;
 }
 
-.box .login {
-	padding-top: 50px;
+#register #defaultmode {
+	position: relative;
+	display: block;
 	text-align: center;
+	margin-top: 100px;
 }
 
-.box .register {
-	text-align: center;
-	padding-top: 50px;
+#register #registermode {
+	display: block;
 }
 
-.box .registerform {
-	padding-top: 20px;
-	padding-left: 20px;
+.box label {
+	display: block;
+	margin-top: 8px;
 }
 
-.box .registerform .error {
-	color: red;
-	padding-left: 20px;
-	display: inline;
-}
-.box .complete {
-	text-align: center;
-	padding-top: 70px;
-}
-.inline {
-	display: inline-block;
-}

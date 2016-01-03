@@ -25,23 +25,32 @@ public class NotificationsDAO implements Serializable {
 
 	
 	public boolean insert(Notification n) {
+		List<Notification> l  = new ArrayList<>();
+		l.add(n);
+		return insert(l);
+	}
+
+	public boolean insert(List<Notification> notifications) {
 		Connection con = null;
-		PreparedStatement s = null;
+		PreparedStatement stmt = null;
 
 		try {
 			con = dbManager.getConnection();
 
-			s = con.prepareStatement(
+			stmt = con.prepareStatement(
 					"INSERT INTO Notifications(type, target_user_id, " + 
 					"source_user_id, event_id, utc_date) VALUES(?,?,?,?,?)");
 
-			s.setInt(1, n.getType());
-			s.setInt(2, n.getTargetUser().getUserId());
-			s.setInt(3, n.getSourceUser().getUserId());
-			s.setInt(4, n.getEvent().getId());
-			s.setLong(5, n.getDate());
-			s.executeUpdate();
-
+			for(Notification n : notifications) {
+				stmt.setInt(1, n.getType());
+				stmt.setInt(2, n.getTargetUser().getUserId());
+				stmt.setInt(3, n.getSourceUser().getUserId());
+				stmt.setInt(4, n.getEvent().getId());
+				stmt.setLong(5, n.getDate());
+				stmt.addBatch();
+			}
+					
+			stmt.executeUpdate();
 			return true;
 		} 
 		catch (SQLException e) {
@@ -49,12 +58,15 @@ public class NotificationsDAO implements Serializable {
 		} 
 		finally {
 			dbManager.close(con);
-			dbManager.close(s);
+			dbManager.close(stmt);
 		}
 		
 		return false;
 	}
-
+	
+	
+	
+	
 	public List<Notification> getAll(int userId) {
 		List<Notification> result = new ArrayList<>();
 		
@@ -110,6 +122,30 @@ public class NotificationsDAO implements Serializable {
 		return result;
 	}
 
+	public int count(int userId) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("SELECT COUNT(*) AS count FROM Notifications WHERE target_user_id = ?");
+			stmt.setInt(1, userId);
+			ResultSet r = stmt.executeQuery();
+			if(r.next()) {
+				return r.getInt("count");
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			dbManager.close(con);
+			dbManager.close(stmt);
+		}
+		
+		return 0;
+	}
+	
 	public boolean remove(int id) {
 		Connection con = null;
 		PreparedStatement s = null;

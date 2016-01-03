@@ -5,6 +5,11 @@ html, body {
 	font-weight: 400;
 }
 
+.wrapper {
+	width: 860px;
+	margin: 0 auto;
+}
+
 header {
 	background: rgba(73,155,234,1);
 	background: -moz-linear-gradient(top, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
@@ -41,6 +46,14 @@ header #content #icon {
 	margin-left: 10px;
 }
 
+header #content h1{
+	display: inline;
+	font-size: 30px;
+	color: #ffffff;
+	line-height: 64px;
+	margin-left: 10px;
+}
+
 header #content #logout {
 	display: inline-block;
 	position: absolute;
@@ -74,15 +87,6 @@ header #content #logout > i {
 }
 
 
-header h1{
-	display: inline;
-	font-size: 30px;
-	color: #ffffff;
-	line-height: 64px;
-	margin-left: 10px;
-}
-
-
 nav  {
 	position: fixed;
 	top: 0px;
@@ -112,7 +116,6 @@ nav #profile-summary > h2 {
 	margin-right: 24px;
 	font-size: 20px;
 }
-
 
 nav ul {
 	list-style-type: none;
@@ -145,19 +148,27 @@ nav ul li a {
 	margin-left: 10px;
 }
 
+nav ul li .nav-info-square {
+	display: inline-block; 
+	position:absolute; 
+	background: #72889C;
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	padding: 1.5px 5.5px;
+	right: 8px; 
+	top: 50%; 
+	transform: translateY(-50%);
+	border-radius: 2px;
+}
+
 nav ul li:hover {
 	background-color: #DDDDDD;
 	border-radius: 2px;	
 }
 
 
-
-.wrapper {
-	width: 860px;
-	margin: 0 auto;
-}
-
-.content {	
+.content {	/* content to the right of the menu */
 	margin-top: 64px;
 	margin-left: 250px;	
 	width: auto;
@@ -207,6 +218,16 @@ nav ul li:hover {
 .icon-link > i {
     vertical-align: middle;
 	font-size: 22px;
+}
+
+.error-message {
+	display: block;
+	color: #D12D1B;
+	font-size: 13px;
+}
+
+.center {
+	text-align: center;
 }
 
 .clear {

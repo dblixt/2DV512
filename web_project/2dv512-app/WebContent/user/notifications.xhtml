@@ -17,6 +17,13 @@
 
 	<ui:define name="content">
 		<h:panelGroup id="notification_list">
+			<ui:fragment rendered="#{empty notificationsController.notifications}">
+				<div class="content-block">
+					<h3 style="margin-top: 20px;">Notifications</h3>
+					<p style="margin-top: 12px; margin-bottom: 12px;">You currently have no notifications.</p>
+				</div>
+			</ui:fragment>
+				
 			<ui:repeat var="n" value="#{notificationsController.notifications}">
 				<h:form class="content-block">
 					<h:commandLink class="icon-link remove" action="#{notificationsController.remove(n)}" 
