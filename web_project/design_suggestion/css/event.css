@@ -10,32 +10,94 @@
 	object-fit: cover;
 }
 
-.event-attendant-img {
+.event-attendant-dog-img {
 	display: inline-block;
 	height: 48px;
 	width: 48px;
 	object-fit: cover;
 }
 
+
 .event-content {
 	overflow: hidden;
 	padding-left: 20px;
 }
 
-.event-attendants-list {
+.event-attendant-list {
+	display: block;
 	list-style-type: none;
 	margin: 0;
-	padding-left: 10px;
-	padding-bottom: 10px;
+	padding-left: 4px;
+}
+.event-attendant-list li {
+	margin: 0;
+	padding: 0;
 }
 
-.event-attendants-list li {
+
+.event-attendant {
 	display: block;
-	position: relative;
-	height: 64px;
-	margin-top: 3px;
-	margin-bottom: 3px;
+	margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-decoration: none;
+    font-size: 16px;
+	color: black;
 }
+
+.event-attendant:hover {
+	color: #3F778A;
+}
+
+.event-attendant > span {
+	vertical-align: middle;
+	padding-left: 12px;
+}
+
+.event-attendant > img {
+    vertical-align: middle;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	object-fit: cover;
+}
+
+
+.comment-img {
+	float: left;
+	height: 48px;
+	width: 48px;
+	object-fit: cover;
+}
+
+.comment-content {
+	display: block;
+	padding-left: 20px;
+	overflow: hidden;
+}
+
+.comment-list {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 4px;
+	margin-top: 20px;
+}
+
+.comment-list li {
+	margin: 24px 0 36px 0;
+	padding: 0;
+}
+
+.comment-list li a {
+	text-decoration: none;
+	color: black;
+	font-size: 16px;
+	font-weight: 700;
+}
+
 
 
 
