@@ -71,4 +71,12 @@ public class EditEventController implements Serializable {
 		}
 	}
 
+	public void cancelEvent() {
+		System.out.println("Inside controller cancel");
+		if(event != null) {
+			System.out.println("Inside controller cancel, found event");
+			eventDAO.cancelEvent(event);
+		}
+	}
+
 }

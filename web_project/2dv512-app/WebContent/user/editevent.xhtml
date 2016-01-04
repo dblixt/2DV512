@@ -52,23 +52,29 @@
 				var tempDate = new Date(myCal.date);
 				var year = tempDate.getFullYear();
 				var day = tempDate.getDate();
-				var month = tempDate.getMonth() + 1;
-				var newDate = new Date(year+'-'+month+'-'+day);	
-				unixTime = newDate.getTime() / 1000 + hour + minute;
-			
-				console.log(unixTime);
-			
+				var month = tempDate.getMonth();
+				
+				var newDate = new Date(tempDate.getTime() * 1000);
+				newDate.setYear(tempDate.getFullYear());
+				newDate.setDate(tempDate.getDate());
+				newDate.setMonth(tempDate.getMonth());
+				newDate.setHours(hour + 1);
+				newDate.setMinutes(minute)
+				newDate.setSeconds(0);
+				
+				unixTime = newDate.getTime() / 1000;
+				
 				var unixinput = document.getElementById('unixtime');
 				unixinput.value = unixTime;			
 			}
 		
 			function onHourChanged(value) {
-				hour = parseInt(value) * 3600
+				hour = parseInt(value);
 				calculateUnixTime();
 			}
 		
 			function onMinuteChanged(value) {
-	 			minute = parseInt(value) * 60;
+	 			minute = parseInt(value);
 	 			calculateUnixTime();
 			}
 		
@@ -81,6 +87,18 @@
 			setAllowEdit(true);
 			setAllowGeoLocation(false);
 		</h:outputScript>
+		
+		<h:outputScript>
+			function confirmCancel() {
+ 		  		if (confirm("Are you sure you want to cancel this event!") == true) {
+       				console.log("Pressing fake link")
+       				var jsfCommandLink = document.getElementById('hidden:cancel');
+     				
+     				jsfCommandLink.innerHTML = "hejsan";
+    			} 
+    			else {}
+			}
+</h:outputScript>
 
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
@@ -95,6 +113,7 @@
 				<h:outputText
 					value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
 			</h3>
+
 			<br />
 			<br />
 			<label>Title:</label>
@@ -139,24 +158,37 @@
 					value="#{editEventController.event.longitude}" />
 
 			</div>
+
+			<h:commandLink class="icon-link inline createbutton"
+				action="#{editEventController.createEvent}"
+				rendered="#{editEventController.editEventId == -1}">
+				<i class="material-icons">save</i>
+				<span>Create</span>
+			</h:commandLink>
+			<h:commandLink class="icon-link inline createbutton"
+				action="#{editEventController.editEvent}"
+				rendered="#{editEventController.editEventId != -1}">
+				<i class="material-icons">save</i>
+				<span>Save</span>
+			</h:commandLink>
+			<h:link class="icon-link inline cancelbutton">
+				<i class="material-icons">cancel</i>
+				<span>Cancel</span>
+			</h:link>
+			<h:commandLink onclick="confirmCancel()"
+				class="icon-link inline createbutton"
+				rendered="#{editEventController.editEventId != -1}">
+				<i class="material-icons">cancel</i>
+				<span>Cancel this Event</span>
+			</h:commandLink>
 			
-				<h:commandLink class="icon-link inline createbutton"
-					action="#{editEventController.createEvent}"
-					rendered="#{editEventController.editEventId == -1}">
-					<i class="material-icons">save</i>
-					<span>Create</span>
-				</h:commandLink>
-				<h:commandLink class="icon-link inline createbutton"
-					action="#{editEventController.editEvent}"
-					rendered="#{editEventController.editEventId != -1}">
-					<i class="material-icons">save</i>
-					<span>Save</span>
-				</h:commandLink>
-				<h:link class="icon-link inline cancelbutton" outcome="feed">
-					<i class="material-icons">cancel</i>
-					<span>Cancel</span>
-				</h:link>
+			
+			
 		</h:form>
+		<h:form id="hidden">
+			<h:commandLink id="cancel" action="#{editEventController.cancelEvent}"
+                  value="click"/>
+		</h:form> 
 	</ui:define>
 </ui:composition>
 </html>
