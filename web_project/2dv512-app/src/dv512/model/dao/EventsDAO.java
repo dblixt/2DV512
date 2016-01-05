@@ -169,7 +169,6 @@ public class EventsDAO implements Serializable {
 	}
 
 	
-	
 	public List<Event> feed(int userId, LatLng origin, double radius) {
 		List<Event> feed = new ArrayList<>();
 			

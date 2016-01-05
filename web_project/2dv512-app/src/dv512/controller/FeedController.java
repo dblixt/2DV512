@@ -76,7 +76,8 @@ public class FeedController implements Serializable {
 			System.out.println("FeedController: loading data");
 			profile = profiles.get(thisUser.getUserId());
 			feed = events.feed(thisUser.getUserId(), 
-					new LatLng(profile.getLatitude(), profile.getLongitude()), 100);
+					new LatLng(profile.getLatitude(),
+					profile.getLongitude()), profile.getRadius());
 		}		
 	}
 	
