@@ -12,12 +12,26 @@
 		<f:viewParam name="id" value="#{eventViewController.id}" />
 		<f:event type="preRenderView"
 			listener="#{eventViewController.loadData}" />
+
 	</f:metadata>
 
 	<ui:define name="head">
 		<title>TinderDogs - Event</title>
 		<h:outputStylesheet name="entry.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
+		<h:outputStylesheet name="map.css" library="css" />
+
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
+			async="async" defer="defer">
+			
+		</script>
+
 	</ui:define>
+
+	<h:outputScript>
+			setLocation(#{eventViewController.event.latitude}, #{eventViewController.event.longitude});	
+	</h:outputScript>
 
 
 	<ui:define name="content">
@@ -64,36 +78,28 @@
 					</p>
 
 
-
-					<h4>Attendants</h4>
-					<p style="">
-						<ui:repeat var="p" value="#{eventViewController.profiles}">
-							<h:graphicImage class="event-user-join-img"
-								value="/img/dog/#{p.image}" />
-						</ui:repeat>
-					</p>
-
-
 					<h4>Attendants</h4>
 					<ul class="event-attendant-list">
 
 						<ui:repeat var="p" value="#{eventViewController.profiles}">
-							<h:graphicImage class="event-user-join-img"
-								value="/img/dog/#{p.image}" />
+
+							<h:link class="icon-link" style="display: inline-block;"
+								outcome="profile">
+								<f:param name="id" value="#{p.userId}" />
+								<h:graphicImage class="event-user-join-img"
+									value="/img/dog/#{p.image}" />
+
+							</h:link>
+
 						</ui:repeat>
 
-						<li><a href="#" class="event-attendant"><img
-								src="img/smith.jpg" /><span>Will Smith</span></a></li>
-						<li><a href="#" class="event-attendant"><img
-								src="img/alba.jpg" /><span>Jesscia Alba</span></a></li>
-						<li><a href="#" class="event-attendant"><img
-								src="img/bauer.jpg" /><span>Jack Bauer</span></a></li>
-					</ul>
 
+					</ul>
 
 					<p style="margin-top: 20px;" />
 
-
+					<h4>Location</h4>
+					<div id="map"></div>
 
 
 
@@ -166,10 +172,30 @@
 
 							<div class="event-comment-wrapper">
 
-								<h:outputText class="event-comment-date" value="#{comment.date}">
-									<f:convertDateTime pattern="yyyy. MM. dd. ' - ' HH:mm"
-										timeZone="EST" type="date" />
-								</h:outputText>
+
+								<div style="display: inline-block; margin-top: 12px;">
+									<i class="material-icons"
+										style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">near_me</i>
+									<p
+										style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">5
+										km away</p>
+								</div>
+
+
+								<div style="display: inline-block; margin-left: 12px;">
+									<i class="material-icons"
+										style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">access_time</i>
+									<p
+										style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+
+										<h:outputText value="#{comment.date}" class="date">
+											<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" />
+										</h:outputText>
+
+									</p>
+								</div>
+
+
 
 								<h:graphicImage class="event-comment-img"
 									value="/img/profile/#{eventViewController.profile.image}" />

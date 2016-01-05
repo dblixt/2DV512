@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -135,7 +134,10 @@ public class EventViewController implements Serializable {
 
 	public void loadData() {
 
+
+		
 		System.out.println("eventId: " + eventId);
+		
 
 		if (eventId != -1) {
 
@@ -144,6 +146,8 @@ public class EventViewController implements Serializable {
 			System.out.println("event.getJoinStatus() " + event.getJoinStatus());
 
 			System.out.println(event.getId());
+			System.out.println(event.getLatitude());
+			System.out.println(event.getLongitude());
 
 			comments = commentsDAO.listAll(eventId);
 			dogs = dogsDAO.listAllEvent(eventId);
