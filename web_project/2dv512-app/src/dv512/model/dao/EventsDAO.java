@@ -291,39 +291,53 @@ public class EventsDAO implements Serializable {
 		return feed;
 	}
 
-	private PreparedStatement createFeedStatement(Connection con, int userId, LatLng origin, double radius)
-			throws SQLException {
-		// -------------------------------------------
-		// Efficiency: not sure, given indices on
-		// -------------------------------------------
-		// Events.user_id
-		// Events.pos_lat
-		// Events.pos_lng
-		// Events.utc_date
-		// Events.utc_date_modified
-		// EventJoins.user_id
-		// EventJoins.event_id
-		// -------------------------------------------
-		// it might be ok.
-
-		String sql = "SELECT s.id, s.user_id, u.name AS creator_name, u.img AS creator_img, s.utc_date, "
-				+ "s.title, s.description, s.pos_lat, s.pos_lng, j.user_id AS joined, "
-				+ "j.approved AS join_approved, distance, s.utc_date_modified, radius FROM ( "
-				+ "	SELECT e.id, e.user_id, title, description, "
-				+ "	utc_date, e.pos_lat, e.pos_lng, e.utc_date_modified, p.radius, " + "	p.distance_unit "
-				+ "		* DEGREES(ACOS(COS(RADIANS(p.latpoint)) " + "		* COS(RADIANS(e.pos_lat)) "
-				+ "		* COS(RADIANS(p.longpoint - e.pos_lng)) " + "		+ SIN(RADIANS(p.latpoint)) "
-				+ "		* SIN(RADIANS(e.pos_lat)))) AS distance " + "	FROM Events AS e " + "	JOIN ( "
-				+ "		SELECT " + origin.getLatitude() + " AS latpoint, " + origin.getLongitude() + " AS longpoint, "
-				+ radius + " AS radius, 111.045 AS distance_unit " + "		FROM sysibm.sysdummy1 " + "	) AS p ON 1=1 "
-				+ "	WHERE e.pos_lat " + "		BETWEEN p.latpoint  - (p.radius / p.distance_unit) "
-				+ "		AND p.latpoint + (p.radius / p.distance_unit) " + "	AND e.pos_lng "
-				+ "		BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) "
-				+ "		AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + ") AS s "
-				+ "LEFT JOIN Profiles AS u ON u.user_id = s.user_id "
-				+ "LEFT JOIN EventJoins AS j ON j.event_id = s.id AND j.user_id = ? " + "WHERE distance <= radius "
-				+ "ORDER BY utc_date_modified DESC " + "FETCH FIRST 100 ROWS ONLY";
-
+	private PreparedStatement createFeedStatement(Connection con, 
+			int userId, LatLng origin, double radius) throws SQLException {
+//		-------------------------------------------
+// 		Efficiency: not sure, given indices on 
+//		-------------------------------------------
+//		Events.user_id
+//		Events.pos_lat
+//		Events.pos_lng
+//		Events.utc_date
+//		Events.utc_date_modified
+//		EventJoins.user_id
+//		EventJoins.event_id
+//		-------------------------------------------
+//		it might be ok.
+	
+		String sql = 
+				"SELECT s.id, s.user_id, u.name AS creator_name, u.img AS creator_img, s.utc_date, " + 
+				"s.title, s.description, s.pos_lat, s.pos_lng, j.user_id AS joined, " +
+				"j.approved AS join_approved, distance, s.utc_date_modified, radius FROM ( " + 
+				"	SELECT e.id, e.user_id, title, description, " + 
+				"	utc_date, e.pos_lat, e.pos_lng, e.utc_date_modified, p.radius, " + 
+				"	p.distance_unit " + 
+				"		* DEGREES(ACOS(COS(RADIANS(p.latpoint)) " + 
+				"		* COS(RADIANS(e.pos_lat)) " + 
+				"		* COS(RADIANS(p.longpoint - e.pos_lng)) " + 
+				"		+ SIN(RADIANS(p.latpoint)) " + 
+				"		* SIN(RADIANS(e.pos_lat)))) AS distance " + 
+				"	FROM Events AS e " + 
+				"	JOIN ( " + 
+				"		SELECT " + origin.getLatitude() + " AS latpoint, " + 
+						origin.getLongitude() + " AS longpoint, " + 
+						radius + " AS radius, 111.045 AS distance_unit " + 
+				"		FROM sysibm.sysdummy1 " + 
+				"	) AS p ON 1=1 " + 
+				"	WHERE e.pos_lat " + 
+				"		BETWEEN p.latpoint  - (p.radius / p.distance_unit) " + 
+				"		AND p.latpoint + (p.radius / p.distance_unit) " + 
+				"	AND e.pos_lng " + 
+				"		BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
+				"		AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + 
+				") AS s " + 
+				"LEFT JOIN Profiles AS u ON u.user_id = s.user_id " + 
+				"LEFT JOIN EventJoins AS j ON j.event_id = s.id AND j.user_id = ? " +
+				"WHERE distance <= radius " +
+				"ORDER BY utc_date_modified DESC " + 
+				"FETCH FIRST 100 ROWS ONLY";
+		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		stmt.setInt(1, userId);
 		return stmt;
