@@ -16,29 +16,35 @@
 	</f:metadata>
 
 	<ui:define name="head">
-		<title>TinderDogs - Event</title>
+		<title>Internet of Dogs - Event</title>
 		<h:outputStylesheet name="entry.css" library="css" />
 		<h:outputScript name="map.js" library="js" />
 		<h:outputStylesheet name="map.css" library="css" />
 
+		<h:outputScript>
+			
+			setLocation(#{eventViewController.event.latitude}, #{eventViewController.event.longitude});
+			setAllowEdit(false);	
+			setAllowControl(false);
+		</h:outputScript>
+
 		<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=false&amp;callback=initMap&amp;libraries=places&amp;style=feature:all|element:labels|visibility:off"
 			async="async" defer="defer">
 			
 		</script>
 
+
 	</ui:define>
 
-	<h:outputScript>
-			setLocation(#{eventViewController.event.latitude}, #{eventViewController.event.longitude});	
-	</h:outputScript>
 
 
 	<ui:define name="content">
+
 		<h:form id="comment" name="comment">
 			<div class="content-block">
 
-				<h:graphicImage class="event-creator-img-right"
+				<h:graphicImage class="event-creator-img"
 					value="/img/profile/#{eventViewController.profile.image}" />
 				<div class="event-content">
 					<h3 style="margin-top: 6px">#{eventViewController.event.title}</h3>
@@ -46,11 +52,15 @@
 
 
 					<div style="display: inline-block; margin-top: 12px;">
-						<i class="material-icons"
-							style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">near_me</i>
-						<p
-							style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">5
-							km away</p>
+	
+							
+					<i class="material-icons" style="display: inline-block; font-size: 14px; vertical-align: middle; color: #323232;">near_me</i>
+						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+							<h:outputText value="#{eventViewController.event.distance}">
+								<f:convertNumber maxFractionDigits="1"/>
+							</h:outputText> km away						 
+						</p>
+							
 					</div>
 
 					<div style="display: inline-block; margin-left: 12px;">
@@ -70,36 +80,38 @@
 					<p class="vspace">#{eventViewController.event.description}</p>
 					<p style="margin-top: 20px;" />
 
-					<h4>Dogs</h4>
-					<p style="">
+					<div>
 						<ui:repeat var="d" value="#{eventViewController.dogs}">
-							<h:graphicImage class="event-dog-img" value="/img/dog/#{d.image}" />
+							<h:graphicImage class="event-attendant-dog-img"
+								value="/img/dog/#{d.image}" />
 						</ui:repeat>
-					</p>
+					</div>
+
+
 
 
 					<h4>Attendants</h4>
 					<ul class="event-attendant-list">
 
 						<ui:repeat var="p" value="#{eventViewController.profiles}">
-
-							<h:link class="icon-link" style="display: inline-block;"
-								outcome="profile">
-								<f:param name="id" value="#{p.userId}" />
-								<h:graphicImage class="event-user-join-img"
-									value="/img/dog/#{p.image}" />
-
-							</h:link>
-
+							<li><h:link class="event-attendant" outcome="profile">
+									<h:graphicImage value="/img/profile/#{p.image}" />
+									<span>#{p.name}</span>
+									<f:param name="id" value="#{p.userId}" />
+								</h:link></li>
 						</ui:repeat>
 
 
 					</ul>
 
+
+
 					<p style="margin-top: 20px;" />
+
 
 					<h4>Location</h4>
 					<div id="map"></div>
+
 
 
 
@@ -156,10 +168,6 @@
 
 			</div>
 
-
-
-
-
 			<ui:fragment
 				rendered="#{eventViewController.event.joinStatus == 2 or eventViewController.isOwnEvent() }">
 
@@ -167,48 +175,42 @@
 
 					<h2>Comments</h2>
 					<h:panelGroup id="comment">
-						<ui:repeat var="comment" value="#{eventViewController.comments}">
+						<ul class="comment-list">
+							<ui:repeat var="comment" value="#{eventViewController.comments}">
 
+								<li><h:graphicImage class="comment-img"
+										value="/img/profile/#{comment.profile.image}" />
 
-							<div class="event-comment-wrapper">
+									<div class="comment-content">
 
+										<h:link outcome="profile" value="#{comment.profile.name}">
+											<f:param name="id" value="#{comment.userId}" />
+										</h:link>
 
-								<div style="display: inline-block; margin-top: 12px;">
-									<i class="material-icons"
-										style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">near_me</i>
-									<p
-										style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">5
-										km away</p>
-								</div>
+										<div style="display: block;">
 
+											<i class="material-icons"
+												style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">access_time</i>
+											<p
+												style="display: inline; font-size: 13px; vertical-align: middle;">
 
-								<div style="display: inline-block; margin-left: 12px;">
-									<i class="material-icons"
-										style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">access_time</i>
-									<p
-										style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+												<h:outputText value="#{comment.date}" class="date">
+													<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" />
+												</h:outputText>
 
-										<h:outputText value="#{comment.date}" class="date">
-											<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" />
-										</h:outputText>
+											</p>
 
-									</p>
-								</div>
+											<p style="padding-top: 8px;">#{comment.comment}</p>
 
-
-
-								<h:graphicImage class="event-comment-img"
-									value="/img/profile/#{eventViewController.profile.image}" />
-
-								<div class="event-comment-author">#{comment.userId}</div>
-								<div class="event-comment">#{comment.comment}</div>
-							</div>
-							<div class="clear" />
-						</ui:repeat>
+										</div>
+									</div>
+									<div class="clear" /></li>
+							</ui:repeat>
+						</ul>
 					</h:panelGroup>
 
 
-					<h:inputTextarea class="event-comment-input" rows="7"
+					<h:inputTextarea class="comment-input" rows="7"
 						value="#{eventViewController.comment.comment}" />
 					<br />
 

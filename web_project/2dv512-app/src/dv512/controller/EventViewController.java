@@ -25,11 +25,6 @@ public class EventViewController implements Serializable {
 
 	private static final long serialVersionUID = 6667656806561372380L;
 
-	// private final int VIEW_MODE = 0;
-	// private final int JOIN_MODE = 1;
-	// private final int CREATOR_MODE = 2;
-	// private final int WAITING_MODE = 3;
-
 	@Inject
 	private NotificationsDAO notificationsDAO;
 
@@ -49,7 +44,6 @@ public class EventViewController implements Serializable {
 	private UserController userController;
 
 	private Event event;
-	private Profile creator;
 	private Comment comment;
 	private int eventId = -1;
 	private int mode;
@@ -58,13 +52,15 @@ public class EventViewController implements Serializable {
 	private List<Comment> comments = new ArrayList<>();
 	private List<Dog> dogs = new ArrayList<>();
 
-//	public void switchMode(AjaxBehaviorEvent event) {
-//		System.out.println("Switching Mode" + event.toString());
-//		mode++;
-//		if (mode == 3) {
-//			mode = 0;
-//		}
-//	}
+	private boolean dataLoaded = false;
+
+	// public void switchMode(AjaxBehaviorEvent event) {
+	// System.out.println("Switching Mode" + event.toString());
+	// mode++;
+	// if (mode == 3) {
+	// mode = 0;
+	// }
+	// }
 
 	public void setId(int id) {
 		System.out.println("setId " + id);
@@ -134,63 +130,68 @@ public class EventViewController implements Serializable {
 
 	public void loadData() {
 
-
-		
 		System.out.println("eventId: " + eventId);
-		
 
 		if (eventId != -1) {
+			if (!dataLoaded) {
 
-			event = eventsDAO.eventView(eventId, userController.getUserId());
+				event = eventsDAO.eventView(eventId, userController.getUserId());
 
-			System.out.println("event.getJoinStatus() " + event.getJoinStatus());
+				System.out.println("event.getJoinStatus() " + event.getJoinStatus());
 
-			System.out.println(event.getId());
-			System.out.println(event.getLatitude());
-			System.out.println(event.getLongitude());
+				System.out.println(event.getId());
+				System.out.println(event.getLatitude());
+				System.out.println(event.getLongitude());
 
-			comments = commentsDAO.listAll(eventId);
-			dogs = dogsDAO.listAllEvent(eventId);
-			profiles = profilesDAO.listAllEvent(eventId);
+				comments = commentsDAO.listAll(eventId);
+				dogs = dogsDAO.listAllEvent(eventId);
+				profiles.add(event.getCreator());
+				profiles.addAll(profilesDAO.listAllEvent(eventId));
 
-			// for (Profile p : profiles) {
-			// System.out.println("Profile: " + p.getUserId());
-			// }
+				if (comment == null) {
+					comment = new Comment();
+					comment.setUserId(userController.getUserId());
+					comment.setEventId(eventId);
+				}
 
-			// if (event.getCreator().equals(loggedInProfile)) {
-			// mode = CREATOR_MODE;
-			// } else if (profiles.contains(loggedInProfile)) {
-			// mode = JOIN_MODE;
-			// } else {
-			// mode = VIEW_MODE;
-			// }
+				dataLoaded = true;
 
-			// System.out.println("Mode is EventController: " + mode);
-
+			}
+			
+			else{
+				comments = commentsDAO.listAll(eventId);
+			}
 		}
 
-		if (comment == null) {
-			comment = new Comment();
-			comment.setUserId(userController.getUserId());
-			comment.setEventId(eventId);
-		}
+	}
+
+	public void getProfileFromComment() {
 
 	}
 
 	public String saveData() {
 
-		System.out.println("Coment saved");
-
 		// save changes to database.
 		comment.setDate(System.currentTimeMillis());
 		commentsDAO.insert(comment);
 
+		// create notifications
+		for (Profile p : profiles) {
+
+			if (p.getUserId() != comment.getUserId()) {
+				Notification n = Notification.create(Notification.TYPE_COMMENT_POSTED, comment.getUserId(),
+						p.getUserId(), event.getId());
+				notificationsDAO.insert(n);
+			}
+
+		}
+
+		// remove old comment
 		comment = new Comment();
 		comment.setUserId(userController.getUserId());
 		comment.setEventId(eventId);
 
 		return null;
-		// return "eventview.xhtml?faces-redirect=true";
 	}
 
 }

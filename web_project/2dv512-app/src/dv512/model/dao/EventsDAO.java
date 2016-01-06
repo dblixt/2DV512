@@ -244,10 +244,7 @@ public class EventsDAO implements Serializable {
 		return false;
 	}
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> refs/remotes/origin/master
+
 	public List<Event> feed(int userId, LatLng origin, double radius) {
 		List<Event> feed = new ArrayList<>();
 
