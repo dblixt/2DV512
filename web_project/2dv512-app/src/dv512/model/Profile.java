@@ -101,4 +101,25 @@ public class Profile {
 		dogs.add(dog);
 	}
 
+	@Override
+	public boolean equals(Object p) {
+
+		if (!(p instanceof Profile)) {
+			return false;
+		}
+
+		if (this.getUserId() == ((Profile) p).getUserId()) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return getUserId() + getDescription().hashCode() + getGender().hashCode() + (int) getLatitude()
+				+ (int) getLatitude();
+	}
+
 }

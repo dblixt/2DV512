@@ -1,27 +1,70 @@
-.list-event-wrapper {
-	
+.event-creator {
+	color: #3F778A;
+	font-size: 14px;
 }
 
 .event-creator-img {
+	height: 54px;
+	width: 54px;
+	object-fit: cover;
 	float: left;
-	height: 54px;
-	width: 54px;
-	object-fit: cover;
 }
 
-.event-creator-img-right {
-	float: right;
-	height: 54px;
-	width: 54px;
-	object-fit: cover;
-}
-
-.event-dog-img {
+.event-attendant-dog-img {
 	display: inline-block;
 	height: 48px;
 	width: 48px;
 	object-fit: cover;
+	margin-left: 3px;
 }
+
+.event-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+
+.event-attendant-list {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 4px;
+}
+.event-attendant-list li {
+	margin: 0;
+	padding: 0;
+}
+
+
+.event-attendant {
+	display: block;
+	margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-decoration: none;
+    font-size: 16px;
+	color: black;
+}
+
+.event-attendant:hover {
+	color: #3F778A;
+}
+
+.event-attendant > span {
+	vertical-align: middle;
+	padding-left: 12px;
+}
+
+.event-attendant > img {
+    vertical-align: middle;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	object-fit: cover;
+}
+
 
 .event-user-join-img {
 	display: inline-block;
@@ -30,46 +73,43 @@
 	object-fit: cover;
 }
 
-.event-content {
-	overflow: hidden;
-	padding-left: 20px;
-}
 
-.event-creator {
-	color: #5397AD;
-	font-size: 14px;
-}
-
-.event-comment-wrapper {
-	margin-bottom: 20px;
+.comment-img {
 	float: left;
-	width: 100%;
-}
-
-.event-comment {
-
-}
-
-.event-comment-img {
-	float: left;
-	height: 54px;
-	width: 54px;
+	height: 48px;
+	width: 48px;
 	object-fit: cover;
-	padding-right: 20px;
 }
 
-.event-comment-date{
-	float: right;
+.comment-content {
+	display: block;
+	padding-left: 20px;
+	overflow: hidden;
 }
 
-.event-comment-input{
-	width: 99%;
+.comment-list {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 4px;
+	margin-top: 20px;
 }
 
-.event-comment-author{
-
+.comment-list li {
+	margin: 24px 0 36px 0;
+	padding: 0;
 }
 
+.comment-list li a {
+	text-decoration: none;
+	color: black;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.comment-input{
+	width: 98%;
+}
 
 
 p {

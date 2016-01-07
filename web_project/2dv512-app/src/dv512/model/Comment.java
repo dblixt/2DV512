@@ -7,6 +7,7 @@ public class Comment {
 	private int userId;
 	private String comment;
 	private long date;
+	private Profile profile;
 	
 	public int getId() {
 		return id;
@@ -46,6 +47,15 @@ public class Comment {
 	
 	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+		
+	}
+	
+	public Profile getProfile(){
+		return profile;
 	}
 	
 }

@@ -37,6 +37,7 @@
 						<h3 style="margin-top: 6px">
 							<h:outputText value="Join requested" rendered="#{n.typeJoinRequest}"/>
 							<h:outputText value="Join approved" rendered="#{n.typeJoinApproved}"/>
+							<h:outputText value="New Comment" rendered="#{n.typeCommentPosted}"/>
 						</h3>
 					
 						<h:outputText value="#{n.date * 1000}" class="date">
@@ -54,6 +55,13 @@
 								has approved your request to join the event 
 								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
+							
+							<ui:fragment rendered="#{n.typeCommentPosted}">
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								has commented on the event 
+								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+							</ui:fragment>
+							
 						</p>
 									
 						<p class="vspace" />
