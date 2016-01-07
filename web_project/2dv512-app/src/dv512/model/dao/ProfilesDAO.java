@@ -42,6 +42,7 @@ public class ProfilesDAO implements Serializable {
 				profile.setDescription(r.getString("description"));
 				profile.setLatitude(r.getDouble("pos_lat"));
 				profile.setLongitude(r.getDouble("pos_lng"));
+				profile.setRadius(r.getInt("feed_radius"));
 				profile.setImage(r.getString("img"));
 			}
 
@@ -62,14 +63,15 @@ public class ProfilesDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"UPDATE Profiles SET name = ?, gender = ?, description = ?, img = ?, pos_lng = ?, pos_lat = ? WHERE user_id = ?");
+					"UPDATE Profiles SET name = ?, gender = ?, description = ?, img = ?, pos_lng = ?, pos_lat = ?, feed_radius = ? WHERE user_id = ?");
 			stmt.setString(1, profile.getName());
 			stmt.setString(2, profile.getGender());
 			stmt.setString(3, profile.getDescription());
 			stmt.setString(4, profile.getImage());
 			stmt.setDouble(5, profile.getLongitude());
 			stmt.setDouble(6, profile.getLatitude());
-			stmt.setInt(7, profile.getUserId());
+			stmt.setInt(7,  profile.getRadius());
+			stmt.setInt(8, profile.getUserId());
 
 			stmt.executeUpdate();
 			return true;
@@ -120,7 +122,7 @@ public class ProfilesDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"SELECT * FROM Profiles INNER JOIN EventJoins ON Profiles.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
+					"SELECT * FROM Profiles INNER JOIN EventJoins ON Profiles.user_id = EventJoins.user_id WHERE EventJoins.event_id = ? AND EventJoins.approved = 1 ");
 			stmt.setInt(1, eventID);
 
 			ResultSet r = stmt.executeQuery();

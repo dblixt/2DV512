@@ -4,10 +4,10 @@
 }
 
 .event-creator-img {
+	float: left;
 	height: 54px;
 	width: 54px;
 	object-fit: cover;
-	float: left;
 }
 
 .event-attendant-dog-img {
@@ -15,14 +15,13 @@
 	height: 48px;
 	width: 48px;
 	object-fit: cover;
-	margin-left: 3px;
 }
+
 
 .event-content {
 	overflow: hidden;
 	padding-left: 20px;
 }
-
 
 .event-attendant-list {
 	display: block;
@@ -66,14 +65,6 @@
 }
 
 
-.event-user-join-img {
-	display: inline-block;
-	height: 48px;
-	width: 48px;
-	object-fit: cover;
-}
-
-
 .comment-img {
 	float: left;
 	height: 48px;
@@ -107,9 +98,7 @@
 	font-weight: 700;
 }
 
-.comment-input{
-	width: 98%;
-}
+
 
 
 p {
@@ -126,3 +115,7 @@ h3 {
 	margin: 0;
 	display: inline-block;
 }
+
+
+
+

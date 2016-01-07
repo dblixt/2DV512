@@ -13,7 +13,7 @@
 	</f:metadata>
 
 	<ui:define name="head">
-		<title>TinderDogs - Profile</title>
+		<title>Internet of Dogs - Edit Profile</title>
 		<h:outputStylesheet name="profile.css" library="css" />
 		<h:outputStylesheet name="map.css" library="css" />
 		<h:outputScript name="map.js" library="js" />
@@ -37,8 +37,10 @@
 					
 					<h:form id="form1" prependId="false">
 						<label class="label-header">Name:</label>
-						<h:inputText value="#{editProfileController.profile.name}"/>
-						
+						<h:inputText id="name" required="true" requiredMessage="Enter your name."
+							value="#{editProfileController.profile.name}"/>	
+						<h:message for="name" class="error-message" />
+											
 						<label class="label-header">Gender:</label>
 						<h:selectOneRadio value="#{editProfileController.profile.gender}">
 							<f:selectItem itemValue="male" itemLabel="Male" />
@@ -86,13 +88,23 @@
 						<h:inputHidden id="lat" value="#{editProfileController.profile.latitude}" />
 						<h:inputHidden id="lng" value="#{editProfileController.profile.longitude}" />
 						
-						<br /><br /><br />
-						<h:commandLink class="icon-link action-button" action="#{editProfileController.saveData}">
-							<i class="material-icons">save</i><span>Save</span>
-						</h:commandLink>
-						<h:link class="icon-link action-button" outcome="profile">
-							<i class="material-icons">cancel</i><span>Cancel</span>
-						</h:link>
+						<h4>Feed Settings</h4>
+						<label class="label-header">Max distance:</label>						
+						<h:inputText id="radius" p:type="number" p:min="1" p:max="200" 
+							style="width: 100px;" value="#{editProfileController.profile.radius}" 
+							validatorMessage="Not within allowed range (1-1000).">
+							<f:validateLongRange minimum="1" maximum="1000" />
+						</h:inputText>
+						<h:message for="radius" class="error-message"/>
+																
+						<div style="display: block; margin-top: 32px;">
+							<h:commandLink class="icon-link action-button" action="#{editProfileController.saveData}">
+								<i class="material-icons">save</i><span>Save</span>
+							</h:commandLink>
+							<h:link class="icon-link action-button" outcome="profile">
+								<i class="material-icons">cancel</i><span>Cancel</span>
+							</h:link>						
+						</div>					
 					</h:form>
 				</div>
 

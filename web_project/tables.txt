@@ -16,6 +16,7 @@ CREATE TABLE Profiles
   description VARCHAR(1024),
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
+  feed_radius INT NOT NULL DEFAULT 10,
   img VARCHAR(64),
   CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
   PRIMARY KEY(user_id)

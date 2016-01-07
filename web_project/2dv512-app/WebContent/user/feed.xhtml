@@ -12,10 +12,19 @@
 	</f:metadata>
 
 	<ui:define name="head">
+		<title>Internet of Dogs - Feed</title>
 		<h:outputStylesheet name="feed.css" library="css" />
 	</ui:define>
 
 	<ui:define name="content">
+	
+		<ui:fragment rendered="#{empty feedController.events}">
+			<div class="content-block">
+				<h3 style="margin-top: 20px;">Feed</h3>
+				<p style="margin-top: 12px; margin-bottom: 12px;">Your feed is currently empty, try increasing your search radius in you profile.</p>
+			</div>
+		</ui:fragment>
+	
 		<ui:repeat var="e" value="#{feedController.events}">
 			<h:form class="content-block">
 				<h:graphicImage class="event-creator-img" value="/img/profile/#{e.creator.image}"/>				

@@ -12,6 +12,7 @@
 	</f:metadata>
 
 	<ui:define name="head">
+		<title>Internet of Dogs - Notifications</title>
 		<h:outputStylesheet name="notifications.css" library="css" />
 	</ui:define>
 
@@ -36,6 +37,7 @@
 						<h3 style="margin-top: 6px">
 							<h:outputText value="Join requested" rendered="#{n.typeJoinRequest}"/>
 							<h:outputText value="Join approved" rendered="#{n.typeJoinApproved}"/>
+							<h:outputText value="New Comment" rendered="#{n.typeCommentPosted}"/>
 							<h:outputText value="Event Canceled" rendered="#{n.typeEventCanceled}"/>
 							<h:outputText value="Event Updated" rendered="#{n.typeEventUpdated}"/>
 						</h3>
@@ -65,6 +67,12 @@
 								has updated the event 
 								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
+								<ui:fragment rendered="#{n.typeCommentPosted}">
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								has commented on the event 
+								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+							</ui:fragment>
+							
 						</p>
 									
 						<p class="vspace" />

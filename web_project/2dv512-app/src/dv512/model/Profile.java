@@ -12,6 +12,7 @@ public class Profile {
 
 	private double longitude;
 	private double latitude;
+	private int radius;
 
 	private String image;
 
@@ -68,7 +69,15 @@ public class Profile {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+	
+	public int getRadius() {
+		return radius;
+	}
 
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+	
 	public String getImage() {
 		return image;
 	}
@@ -90,6 +99,27 @@ public class Profile {
 			dogs = new ArrayList<>();
 		}
 		dogs.add(dog);
+	}
+
+	@Override
+	public boolean equals(Object p) {
+
+		if (!(p instanceof Profile)) {
+			return false;
+		}
+
+		if (this.getUserId() == ((Profile) p).getUserId()) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	@Override
+	public int hashCode() {
+		return getUserId() + getDescription().hashCode() + getGender().hashCode() + (int) getLatitude()
+				+ (int) getLatitude();
 	}
 
 }
