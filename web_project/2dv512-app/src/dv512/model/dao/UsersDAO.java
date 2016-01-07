@@ -85,7 +85,7 @@ public class UsersDAO implements Serializable {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement("SELECT * FROM Users WHERE email = ?");
 			stmt.setString(1, user.getEmail());
-	
+			
 			ResultSet r = stmt.executeQuery();
 			if (r != null && r.next()) {
 				byte[] salt = r.getBytes("salt");

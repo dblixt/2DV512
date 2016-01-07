@@ -38,6 +38,8 @@
 							<h:outputText value="Join requested" rendered="#{n.typeJoinRequest}"/>
 							<h:outputText value="Join approved" rendered="#{n.typeJoinApproved}"/>
 							<h:outputText value="New Comment" rendered="#{n.typeCommentPosted}"/>
+							<h:outputText value="Event Canceled" rendered="#{n.typeEventCanceled}"/>
+							<h:outputText value="Event Updated" rendered="#{n.typeEventUpdated}"/>
 						</h3>
 					
 						<h:outputText value="#{n.date * 1000}" class="date">
@@ -55,8 +57,17 @@
 								has approved your request to join the event 
 								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
-							
-							<ui:fragment rendered="#{n.typeCommentPosted}">
+							<ui:fragment rendered="#{n.typeEventCanceled}">
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								has canceled the event 
+								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+							</ui:fragment>
+								<ui:fragment rendered="#{n.typeEventUpdated}">
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								has updated the event 
+								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+							</ui:fragment>
+								<ui:fragment rendered="#{n.typeCommentPosted}">
 								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								has commented on the event 
 								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					

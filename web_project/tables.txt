@@ -45,6 +45,7 @@ CREATE TABLE Events
   pos_lng DOUBLE,
   pos_lat DOUBLE, 
   utc_date_modified BIGINT NOT NULL,
+  canceled int default 0,
   CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE RESTRICT,
   PRIMARY KEY(id)
 );
