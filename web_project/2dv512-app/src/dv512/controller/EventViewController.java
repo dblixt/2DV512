@@ -1,6 +1,7 @@
 package dv512.controller;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dv512.UserSession;
 import dv512.model.Comment;
 import dv512.model.Dog;
 import dv512.model.Event;
@@ -22,8 +24,7 @@ import dv512.model.dao.ProfilesDAO;
 @Named
 @ViewScoped
 public class EventViewController implements Serializable {
-
-	private static final long serialVersionUID = 6667656806561372380L;
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private NotificationsDAO notificationsDAO;
@@ -41,14 +42,14 @@ public class EventViewController implements Serializable {
 	private DogsDAO dogsDAO;
 
 	@Inject
-	private UserController userController;
+	private UserSession session;
 
 	private Event event;
 	private Comment comment;
 	private int eventId = -1;
-	private int mode;
 
-	private List<Profile> profiles = new ArrayList<>();
+
+	private List<Profile> attendants = new ArrayList<>();
 	private List<Comment> comments = new ArrayList<>();
 	private List<Dog> dogs = new ArrayList<>();
 
@@ -71,11 +72,6 @@ public class EventViewController implements Serializable {
 		return eventId;
 	}
 
-	public int getMode() {
-		System.out.println("Mode is: " + mode);
-		return mode;
-	}
-
 	public Event getEvent() {
 		return event;
 	}
@@ -88,13 +84,9 @@ public class EventViewController implements Serializable {
 		return comment;
 	}
 
-	public Profile getProfile() {
-
-		return event.getCreator();
-	}
 
 	public List<Profile> getProfiles() {
-		return profiles;
+		return attendants;
 	}
 
 	public List<Comment> getComments() {
@@ -106,10 +98,10 @@ public class EventViewController implements Serializable {
 	}
 
 	public String joinEvent() {
-		if (eventsDAO.join(userController.getUserId(), event.getId())) {
+		if (eventsDAO.join(session.getUserId(), event.getId())) {
 			event.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);
 
-			Notification n = Notification.create(Notification.TYPE_REQUEST_JOIN, userController.getUserId(),
+			Notification n = Notification.create(Notification.TYPE_REQUEST_JOIN, session.getUserId(),
 					event.getCreator().getUserId(), event.getId());
 
 			notificationsDAO.insert(n);
@@ -118,24 +110,23 @@ public class EventViewController implements Serializable {
 	}
 
 	public String leaveEvent() {
-		if (eventsDAO.leave(userController.getUserId(), event.getId())) {
+		if (eventsDAO.leave(session.getUserId(), event.getId())) {
 			event.setJoinStatus(Event.JOIN_STATUS_UNJOINED);
 		}
 		return null;
 	}
 
 	public boolean isOwnEvent() {
-		return event.getCreator().getUserId() == userController.getUserId();
+		return event.getCreator().getUserId() == session.getUserId();
 	}
 
 	public void loadData() {
-
 		System.out.println("eventId: " + eventId);
 
 		if (eventId != -1) {
 			if (!dataLoaded) {
 
-				event = eventsDAO.eventView(eventId, userController.getUserId());
+				event = eventsDAO.eventView(eventId, session.getUserId());
 
 				System.out.println("event.getJoinStatus() " + event.getJoinStatus());
 
@@ -144,53 +135,48 @@ public class EventViewController implements Serializable {
 				System.out.println(event.getLongitude());
 
 				comments = commentsDAO.listAll(eventId);
-				dogs = dogsDAO.listAllEvent(eventId);
-				profiles.add(event.getCreator());
-				profiles.addAll(profilesDAO.listAllEvent(eventId));
+				dogs = dogsDAO.listAllForEvent(eventId);
+				attendants.add(event.getCreator());
+				attendants.addAll(profilesDAO.listAllEvent(eventId));
 
 				if (comment == null) {
 					comment = new Comment();
-					comment.setUserId(userController.getUserId());
-					comment.setEventId(eventId);
 				}
 
 				dataLoaded = true;
-
-			}
-			
-			else{
+			}		
+			else {
 				comments = commentsDAO.listAll(eventId);
 			}
 		}
 
 	}
 
-	public void getProfileFromComment() {
-
-	}
-
-	public String saveData() {
-
+	
+	public String postComment() {
 		// save changes to database.
-		comment.setDate(System.currentTimeMillis());
+		comment.setUserId(session.getUserId());
+		comment.setEventId(eventId);
+		comment.setDate(Instant.now().getEpochSecond());
 		commentsDAO.insert(comment);
 
 		// create notifications
-		for (Profile p : profiles) {
-
+		List<Notification> notifications = new ArrayList<>();		
+		for (Profile p : attendants) {
 			if (p.getUserId() != comment.getUserId()) {
-				Notification n = Notification.create(Notification.TYPE_COMMENT_POSTED, comment.getUserId(),
+				Notification n = Notification.create(
+						Notification.TYPE_COMMENT_POSTED, 
+						comment.getUserId(),
 						p.getUserId(), event.getId());
-				notificationsDAO.insert(n);
+				notifications.add(n);
 			}
-
 		}
-
-		// remove old comment
-		comment = new Comment();
-		comment.setUserId(userController.getUserId());
-		comment.setEventId(eventId);
-
+		
+		// batch insert
+		notificationsDAO.insert(notifications);
+		
+		// clear visible body.
+		comment.setBody(null);
 		return null;
 	}
 

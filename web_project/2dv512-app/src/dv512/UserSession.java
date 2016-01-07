@@ -1,7 +1,11 @@
-package dv512.controller;
+package dv512;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -14,7 +18,7 @@ import dv512.model.dao.ProfilesDAO;
 
 @Named
 @SessionScoped
-public class UserController implements Serializable {
+public class UserSession implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
@@ -25,6 +29,8 @@ public class UserController implements Serializable {
 		
 	private int userId = User.UNKNOWN_ID;	
 	private Profile profile;
+	
+	private TimeZone timeZone;
 	
 	private long lastNotificationCountUpdateTime = 0;
 	private int notificationCount = 0;
@@ -38,6 +44,20 @@ public class UserController implements Serializable {
 		reload();
 	}
 		
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+		
+		// time zone test
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(timeZone);
+		Date date = new Date();		
+		System.out.println("Date: " + dateFormat.format(date));
+	}
+	
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+	
 	public Profile getProfile() {
 		return profile;
 	}
@@ -51,12 +71,6 @@ public class UserController implements Serializable {
 		return notificationCount;
 	}
 	
-	
-	// should contain basic information about signed in user.
-	// e.g. profile object (no dogs), notification...
-	
-	// this should be injected in other controllers instead of
-	// LoginController.
 	
 	public void reload() {
 		if(userId != -1) {

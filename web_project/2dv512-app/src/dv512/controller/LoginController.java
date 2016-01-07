@@ -4,6 +4,7 @@ package dv512.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
@@ -20,6 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import dv512.UserSession;
 import dv512.controller.util.PropUtils;
 import dv512.model.User;
 import dv512.model.dao.UsersDAO;
@@ -39,7 +41,7 @@ public class LoginController implements Serializable {
 	public static final String ACTION_LOGOUT = "logout";
 	
 	@Inject
-	private UserController thisUser;
+	private UserSession session;
 	
 	@Inject
 	private UsersDAO userDAO;
@@ -49,10 +51,19 @@ public class LoginController implements Serializable {
 	
 	private User user;
 	private int retryCount = 0;
-		
+	
+	private int timeZoneOffset = 0;
 	
 	public LoginController() {
 		user = new User();
+	}
+	
+	public int getTimeZoneOffset() {
+		return timeZoneOffset;
+	}
+
+	public void setTimeZoneOffset(int timeZoneOffset) {
+		this.timeZoneOffset = timeZoneOffset;
 	}
 	
 	public User getUser(){
@@ -75,7 +86,13 @@ public class LoginController implements Serializable {
 	public String login() {	
 		if(userDAO.verify(user)) {
 			retryCount = 0;
-			thisUser.setUserId(user.getId());
+			session.setUserId(user.getId());
+			
+			// set time zone to use for session.
+			TimeZone z = TimeZone.getTimeZone("UTC");
+			z.setRawOffset(timeZoneOffset);
+			session.setTimeZone(z);
+			
 			return ACTION_LOGIN_SUCCESS;
 		}
 		else {
@@ -86,7 +103,7 @@ public class LoginController implements Serializable {
 	
 	public String logout() {
 		user.setId(User.UNKNOWN_ID);
-		thisUser.setUserId(User.UNKNOWN_ID);
+		session.setUserId(User.UNKNOWN_ID);
 		retryCount = 0;
 		user.setEmail(null);
 		user.setPassword(null);		
@@ -158,5 +175,7 @@ public class LoginController implements Serializable {
 	public void switchStateToLogin() {
 		currentState = STATE_LOGIN;
 	}
+
+	
 	
 }

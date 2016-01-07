@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +30,18 @@ public class CommentsDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"INSERT INTO Comments(event_id,user_id, date, comment) VALUES(?,?,?,?)");
+					"INSERT INTO Comments(event_id,user_id,utc_date,body) VALUES(?,?,?,?)");
 			stmt.setInt(1, comment.getEventId());
 			stmt.setInt(2, comment.getUserId());
 			stmt.setLong(3, comment.getDate());
-			stmt.setString(4, comment.getComment());
+			stmt.setString(4, comment.getBody());
 			stmt.executeUpdate();
 			return true;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
@@ -55,7 +56,9 @@ public class CommentsDAO implements Serializable {
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT * FROM Comments LEFT JOIN Profiles ON Comments.user_id = Profiles.user_id WHERE Comments.event_id = ? ORDER BY Comments.date ASC");
+			stmt = con.prepareStatement("SELECT * FROM Comments " + 
+					"LEFT JOIN Profiles ON Comments.user_id = Profiles.user_id " + 
+					"WHERE Comments.event_id = ? ORDER BY Comments.utc_date ASC");
 			stmt.setInt(1, eventID);
 
 			ResultSet r = stmt.executeQuery();
@@ -75,31 +78,23 @@ public class CommentsDAO implements Serializable {
 				comment.setId(r.getInt("id"));
 				comment.setEventId(r.getInt("event_id"));
 				comment.setUserId(r.getInt("user_id"));
-				comment.setDate(r.getLong("date"));
-				comment.setComment(r.getString("comment"));
+				comment.setDate(r.getLong("utc_date"));
+				comment.setBody(r.getString("body"));
 				comment.setProfile(profile);
 
 				commentList.add(comment);
 
 			}
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
 
 		return commentList;
-	}
-	
-	public void createTestComment(){
-		
-		Comment comment = new Comment();
-		comment.setUserId(2);
-		comment.setComment("Hello this is a test comment from user 2");
-		comment.setEventId(1);
-		comment.setDate(Instant.now().getEpochSecond());
-		insert(comment);
 	}
 
 }

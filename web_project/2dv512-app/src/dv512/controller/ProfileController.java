@@ -4,6 +4,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dv512.UserSession;
 import dv512.model.Profile;
 import dv512.model.dao.DogsDAO;
 import dv512.model.dao.ProfilesDAO;
@@ -13,7 +14,7 @@ import dv512.model.dao.ProfilesDAO;
 public class ProfileController {
 	
 	@Inject 
-	private UserController thisUser;
+	private UserSession thisUser;
 	
 	@Inject
 	private ProfilesDAO profiles;

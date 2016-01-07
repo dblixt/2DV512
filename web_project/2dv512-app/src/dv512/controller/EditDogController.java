@@ -10,6 +10,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dv512.UserSession;
 import dv512.controller.util.FileUploadHandler;
 import dv512.controller.util.FileUploadHandler.FileUploadListener;
 import dv512.controller.util.ImgUtils;
@@ -23,7 +24,7 @@ public class EditDogController implements Serializable {
 	private static final long serialVersionUID = -1036810508598748155L;
 
 	@Inject 
-	private UserController thisUser;
+	private UserSession thisUser;
 	
 	@Inject 
 	private DogsDAO dogsDAO;	

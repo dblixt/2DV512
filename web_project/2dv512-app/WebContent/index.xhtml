@@ -7,6 +7,20 @@
 
 
 <ui:composition template="/template/layoutIndex.xhtml">
+	<ui:define name="head">
+		<title>Internet of Dogs - Index</title>
+		<h:outputScript>
+			function loadTimezoneOffset() {
+				console.log("loadTimezoneOffset()");
+				var offset_ms = new Date().getTimezoneOffset() * 60 * 1000; 
+				document.getElementById("timezone-offset").value = -offset_ms; // inverted
+			}
+			
+			window.onload = loadTimezoneOffset;
+		</h:outputScript>
+	</ui:define>
+
+
 	<ui:define name="left">
 		<div class="box">
 			<h:form id="register" prependId="false">
@@ -105,6 +119,8 @@
 				</ui:fragment>				
 			</div>
 
+		
+
 			<h:commandLink class="icon-link"
 				rendered="#{loginController.stateLogin}"
 				action="#{loginController.login}">
@@ -112,6 +128,7 @@
 				<span>Sign In</span>
 			</h:commandLink>
 			
+			<h:inputHidden id="timezone-offset" value="#{loginController.timeZoneOffset}"></h:inputHidden>
 			
 			<h:commandLink class="icon-link"
 				rendered="#{loginController.stateReset}"

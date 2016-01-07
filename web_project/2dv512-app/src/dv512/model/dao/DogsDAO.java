@@ -93,14 +93,15 @@ public class DogsDAO implements Serializable {
 		return dl;
 	}
 	
-	public List<Dog> listAllEvent(int eventId) {
+	public List<Dog> listAllForEvent(int eventId) {
 		List<Dog> dl = new ArrayList<>();
 		
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
-			stmt = con.prepareStatement("SELECT * FROM Dogs INNER JOIN EventJoins ON Dogs.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
+			stmt = con.prepareStatement("SELECT * FROM Dogs INNER JOIN EventJoins ON " + 
+					"Dogs.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
 			stmt.setInt(1, eventId);
 			
 			ResultSet r = stmt.executeQuery();

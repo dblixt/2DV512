@@ -8,6 +8,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dv512.UserSession;
 import dv512.model.Notification;
 import dv512.model.dao.EventsDAO;
 import dv512.model.dao.NotificationsDAO;
@@ -18,7 +19,7 @@ public class NotificationsController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private UserController thisUser;
+	private UserSession thisUser;
 	
 	@Inject
 	private NotificationsDAO notifications;

@@ -21,8 +21,7 @@
 		<h:outputScript name="map.js" library="js" />
 		<h:outputStylesheet name="map.css" library="css" />
 
-		<h:outputScript>
-			
+		<h:outputScript>			
 			setLocation(#{eventViewController.event.latitude}, #{eventViewController.event.longitude});
 			setAllowEdit(false);	
 			setAllowControl(false);
@@ -33,8 +32,6 @@
 			async="async" defer="defer">
 			
 		</script>
-
-
 	</ui:define>
 
 
@@ -45,10 +42,10 @@
 			<div class="content-block">
 
 				<h:graphicImage class="event-creator-img"
-					value="/img/profile/#{eventViewController.profile.image}" />
+					value="/img/profile/#{eventViewController.event.creator.image}" />
 				<div class="event-content">
 					<h3 style="margin-top: 6px">#{eventViewController.event.title}</h3>
-					<p class="event-creator">#{eventViewController.profile.name}</p>
+					<p class="event-creator">#{eventViewController.event.creator.name}</p>
 
 
 					<div style="display: inline-block; margin-top: 12px;">
@@ -66,14 +63,10 @@
 					<div style="display: inline-block; margin-left: 12px;">
 						<i class="material-icons"
 							style="display: inline-block; font-size: 15px; vertical-align: middle; color: #323232;">access_time</i>
-						<p
-							style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
-
-							<h:outputText value="#{eventViewController.event.date * 1000}"
-								class="date">
-								<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" />
+						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+							<h:outputText value="#{eventViewController.event.date * 1000}" class="date">
+								<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" timeZone="#{userSession.timeZone}"/>
 							</h:outputText>
-
 						</p>
 					</div>
 
@@ -211,7 +204,7 @@
 
 
 					<h:inputTextarea class="comment-input" rows="7"
-						value="#{eventViewController.comment.comment}" />
+						value="#{eventViewController.comment.body}" />
 					<br />
 
 					<h:commandLink class="icon-link action-button"

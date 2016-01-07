@@ -5,7 +5,7 @@ public class Comment {
 	private int id;
 	private int eventId;
 	private int userId;
-	private String comment;
+	private String body;
 	private long date;
 	private Profile profile;
 	
@@ -33,12 +33,12 @@ public class Comment {
 		this.userId = userId;
 	}
 	
-	public String getComment() {
-		return comment;
+	public String getBody() {
+		return body;
 	}
 	
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setBody(String comment) {
+		this.body = comment;
 	}
 	
 	public long getDate() {

@@ -8,8 +8,8 @@
 	<nav>
 		<div id="profile-summary">
 			<h:graphicImage id="profile-img"
-				value="/img/profile/#{userController.profile.image}" />
-			<h2>#{userController.profile.name}</h2>
+				value="/img/profile/#{userSession.profile.image}" />
+			<h2>#{userSession.profile.name}</h2>
 		</div>
 
 		<ul>
@@ -20,9 +20,9 @@
 			<li>
 				<i class="material-icons">notifications</i>
 				<h:link outcome="notifications" value="Notifications" />
-				<ui:fragment rendered="#{userController.notificationCount > 0}">
+				<ui:fragment rendered="#{userSession.notificationCount > 0}">
 					<div class="nav-info-square">
-						#{userController.notificationCount}
+						#{userSession.notificationCount}
 					</div>
 				</ui:fragment>
 			</li>

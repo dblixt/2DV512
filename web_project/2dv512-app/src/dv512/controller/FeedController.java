@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import com.javadocmd.simplelatlng.LatLng;
 
+import dv512.UserSession;
 import dv512.model.Event;
 import dv512.model.Notification;
 import dv512.model.Profile;
@@ -22,7 +23,7 @@ public class FeedController implements Serializable {
 	private static final long serialVersionUID = 1127731622673465704L;
 
 	@Inject
-	private UserController thisUser;
+	private UserSession thisUser;
 	
 	@Inject
 	private EventsDAO events;
