@@ -1,5 +1,8 @@
 package dv512.model;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Event {
 
 	public static final int JOIN_STATUS_UNJOINED = 0;
@@ -11,10 +14,13 @@ public class Event {
 
 	private String title;
 	private String description;
-	private long date;		
+	private long date;
+	private String dateUTC;
 	private double longitude;
 	private double latitude;
-
+	private int canceled;
+	
+	
 	private int joinStatus;
 	private double distance;
 	
@@ -98,5 +104,26 @@ public class Event {
 	public void setJoinStatus(int status) {
 		this.joinStatus = status;
 	}
+	
+	public String getDateUTC(){
+		Date formatDate = new Date(0);
+		//System.out.println(date);
+		//System.out.println(formatDate);
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		formatDate.setTime(date * 1000);
+		//System.out.println(formatDate);
+		dateUTC = formatDate.toString();
+		
+		dateUTC = dateUTC.replace(":00 UTC", "");
+		//System.out.println(dateUTC);
+		return dateUTC;
+	}
 
+	public int getCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(int canceled) {
+		this.canceled = canceled;
+	}
 }

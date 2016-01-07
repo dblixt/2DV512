@@ -30,14 +30,16 @@ button {
 	padding-top: 5px;
 }
 
-#hourinput{
+.hour{
 	margin-left: 40px;
 	margin-right: 20px;
+	margin-top: 60px;
+	float: left;
 }
-#hourlabel{
-	margin-left: 42px;
-	margin-right: 15px;
+.minute {
+	padding-top: 60px;
 }
+
 
 .clear {
 	clear: both;
@@ -49,4 +51,9 @@ button {
 .createbutton {
 	margin-right: 10px;
 	margin-top: 10px;
+}
+
+h3 {
+	float:left;
+	padding-right: 280px;
 }

@@ -181,6 +181,7 @@ public class EventsDAO implements Serializable {
 		return false;
 	}
 
+	
 	public boolean join(int userId, int eventId) {
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -201,6 +202,75 @@ public class EventsDAO implements Serializable {
 
 		return false;
 
+	}
+
+	public List<Integer> update(Event event) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement(
+					"UPDATE Events SET user_id = ?, utc_date = ?, title = ?, description = ?, pos_lng = ?, pos_lat = ?, utc_date_modified = ? WHERE id = ?");
+			stmt.setInt(1, event.getCreator().getUserId());
+			stmt.setLong(2, event.getDate());
+			stmt.setString(3, event.getTitle());
+			stmt.setString(4, event.getDescription());
+			stmt.setDouble(5, event.getLongitude());
+			stmt.setDouble(6, event.getLatitude());
+			stmt.setLong(7, Instant.now().getEpochSecond());
+			stmt.setInt(8, event.getId());
+			stmt.executeUpdate();
+			
+			stmt = con.prepareStatement("SELECT user_id FROM EventJoins WHERE event_id = ?");
+			stmt.setInt(1, event.getId());
+			ResultSet rs = stmt.executeQuery();
+			List<Integer> userList = new ArrayList<Integer>();
+			
+			while(rs.next()) {
+				userList.add(rs.getInt("user_id"));
+			}
+			
+			return userList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+		}
+
+		return null;
+	}
+
+	public List<Integer> cancelEvent(Event event) {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		System.out.println("Canceling event");
+		try {
+			con = dbManager.getConnection();
+			stmt = con.prepareStatement("UPDATE Events SET canceled = ? WHERE id = ?");
+			stmt.setInt(1, 1);
+			stmt.setInt(2, event.getId());
+			stmt.executeUpdate();
+			
+			stmt = con.prepareStatement("SELECT user_id FROM EventJoins WHERE event_id = ?");
+			stmt.setInt(1, event.getId());
+			ResultSet rs = stmt.executeQuery();
+			List<Integer> userList = new ArrayList<Integer>();
+			
+			while(rs.next()) {
+				userList.add(rs.getInt("user_id"));
+			}
+			
+			return userList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			dbManager.close(stmt);
+			dbManager.close(con);
+			System.out.println("Event Canceled");
+		}
+
+		return null;
 	}
 
 	public boolean approveJoin(int userId, int eventId) {
@@ -247,15 +317,15 @@ public class EventsDAO implements Serializable {
 
 	public List<Event> feed(int userId, LatLng origin, double radius) {
 		List<Event> feed = new ArrayList<>();
-
+			
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = dbManager.getConnection();
 			stmt = createFeedStatement(con, userId, origin, radius);
-
+			
 			ResultSet r = stmt.executeQuery();
-			while (r.next()) {
+			while(r.next()) {
 				Event e = new Event();
 				e.setId(r.getInt("id"));
 				e.getCreator().setUserId(r.getInt("user_id"));
@@ -268,28 +338,32 @@ public class EventsDAO implements Serializable {
 				e.setLongitude(r.getDouble("pos_lng"));
 
 				int joined = r.getInt("joined");
-				int approved = r.getInt("join_approved");
-				if (joined > 0) {
-					if (approved > 0) {
+				int approved = r.getInt("join_approved");				
+				if(joined > 0) {
+					if(approved > 0) {
 						e.setJoinStatus(Event.JOIN_STATUS_JOINED);
-					} else {
+					}
+					else {
 						e.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);
 					}
-				} else {
+				}
+				else {
 					e.setJoinStatus(Event.JOIN_STATUS_UNJOINED);
 				}
 
 				e.setDistance(r.getDouble("distance"));
 				feed.add(e);
-			}
-		} catch (SQLException e) {
+			}		
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
 
-		return feed;
+		return feed;		
 	}
 
 	private PreparedStatement createFeedStatement(Connection con, 
@@ -326,7 +400,7 @@ public class EventsDAO implements Serializable {
 						radius + " AS radius, 111.045 AS distance_unit " + 
 				"		FROM sysibm.sysdummy1 " + 
 				"	) AS p ON 1=1 " + 
-				"	WHERE e.pos_lat " + 
+				"	WHERE WHERE e.canceled != 1 AND e.pos_lat " + 
 				"		BETWEEN p.latpoint  - (p.radius / p.distance_unit) " + 
 				"		AND p.latpoint + (p.radius / p.distance_unit) " + 
 				"	AND e.pos_lng " + 
@@ -343,5 +417,5 @@ public class EventsDAO implements Serializable {
 		stmt.setInt(1, userId);
 		return stmt;
 	}
-
+	
 }
