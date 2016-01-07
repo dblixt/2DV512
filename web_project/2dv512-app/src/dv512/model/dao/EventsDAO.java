@@ -400,7 +400,7 @@ public class EventsDAO implements Serializable {
 						radius + " AS radius, 111.045 AS distance_unit " + 
 				"		FROM sysibm.sysdummy1 " + 
 				"	) AS p ON 1=1 " + 
-				"	WHERE WHERE e.canceled != 1 AND e.pos_lat " + 
+				"	WHERE e.canceled != 1 AND e.pos_lat " + 
 				"		BETWEEN p.latpoint  - (p.radius / p.distance_unit) " + 
 				"		AND p.latpoint + (p.radius / p.distance_unit) " + 
 				"	AND e.pos_lng " + 
