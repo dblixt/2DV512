@@ -23,10 +23,7 @@ function initMap() {
 		zoom: (locationSet ? 6 : 1),
 		mapTypeControl: false,
 		streetViewControl: false,
-		draggable: allowControl,
-		mapTypeControl: allowControl,
-		scrollwheel: allowControl,
-		scaleControl: allowControl
+		scrollwheel: allowControl
 	};
 
 	map = new google.maps.Map(document.getElementById('map'), prop);

@@ -26,7 +26,6 @@
 			var myCal;
 			var hour = 0;
 			var minute = 0;
-			var unixTime;
 		
 			function setupCalendars() {
         		// Embedded Calendar
@@ -37,36 +36,25 @@
         		var prevDate = document.getElementById('unixtime').value;
         		console.log('prevDate',prevDate);
         		if(prevDate != 0){
-        			prevDate = prevDate * 1000;
-        			var newDate = new Date();
-        			newDate.setTime(prevDate);
+        			var newDate = new Date(prevDate * 1000);
         			console.log('newdate', newDate);
         			myCal.setDate(newDate);
         			var hourInput = document.getElementById('hourinput');
         			var hourInput = document.getElementById('minuteinput');
-        			hourinput.value = newDate.getUTCHours();
-        			minuteinput.value = newDate.getUTCMinutes();        	
+        			hourinput.value = newDate.getHours();
+        			minuteinput.value = newDate.getMinutes();        	
         		}
       		}      
 		
-			function calculateUnixTime() {			
-				var tempDate = new Date(myCal.date);
-				var year = tempDate.getFullYear();
-				var day = tempDate.getDate();
-				var month = tempDate.getMonth();
+			function calculateUnixTime() {							
+				var date = new Date(myCal.date.getTime());
+				date.setHours(hour);
+				date.setMinutes(minute);
+				date.setSeconds(0);
+				date.setMilliseconds(0);
 				
-				var newDate = new Date(tempDate.getTime() * 1000);
-				newDate.setYear(tempDate.getFullYear());
-				newDate.setDate(tempDate.getDate());
-				newDate.setMonth(tempDate.getMonth());
-				newDate.setHours(hour + 1);
-				newDate.setMinutes(minute)
-				newDate.setSeconds(0);
-				
-				unixTime = newDate.getTime() / 1000;
-				
-				var unixinput = document.getElementById('unixtime');
-				unixinput.value = unixTime;			
+				utcSeconds = date.getTime() / 1000;			
+				document.getElementById('unixtime').value = utcSeconds;			
 			}
 		
 			function onHourChanged(value) {
@@ -99,16 +87,15 @@
 
 	<ui:define name="content">
 		<h:form id="createevent" prependId="false" class="content-block">
-			<h3>
-				<h:outputText
-					value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
-			</h3>
-			<h:commandLink onclick="if (!confirm('Are you sure you want to delete this record?')) return false"
+			<h3>#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</h3>
+			
+			<h:commandLink onclick="if (!confirm('Are you sure you want to cancel this event?')) return false"
 				class="icon-link inline createbutton"
 				rendered="#{editEventController.editEventId != -1}"
-				action="#{editEventController.cancelEvent}">
-				<i class="material-icons">cancel</i>
-				<span>Cancel this Event</span>
+				action="#{editEventController.cancelEvent}" 
+				immediate="true">
+				<i class="material-icons">clear</i>
+				<span>Cancel Event</span>
 			</h:commandLink>
 
 			<br />
@@ -131,21 +118,20 @@
 
 			<div class="calendarbox">
 				<div id="embeddedCalendar" class="calendar"></div>
+				
 				<div class="hour">
 					<label id="hourlabel">Hour</label><br />
 					<h:inputText p:type="number" p:min="0" p:max="23" id="hourinput" onchange="onHourChanged(this.value)"
-						required="true" requiredMessage="Enter hour" style="width: 40px;"></h:inputText>
+						required="true" requiredMessage="Enter hour." style="width: 40px;"></h:inputText>
 						
 					<h:message class="error-message" for="hourinput" />
 				</div>
-							
-				
-				
+													
 				<div class="minute">
-					<label id="minutelabel">Minutes</label> <br />
+					<label id="minutelabel">Minute</label> <br />
 					<h:inputText id="minuteinput"
 						onchange="onMinuteChanged(this.value)" p:type="number" p:min="0" p:max="59"   required="true"
-						requiredMessage="Enter minutes" style="width: 40px;"></h:inputText>
+						requiredMessage="Enter minute." style="width: 40px;"></h:inputText>
 						<h:message class="error-message" for="minuteinput" />
 				</div>
 				<h:inputHidden id="unixtime"
@@ -155,17 +141,16 @@
 
 			<div class="clear" />
 
-			<div class="center">
-				<label>Select location for event</label> <input id="pac-input"
-					class="controls" type="text" placeholder="Search"></input>
-				<div id="map"></div>
+			<h4>Location</h4>
+			<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
+			<div id="map"></div>
 
-				<h:inputHidden id="lat"
-					value="#{editEventController.event.latitude}" />
-				<h:inputHidden id="lng"
-					value="#{editEventController.event.longitude}" />
+			<h:inputHidden id="lat"
+				value="#{editEventController.event.latitude}" />
+			<h:inputHidden id="lng"
+				value="#{editEventController.event.longitude}" />
 
-			</div>
+	
 
 			<h:commandLink class="icon-link inline createbutton"
 				action="#{editEventController.createEvent}"

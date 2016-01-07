@@ -5,41 +5,48 @@
 	margin-bottom: 20px;
 }
 
-.profile-wrapper .left {
+.profile-content-left {
 	position: asolute;
 	top: 0;
 	left: 0;
 	margin-right: 130px;
 }
 
-.profile-wrapper .right {
+.profile-content-right {
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 120px;
 }
 
-.profile-wrapper .left .description {
+
+#profile-gender {
+	text-transform: capitalize;
+	margin: 6px 0 0 0;
+	text-size: 13px;
+}
+
+#profile-description {
 	font-size: 15px;
 }
 
-.profile-wrapper .left ul {
+#profile-dog-list {
 	list-style-type: none;
 	margin: 0;
 	padding-left: 10px;
 	padding-bottom: 10px;
 }
 
-.profile-wrapper .left li {
+#profile-dog-list li {
 	display: block;
 	position: relative;
 	height: 64px;
 	margin-top: 3px;
-	margin-bottom: 3px;
+	margin-bottom: 5px;
 }
 
-.profile-wrapper .left ul li img {
-	display: block-inline;
+#profile-dog-list li img {
+	display: inline-block;
 	float: left;
 	height: 64px;
 	width: 64px;
@@ -47,44 +54,16 @@
 	object-fit: cover;
 }
 
-.profile-wrapper .left ul li > div {
-	padding-bottom: 2px;
-}
-
-
-.profile-wrapper .left ul li p {
-	margin: 0;
+#profile-dog-list li p {
+	margin: 2px 0 2px 0;
 	font-size: 13px;
 }
 
-.profile-wrapper .left form {
-	margin-top: 20px;
+#profile-edit-button {
+	float: right;
 }
 
-.profile-wrapper .left form .label-header {
-	display: block;
-	margin-top: 16px;
-}
-
-.profile-wrapper .left .edit-dog {
-	right: 0;
-}
-
-.profile-wrapper .left #add-dog {
-	display: block;
-	margin-left: 10px;
-	text-align: center;
-}
-
-
-.profile-wrapper .right #change-pic {
-	display: block;
-	text-align: center;
-	margin: 6px auto;
-	padding-right: 12px;
-}
-
-.profile-wrapper .right #view-profile-img {
+#image-preview {
 	display: inline-block;
 	width: 120px;
 	height: 120px;
@@ -92,29 +71,23 @@
 	object-fit: cover;
 }
 
-.profile-wrapper h3 {
-	display: inline-block;
-	margin: 0;
+
+.profile-gender-input label {
+	display: inline;
 }
 
-.profile-wrapper h5 {
-	margin: 0;
-	padding: 0;
+#editprofile-add-dog {
+	display: block;
+	margin-left: 10px;
+	text-align: center;
 }
 
-
-
-.center-vert {
+.center-vertical {
 	display: inline-block;
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
 }
-
-.cap-first {
-	text-transform: capitalize;
-}
-
 
 .wrapper-file-input {
 	display: block;
@@ -137,10 +110,3 @@
     -moz-opacity: 0;
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
 }
-
-
-.action-button {
-	display: inline-block;
-	margin-right: 6px;
-}
-

@@ -114,7 +114,7 @@ public class ProfilesDAO implements Serializable {
 		return true;
 	}
 
-	public List<Profile> listAllEvent(int eventID) {
+	public List<Profile> listAllForEvent(int eventID) {
 		List<Profile> pl = new ArrayList<>();
 
 		Connection con = null;
@@ -122,7 +122,10 @@ public class ProfilesDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"SELECT * FROM Profiles INNER JOIN EventJoins ON Profiles.user_id = EventJoins.user_id WHERE EventJoins.event_id = ? AND EventJoins.approved = 1 ");
+					"SELECT * FROM Profiles INNER JOIN EventJoins ON " + 
+					"Profiles.user_id = EventJoins.user_id WHERE " + 
+					"EventJoins.event_id = ? AND EventJoins.approved = 1 "
+			);
 			stmt.setInt(1, eventID);
 
 			ResultSet r = stmt.executeQuery();
@@ -139,12 +142,12 @@ public class ProfilesDAO implements Serializable {
 				profile.setImage(r.getString("img"));
 
 				pl.add(profile);
-
 			}
-
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}

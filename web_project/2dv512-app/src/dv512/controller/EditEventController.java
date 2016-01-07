@@ -1,43 +1,50 @@
 package dv512.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import dv512.UserSession;
 import dv512.model.Event;
 import dv512.model.Notification;
+import dv512.model.Profile;
 import dv512.model.dao.EventsDAO;
 import dv512.model.dao.NotificationsDAO;
 
 @Named
 @ViewScoped
 public class EditEventController implements Serializable {
-
-	private static final long serialVersionUID = 6667656806561372380L;
-	private final String CREATE_SUCESS = "success";
-	private final String CREATE_FAILED = "fail";
+	private static final long serialVersionUID = 1L;
+	
+	private final String SUCCESS = "success";
+	private final String FAIL = "fail";
 
 	@Inject
 	private EventsDAO eventDAO;
 
 	@Inject
-	private UserController userController;
+	private UserSession session;
 
 	@Inject
 	private NotificationsDAO notificationsDAO;
 
 	private Event event;
 
-	/* id of event if in edit mode */
+	/** id of event if in edit mode, -1 otherwise */
 	private int editEventId = -1;
 
 	public Event getEvent() {
 		return event;
 	}
 
+	/**
+	 * Get id of event to edit if in edit mode.
+	 * @return id of event if in edit mode, -1 otherwise.
+	 */
 	public int getEditEventId() {
 		return editEventId;
 	}
@@ -46,58 +53,92 @@ public class EditEventController implements Serializable {
 		editEventId = eventId;
 	}
 
-	public String createEvent() {
-		System.out.println("Creating event");
-		event.setCreator(userController.getProfile());
-		try {
-			eventDAO.insert(event);
-			System.out.println("Event created");
-			return CREATE_SUCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Failed to create event");
-			return CREATE_FAILED;
-		}
-	}
-
+	
 	public void loadEvent() {
 		if (event == null) {
 			if (editEventId == -1) {
 				event = new Event();
-				event.setLatitude(userController.getProfile().getLatitude());
-				event.setLongitude(userController.getProfile().getLongitude());
-				return;
+				event.setLatitude(session.getProfile().getLatitude());
+				event.setLongitude(session.getProfile().getLongitude());
 			}
-			event = eventDAO.get(editEventId);
-			if (event.getCreator().getUserId() != userController.getUserId()) {
-				editEventId = -1;
-				event = new Event();
-				event.setLatitude(userController.getProfile().getLatitude());
-				event.setLongitude(userController.getProfile().getLongitude());
-			}
+			else {
+				event = eventDAO.get(editEventId, -1);
+				
+				if(event == null || event.getCreator().getUserId() != session.getUserId()) {
+					// something is fishy, switch to create event mode.
+					editEventId = -1;
+					event = new Event();
+					event.setLatitude(session.getProfile().getLatitude());
+					event.setLongitude(session.getProfile().getLongitude());
+				}
+			}			
+		}
+	}
+	
+	public String createEvent() {
+		System.out.println("Creating event");
+		event.setCreator(session.getProfile());
+		try {
+			eventDAO.insert(event);
+			System.out.println("Event created");
+			return SUCCESS;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Failed to create event");
+			return FAIL;
 		}
 	}
 
-	public void editEvent() {
+	public String editEvent() {
 		if (event != null) {
-			List<Integer> userList = eventDAO.update(event);
-			for (int userId : userList) {
-				Notification n = Notification.create(Notification.TYPE_EVENT_UPDATED, event.getCreator().getUserId(),
-						userId, event.getId());
-				notificationsDAO.insert(n);
+			if(eventDAO.update(event)) {
+				List<Profile> attendants = eventDAO.getJoins(event.getId());				
+				List<Notification> notifications = new ArrayList<>();
+				
+				for (Profile p : attendants) {
+					if(p.getUserId() != session.getUserId()) {
+						Notification n = Notification.create(
+								Notification.TYPE_EVENT_UPDATED, 
+								session.getUserId(),
+								p.getUserId(), 
+								event.getId()
+						);
+						notifications.add(n);
+					}				
+				}
+				
+				notificationsDAO.insert(notifications);
 			}
+			
 		}
+		
+		return SUCCESS;
 	}
 
-	public void cancelEvent() {
+	public String cancelEvent() {
 		if (event != null) {
-			List<Integer> userList = eventDAO.cancelEvent(event);
-			for (int userId : userList) {
-				Notification n = Notification.create(Notification.TYPE_EVENT_CANCELLED, event.getCreator().getUserId(),
-						userId, event.getId());
-				notificationsDAO.insert(n);
+			if(eventDAO.cancel(event)) {
+				List<Profile> attendants = eventDAO.getJoins(event.getId());				
+				List<Notification> notifications = new ArrayList<>();
+				
+				for (Profile p : attendants) {
+					if(p.getUserId() != session.getUserId()) {
+						Notification n = Notification.create(
+								Notification.TYPE_EVENT_CANCELLED, 
+								session.getUserId(),
+								p.getUserId(), 
+								event.getId()
+						);
+						notifications.add(n);
+					}				
+				}
+				
+				notificationsDAO.insert(notifications);
 			}
 		}
+		
+		return SUCCESS;
 	}
 
 }

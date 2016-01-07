@@ -1,13 +1,32 @@
-.event-creator {
+.event-creator-link {
+	display: block;
 	color: #3F778A;
 	font-size: 14px;
+	text-decoration: none;
 }
 
-.event-creator-img {
-	height: 54px;
-	width: 54px;
+.event-creator-image {
+	height: 64px;
+	width: 64px;
 	object-fit: cover;
 	float: left;
+}
+
+.event-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.event-button-bar {
+	margin-left: -6px;
+}
+
+.event-button {
+	margin-right: 6px;
+}
+.event-pending-join {
+	display: inline-block; 
+	background: none;
 }
 
 .event-attendant-dog-img {
@@ -17,12 +36,6 @@
 	object-fit: cover;
 	margin-left: 3px;
 }
-
-.event-content {
-	overflow: hidden;
-	padding-left: 20px;
-}
-
 
 .event-attendant-list {
 	display: block;
@@ -34,7 +47,6 @@
 	margin: 0;
 	padding: 0;
 }
-
 
 .event-attendant {
 	display: block;
@@ -66,15 +78,28 @@
 }
 
 
-.event-user-join-img {
-	display: inline-block;
-	height: 48px;
-	width: 48px;
-	object-fit: cover;
+
+.comment-list {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 4px;
+	margin-top: 20px;
 }
 
+.comment-list li {
+	margin: 24px 0 24px 0;
+	padding: 0;
+}
 
-.comment-img {
+.comment-list li a {
+	text-decoration: none;
+	color: black;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.comment-image {
 	float: left;
 	height: 48px;
 	width: 48px;
@@ -87,42 +112,13 @@
 	overflow: hidden;
 }
 
-.comment-list {
-	display: block;
-	list-style-type: none;
+.comment-body {
 	margin: 0;
-	padding-left: 4px;
-	margin-top: 20px;
-}
-
-.comment-list li {
-	margin: 24px 0 36px 0;
-	padding: 0;
-}
-
-.comment-list li a {
-	text-decoration: none;
-	color: black;
-	font-size: 16px;
-	font-weight: 700;
+	padding: 8px 0 0 0;
+	white-space: pre-wrap;
 }
 
 .comment-input{
-	width: 98%;
+	width: 99%;
 }
 
-
-p {
-	margin: 0px;
-}
-
-
-.vspace {
-	margin-top: 12px;
-}
-
-
-h3 {
-	margin: 0;
-	display: inline-block;
-}

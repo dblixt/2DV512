@@ -9,6 +9,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
+
 import dv512.UserSession;
 import dv512.model.Comment;
 import dv512.model.Dog;
@@ -23,7 +27,7 @@ import dv512.model.dao.ProfilesDAO;
 
 @Named
 @ViewScoped
-public class EventViewController implements Serializable {
+public class ViewEventController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
@@ -98,7 +102,7 @@ public class EventViewController implements Serializable {
 	}
 
 	public String joinEvent() {
-		if (eventsDAO.join(session.getUserId(), event.getId())) {
+		if (eventsDAO.join(session.getUserId(), event.getId(), false)) {
 			event.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);
 
 			Notification n = Notification.create(Notification.TYPE_REQUEST_JOIN, session.getUserId(),
@@ -121,23 +125,19 @@ public class EventViewController implements Serializable {
 	}
 
 	public void loadData() {
-		System.out.println("eventId: " + eventId);
-
 		if (eventId != -1) {
 			if (!dataLoaded) {
-
-				event = eventsDAO.eventView(eventId, session.getUserId());
-
-				System.out.println("event.getJoinStatus() " + event.getJoinStatus());
-
-				System.out.println(event.getId());
-				System.out.println(event.getLatitude());
-				System.out.println(event.getLongitude());
-
-				comments = commentsDAO.listAll(eventId);
-				dogs = dogsDAO.listAllForEvent(eventId);
-				attendants.add(event.getCreator());
-				attendants.addAll(profilesDAO.listAllEvent(eventId));
+				event = eventsDAO.get(eventId, session.getUserId());
+				
+				// compute distance
+				LatLng location = new LatLng(event.getLatitude(), event.getLongitude());
+				LatLng userLoc = new LatLng(session.getProfile().getLatitude(), session.getProfile().getLongitude());
+				event.setDistance(LatLngTool.distance(location, userLoc, LengthUnit.KILOMETER));
+						
+				comments = commentsDAO.listAll(eventId);		
+				
+				dogs = dogsDAO.listAllForEvent(eventId);				
+				attendants = profilesDAO.listAllForEvent(eventId);
 
 				if (comment == null) {
 					comment = new Comment();
@@ -149,7 +149,6 @@ public class EventViewController implements Serializable {
 				comments = commentsDAO.listAll(eventId);
 			}
 		}
-
 	}
 
 	

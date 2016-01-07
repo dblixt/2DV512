@@ -5,7 +5,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
 		<f:event type="preRenderView" listener="#{feedController.loadData}" />
@@ -13,62 +12,68 @@
 
 	<ui:define name="head">
 		<title>Internet of Dogs - Feed</title>
-		<h:outputStylesheet name="feed.css" library="css" />
+		<h:outputStylesheet name="event.css" library="css" />
 	</ui:define>
 
-	<ui:define name="content">
-	
+	<ui:define name="content">	
 		<ui:fragment rendered="#{empty feedController.events}">
 			<div class="content-block">
-				<h3 style="margin-top: 20px;">Feed</h3>
+				<h3 class="margin-large">Feed</h3>
 				<p style="margin-top: 12px; margin-bottom: 12px;">Your feed is currently empty, try increasing your search radius in you profile.</p>
 			</div>
 		</ui:fragment>
 	
 		<ui:repeat var="e" value="#{feedController.events}">
 			<h:form class="content-block">
-				<h:graphicImage class="event-creator-img" value="/img/profile/#{e.creator.image}"/>				
+				<h:graphicImage class="event-creator-image" value="/img/profile/#{e.creator.image}"/>				
 				<div class="event-content">
-					<h3 style="margin-top: 6px">#{e.title}</h3>
-					<h:link class="event-creator" value="#{e.creator.name}" outcome="profile">
+					<h3>#{e.title}</h3>
+					<h:link class="event-creator-link" value="#{e.creator.name}" outcome="profile">
 						<f:param name="id" value="#{e.creator.userId}"/>
 					</h:link>
 					
-					<div style="margin-top: 12px;">
-						<i class="material-icons" style="display: inline-block; font-size: 14px; vertical-align: middle; color: #323232;">near_me</i>
-						<p style="display: inline; font-weight: bold; font-size: 14px; vertical-align: middle;">
+					<div class="icon-label margin-medium" >
+						<i class="material-icons">near_me</i>
+						<p>
 							<h:outputText value="#{e.distance}">
 								<f:convertNumber maxFractionDigits="1"/>
-							</h:outputText> km away		
-							<h:outputText value ="#{e.dateUTC}"> </h:outputText>				 
+							</h:outputText> km away					 
 						</p>
 					</div>
-					<p class="vspace" />
+					
+					<div class="icon-label" style="margin-left: 8px;">
+						<i class="material-icons">access_time</i>
+						<p>
+							<h:outputText value="#{e.date * 1000}">
+								<f:convertDateTime pattern="YYYY-MM-dd HH:mm" timeZone="#{userSession.timeZone}" />
+							</h:outputText>
+						</p>
+					</div>								
+					<p class="margin-large" />
 					<p>#{e.description}</p>
-					<p class="vspace" />
-	
-					<p style="margin-top: 20px;" />
-					<div style="margin-left: -8px;" >
-						<h:link class="icon-link" style="display: inline-block;" outcome="event">
+					<div class="margin-large" />	
+					<div class="event-button-bar">
+						<h:link class="icon-link event-button"  outcome="event">
 							<f:param name="id" value="#{e.id}" />
 							<i class="material-icons">view_day</i><span>View</span>
 						</h:link>
-						<h:commandLink class="icon-link" style="display: inline-block; margin-left: 5px;" 
+						<h:commandLink class="icon-link event-button" 
 							action="#{feedController.joinEvent(e)}" rendered="#{e.joinStatus == 0 and !feedController.isOwnEvent(e.creator.userId)}">
-							<f:param name="id" value="#{e.id}" />
 							<f:ajax execute="@form" render="@form"/>
 							<i class="material-icons"  style="font-size: 24px;">done</i><span>Join</span>
 						</h:commandLink>
 						<ui:fragment rendered="#{e.joinStatus == 1 and !feedController.isOwnEvent(e.creator.userId)}">
-							<div class="icon-link" style="display: inline-block; margin-left: 5px; background: none;"><i class="material-icons">hourglass_empty</i><span>Join Requested</span></div>							
+							<div class="icon-link event-button event-pending-join">
+								<i class="material-icons">hourglass_empty</i>
+								<span>Join Requested</span>
+							</div>							
 						</ui:fragment>
-						<h:commandLink class="icon-link" style="display: inline-block; margin-left: 5px;" 
+						<h:commandLink class="icon-link event-button" 
 							action="#{feedController.leaveEvent(e)}" rendered="#{e.joinStatus == 2 and !feedController.isOwnEvent(e.creator.userId)}">
-							<f:param name="id" value="#{e.id}" />
 							<f:ajax execute="@form" render="@form"/>
 							<i class="material-icons"  style="font-size: 24px;">clear</i><span>Leave</span>
 						</h:commandLink>
-						<h:link class="icon-link" style="display: inline-block; margin-left: 5px;"  
+						<h:link class="icon-link event-button"  
 							outcome="editevent" rendered="#{feedController.isOwnEvent(e.creator.userId)}">
 							<f:param name="id" value="#{e.id}" />
 							<i class="material-icons">mode_edit</i><span>Edit</span>

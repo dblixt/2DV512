@@ -24,13 +24,12 @@
 
 	</navigation-rule>
 	<navigation-rule>
-		<from-view-id>/createevent.xhtml</from-view-id>
+		<from-view-id>/user/editevent.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/user/feed.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
-
 	</navigation-rule>
 	
 	

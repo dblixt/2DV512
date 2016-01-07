@@ -33,19 +33,20 @@
 	<ui:define name="content">
 		<div class="content-block">
 			<div class="profile-wrapper">
-				<div class="left">
-					<h3>#{profileController.profile.name}</h3>
-					<p class="cap-first">#{profileController.profile.gender}</p>
-					<p class="description">#{profileController.profile.description}</p>
+				<div class="profile-content-left">
+					<h2 id="profile-header-name">#{profileController.profile.name}</h2>
+					<p id="profile-gender">#{profileController.profile.gender}</p>
+					
+					<p class="profile-description">#{profileController.profile.description}</p>
 
 					<h4>Dogs</h4>
-					<ul>
+					<ul id="profile-dog-list">
 						<ui:repeat var="d" value="#{profileController.profile.dogs}">
 							<li>
 								<h:graphicImage value="/img/dog/#{d.image}" />
-								<div class="center-vert">
+								<div class="center-vertical">
 									<h5>#{d.name}</h5>
-									<p><span class="cap-first">#{d.gender}</span> - age #{d.age}</p>
+									<p><span class="capitalize">#{d.gender}</span> - age #{d.age}</p>
 									<p>#{d.breed}</p>
 								</div>
 								<div class="clear" />
@@ -57,13 +58,13 @@
 					<div id="map"></div>
 				</div>
 
-				<div class="right">
-					<h:link class="icon-link" style="float: right;" outcome="editprofile" rendered="#{profileController.editAllowed}">
+				<div class="profile-content-right">
+					<h:link id="profile-edit-button" class="icon-link" outcome="editprofile" rendered="#{profileController.editAllowed}">
 						<i class="material-icons">mode_edit</i><span>Edit</span>
 					</h:link>
 					
 					<div class="clear" />
-					<h:graphicImage id="view-profile-img" value="/img/profile/#{profileController.profile.image}" />
+					<h:graphicImage id="image-preview" value="/img/profile/#{profileController.profile.image}" />
 				</div>
 			</div>
 		</div>

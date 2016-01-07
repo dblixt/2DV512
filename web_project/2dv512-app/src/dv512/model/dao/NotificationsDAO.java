@@ -31,6 +31,10 @@ public class NotificationsDAO implements Serializable {
 	}
 
 	public boolean insert(List<Notification> notifications) {
+		if(notifications.size() < 1) {
+			return false;
+		}
+				
 		Connection con = null;
 		PreparedStatement stmt = null;
 
@@ -50,7 +54,7 @@ public class NotificationsDAO implements Serializable {
 				stmt.addBatch();
 			}
 					
-			stmt.executeUpdate();
+			stmt.executeBatch();
 			return true;
 		} 
 		catch (SQLException e) {

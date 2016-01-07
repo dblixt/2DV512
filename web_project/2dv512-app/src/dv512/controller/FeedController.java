@@ -45,7 +45,7 @@ public class FeedController implements Serializable {
 
 	
 	public String joinEvent(Event e) {
-		if(events.join(thisUser.getUserId(), e.getId())) {		
+		if(events.join(thisUser.getUserId(), e.getId(), false)) {		
 			e.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);			
 
 			Notification n = Notification.create(

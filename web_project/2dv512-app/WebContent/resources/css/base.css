@@ -192,6 +192,37 @@ nav ul li:hover {
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.39);
 }
 
+
+h2 {
+	font-size: 20px;
+	margin: 0;
+}
+
+h3 {
+	font-size: 19px;
+	margin: 6px 0 0 0;
+}
+
+h4 {
+	font-size: 17px;
+	margin: 16px 0 12px 0;
+}
+
+h5 {
+	margin: 0;
+	padding: 0;
+}
+
+
+label {
+	display: block;
+	margin-top: 16px;
+}
+
+
+
+
+
 .icon-link {
 	display: inline-block;
 	margin: 0;
@@ -220,6 +251,42 @@ nav ul li:hover {
 	font-size: 22px;
 }
 
+.icon-label {
+	display: inline-block;
+}
+
+.icon-label > i {
+	display: inline-block; 
+	font-size: 15px; 
+	vertical-align: middle; 
+	color: #323232;
+}
+
+.icon-label > p {
+	display: inline;
+	font-weight: 700; 
+	font-size: 14px; 
+	vertical-align: middle;
+}
+
+.icon-label-small {
+	display: inline-block;
+}
+
+.icon-label-small > i{
+	display: inline-block; 
+	font-size: 15px; 
+	vertical-align: middle; 
+	color: #323232;
+}
+
+.icon-label-small > p {
+	display: inline; 
+	font-size: 13px; 
+	vertical-align: middle;
+}
+
+
 .error-message {
 	display: block;
 	color: #D12D1B;
@@ -229,6 +296,25 @@ nav ul li:hover {
 .center {
 	text-align: center;
 }
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+
+.margin-small {
+	margin-top: 8px;
+}
+
+.margin-medium {
+	margin-top: 12px;
+}
+
+.margin-large {
+	margin-top: 20px;
+}
+
+
 
 .clear {
 	clear: both;

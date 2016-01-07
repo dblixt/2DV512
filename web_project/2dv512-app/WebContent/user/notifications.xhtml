@@ -42,9 +42,14 @@
 							<h:outputText value="Event Updated" rendered="#{n.typeEventUpdated}"/>
 						</h3>
 					
-						<h:outputText value="#{n.date * 1000}" class="date">
-							<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss"/>
-						</h:outputText>
+						<div class="icon-label-small" style="display: block;">
+							<i class="material-icons">access_time</i>
+							<p>
+								<h:outputText value="#{n.date * 1000}">
+									<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" timeZone="#{userSession.timeZone}" />
+								</h:outputText>
+							</p>										
+						</div>		
 
 						<p class="vspace">
 							<ui:fragment rendered="#{n.typeJoinRequest}">
