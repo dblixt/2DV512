@@ -85,7 +85,9 @@ public class Notification {
 	}
 
 	
-	
+	public boolean isTypeCommentPosted() {
+		return type == TYPE_COMMENT_POSTED;
+	}
 	
 	public boolean isTypeJoinRequest() {
 		return type == TYPE_REQUEST_JOIN;

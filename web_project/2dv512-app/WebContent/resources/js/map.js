@@ -8,6 +8,7 @@ var allowEditLocation = false;
 var allowGeoLocation = true;
 var locationSet = true;
 
+var allowControl = true;
 
 function initMap() {
 	console.log("initMap()");
@@ -21,7 +22,11 @@ function initMap() {
 		center:  mycenter,
 		zoom: (locationSet ? 6 : 1),
 		mapTypeControl: false,
-		streetViewControl: false					
+		streetViewControl: false,
+		draggable: allowControl,
+		mapTypeControl: allowControl,
+		scrollwheel: allowControl,
+		scaleControl: allowControl
 	};
 
 	map = new google.maps.Map(document.getElementById('map'), prop);
@@ -188,6 +193,10 @@ function setLocation(lat, lng) {
 	longitude = lng;
 	
 	updateLocation();
+}
+
+function setAllowControl(allowCont) {
+	allowControl = allowCont;
 }
 
 function setAllowEdit(allowEdit) {

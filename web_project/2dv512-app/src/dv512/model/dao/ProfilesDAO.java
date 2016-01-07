@@ -122,7 +122,7 @@ public class ProfilesDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement(
-					"SELECT * FROM Profiles INNER JOIN EventJoins ON Profiles.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
+					"SELECT * FROM Profiles INNER JOIN EventJoins ON Profiles.user_id = EventJoins.user_id WHERE EventJoins.event_id = ? AND EventJoins.approved = 1 ");
 			stmt.setInt(1, eventID);
 
 			ResultSet r = stmt.executeQuery();
