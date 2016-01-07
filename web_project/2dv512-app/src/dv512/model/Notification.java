@@ -83,9 +83,6 @@ public class Notification {
 	public void setTargetUser(Profile p) {
 		targetUser = p;
 	}
-
-	
-	
 	
 	public boolean isTypeJoinRequest() {
 		return type == TYPE_REQUEST_JOIN;
@@ -93,6 +90,13 @@ public class Notification {
 	
 	public boolean isTypeJoinApproved() {
 		return type == TYPE_JOIN_APPROVED;
+	}
+	
+	public boolean isTypeEventCanceled() {
+		return type == TYPE_EVENT_CANCELLED;
+	}
+	public boolean isTypeEventUpdated() {
+		return type == TYPE_EVENT_UPDATED;
 	}
 
 

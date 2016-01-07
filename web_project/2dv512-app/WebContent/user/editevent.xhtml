@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 
 <ui:composition template="/template/layoutUser.xhtml">
@@ -82,24 +83,13 @@
       			setupCalendars(); 
       		});		
 		</h:outputScript>
+		
 		<h:outputScript>
 			setLocation(#{editEventController.event.latitude}, #{editEventController.event.longitude});	
 			setAllowEdit(true);
 			setAllowGeoLocation(false);
 		</h:outputScript>
 		
-		<h:outputScript>
-			function confirmCancel() {
- 		  		if (confirm("Are you sure you want to cancel this event!") == true) {
-       				console.log("Pressing fake link")
-       				var jsfCommandLink = document.getElementById('hidden:cancel');
-     				
-     				jsfCommandLink.innerHTML = "hejsan";
-    			} 
-    			else {}
-			}
-</h:outputScript>
-
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
 			async="async" defer="defer">
@@ -113,32 +103,50 @@
 				<h:outputText
 					value="#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}" />
 			</h3>
+			<h:commandLink onclick="if (!confirm('Are you sure you want to delete this record?')) return false"
+				class="icon-link inline createbutton"
+				rendered="#{editEventController.editEventId != -1}"
+				action="#{editEventController.cancelEvent}">
+				<i class="material-icons">cancel</i>
+				<span>Cancel this Event</span>
+			</h:commandLink>
 
 			<br />
 			<br />
+			<br/>
+			<br/>
 			<label>Title:</label>
 			<br />
-			<h:inputText value="#{editEventController.event.title}"></h:inputText>
+			<h:inputText id="event_title" value="#{editEventController.event.title}" required="true" requiredMessage="Enter title"></h:inputText>
+			<h:message class="error-message" for="event_title" />
 			<br />
 			<br />
 			<label>Description:</label>
 			<br />
-			<h:inputTextarea rows="4" cols="40"
-				value="#{editEventController.event.description}">
+			<h:inputTextarea id="event_description" rows="4" cols="40"
+				value="#{editEventController.event.description}"
+				required="true" requiredMessage="Enter description">
 			</h:inputTextarea>
+			<h:message class="error-message" for="event_description" />
 
 			<div class="calendarbox">
 				<div id="embeddedCalendar" class="calendar"></div>
 				<div class="hour">
 					<label id="hourlabel">Hour</label><br />
-					<h:inputText id="hourinput" onchange="onHourChanged(this.value)"
-						size="2"></h:inputText>
-
+					<h:inputText p:type="number" p:min="0" p:max="23" id="hourinput" onchange="onHourChanged(this.value)"
+						required="true" requiredMessage="Enter hour" style="width: 40px;"></h:inputText>
+						
+					<h:message class="error-message" for="hourinput" />
 				</div>
+							
+				
+				
 				<div class="minute">
 					<label id="minutelabel">Minutes</label> <br />
 					<h:inputText id="minuteinput"
-						onchange="onMinuteChanged(this.value)" size="2"></h:inputText>
+						onchange="onMinuteChanged(this.value)" p:type="number" p:min="0" p:max="59"   required="true"
+						requiredMessage="Enter minutes" style="width: 40px;"></h:inputText>
+						<h:message class="error-message" for="minuteinput" />
 				</div>
 				<h:inputHidden id="unixtime"
 					value="#{editEventController.event.date}"></h:inputHidden>
@@ -175,20 +183,8 @@
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
 			</h:link>
-			<h:commandLink onclick="confirmCancel()"
-				class="icon-link inline createbutton"
-				rendered="#{editEventController.editEventId != -1}">
-				<i class="material-icons">cancel</i>
-				<span>Cancel this Event</span>
-			</h:commandLink>
 			
-			
-			
-		</h:form>
-		<h:form id="hidden">
-			<h:commandLink id="cancel" action="#{editEventController.cancelEvent}"
-                  value="click"/>
-		</h:form> 
+		 </h:form>
 	</ui:define>
 </ui:composition>
 </html>

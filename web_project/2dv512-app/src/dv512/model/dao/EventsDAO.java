@@ -117,7 +117,7 @@ public class EventsDAO implements Serializable {
 
 	}
 
-	public boolean update(Event event) {
+	public List<Integer> update(Event event) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -133,7 +133,17 @@ public class EventsDAO implements Serializable {
 			stmt.setLong(7, Instant.now().getEpochSecond());
 			stmt.setInt(8, event.getId());
 			stmt.executeUpdate();
-			return true;
+			
+			stmt = con.prepareStatement("SELECT user_id FROM EventJoins WHERE event_id = ?");
+			stmt.setInt(1, event.getId());
+			ResultSet rs = stmt.executeQuery();
+			List<Integer> userList = new ArrayList<Integer>();
+			
+			while(rs.next()) {
+				userList.add(rs.getInt("user_id"));
+			}
+			
+			return userList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -141,10 +151,10 @@ public class EventsDAO implements Serializable {
 			dbManager.close(con);
 		}
 
-		return false;
+		return null;
 	}
 
-	public boolean cancelEvent(Event event) {
+	public List<Integer> cancelEvent(Event event) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		System.out.println("Canceling event");
@@ -154,7 +164,17 @@ public class EventsDAO implements Serializable {
 			stmt.setInt(1, 1);
 			stmt.setInt(2, event.getId());
 			stmt.executeUpdate();
-			return true;
+			
+			stmt = con.prepareStatement("SELECT user_id FROM EventJoins WHERE event_id = ?");
+			stmt.setInt(1, event.getId());
+			ResultSet rs = stmt.executeQuery();
+			List<Integer> userList = new ArrayList<Integer>();
+			
+			while(rs.next()) {
+				userList.add(rs.getInt("user_id"));
+			}
+			
+			return userList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -163,7 +183,7 @@ public class EventsDAO implements Serializable {
 			System.out.println("Event Canceled");
 		}
 
-		return false;
+		return null;
 	}
 
 	public boolean approveJoin(int userId, int eventId) {
@@ -280,7 +300,7 @@ public class EventsDAO implements Serializable {
 				+ "		* SIN(RADIANS(e.pos_lat)))) AS distance " + "	FROM Events AS e " + "	JOIN ( "
 				+ "		SELECT " + origin.getLatitude() + " AS latpoint, " + origin.getLongitude() + " AS longpoint, "
 				+ radius + " AS radius, 111.045 AS distance_unit " + "		FROM sysibm.sysdummy1 " + "	) AS p ON 1=1 "
-				+ "	WHERE e.pos_lat " + "		BETWEEN p.latpoint  - (p.radius / p.distance_unit) "
+				+ "	WHERE e.canceled != 1 AND e.pos_lat " + "		BETWEEN p.latpoint  - (p.radius / p.distance_unit) "
 				+ "		AND p.latpoint + (p.radius / p.distance_unit) " + "	AND e.pos_lng "
 				+ "		BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) "
 				+ "		AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint)))) " + ") AS s "

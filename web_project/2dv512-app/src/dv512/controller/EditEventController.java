@@ -1,12 +1,16 @@
 package dv512.controller;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import dv512.model.Event;
+import dv512.model.Notification;
 import dv512.model.dao.EventsDAO;
+import dv512.model.dao.NotificationsDAO;
 
 @Named
 @ViewScoped
@@ -21,6 +25,9 @@ public class EditEventController implements Serializable {
 
 	@Inject
 	private UserController userController;
+
+	@Inject
+	private NotificationsDAO notificationsDAO;
 
 	private Event event;
 
@@ -62,20 +69,34 @@ public class EditEventController implements Serializable {
 				return;
 			}
 			event = eventDAO.get(editEventId);
+			if (event.getCreator().getUserId() != userController.getUserId()) {
+				editEventId = -1;
+				event = new Event();
+				event.setLatitude(userController.getProfile().getLatitude());
+				event.setLongitude(userController.getProfile().getLongitude());
+			}
 		}
 	}
-	
-	public void editEvent(){
-		if(event != null) {
-			eventDAO.update(event);
+
+	public void editEvent() {
+		if (event != null) {
+			List<Integer> userList = eventDAO.update(event);
+			for (int userId : userList) {
+				Notification n = Notification.create(Notification.TYPE_EVENT_UPDATED, event.getCreator().getUserId(),
+						userId, event.getId());
+				notificationsDAO.insert(n);
+			}
 		}
 	}
 
 	public void cancelEvent() {
-		System.out.println("Inside controller cancel");
-		if(event != null) {
-			System.out.println("Inside controller cancel, found event");
-			eventDAO.cancelEvent(event);
+		if (event != null) {
+			List<Integer> userList = eventDAO.cancelEvent(event);
+			for (int userId : userList) {
+				Notification n = Notification.create(Notification.TYPE_EVENT_CANCELLED, event.getCreator().getUserId(),
+						userId, event.getId());
+				notificationsDAO.insert(n);
+			}
 		}
 	}
 
