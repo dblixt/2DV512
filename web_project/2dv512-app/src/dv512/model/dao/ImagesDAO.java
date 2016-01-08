@@ -78,8 +78,4 @@ public class ImagesDAO implements Serializable {
 		return false;		
 	}
 	
-	
-	
-	
-	
 }

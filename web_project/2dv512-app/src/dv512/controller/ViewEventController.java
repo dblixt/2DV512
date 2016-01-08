@@ -1,10 +1,12 @@
 package dv512.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -128,6 +130,9 @@ public class ViewEventController implements Serializable {
 		if (eventId != -1) {
 			if (!dataLoaded) {
 				event = eventsDAO.get(eventId, session.getUserId());
+				
+				if(event == null)
+					return;
 				
 				// compute distance
 				LatLng location = new LatLng(event.getLatitude(), event.getLongitude());

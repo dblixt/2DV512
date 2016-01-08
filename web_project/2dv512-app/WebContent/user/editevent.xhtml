@@ -10,12 +10,11 @@
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
 		<f:viewParam name="id" value="#{editEventController.editEventId}" />
-		<f:event type="preRenderView"
-			listener="#{editEventController.loadEvent}" />
+		<f:event type="preRenderView" listener="#{editEventController.loadEvent}" />
 	</f:metadata>
 
 	<ui:define name="head">
-		<h:outputStylesheet name="createevent.css" library="css" />
+		<h:outputStylesheet name="editevent.css" library="css" />
 		<h:outputStylesheet name="calenderview.css" library="css" />
 		<h:outputStylesheet name="map.css" library="css" />
 		<h:outputScript name="map.js" library="js" />
@@ -31,19 +30,22 @@
         		// Embedded Calendar
        			myCal = Calendar.setup({
            	 		parentElement: 'embeddedCalendar'
-          		});
+          		});      		
+          		myCal.setSelectHandler(onDateChanged);
         	
-        		var prevDate = document.getElementById('unixtime').value;
+        		var prevDate = document.getElementById('editevent-utc-date').value;
         		console.log('prevDate',prevDate);
-        		if(prevDate != 0){
-        			var newDate = new Date(prevDate * 1000);
-        			console.log('newdate', newDate);
-        			myCal.setDate(newDate);
-        			var hourInput = document.getElementById('hourinput');
-        			var hourInput = document.getElementById('minuteinput');
-        			hourinput.value = newDate.getHours();
-        			minuteinput.value = newDate.getMinutes();        	
+        		if(!isNaN(prevDate) &amp;&amp; prevDate != 0){
+        			var date = new Date(prevDate * 1000);
+        			console.log('date', date);
+        			myCal.setDate(date);
+        			hour = date.getHours();
+        			minute = date.getMinutes();
+        			document.getElementById('editevent-hour-input').value = hour;
+        			document.getElementById('editevent-minute-input').value = minute;    	
         		}
+        		
+        		calculateUnixTime();
       		}      
 		
 			function calculateUnixTime() {							
@@ -54,19 +56,30 @@
 				date.setMilliseconds(0);
 				
 				utcSeconds = date.getTime() / 1000;			
-				document.getElementById('unixtime').value = utcSeconds;			
+				document.getElementById('editevent-utc-date').value = utcSeconds;			
 			}
 		
 			function onHourChanged(value) {
 				hour = parseInt(value);
+				if(isNaN(hour)) {
+					hour = 0;
+				}
+							
 				calculateUnixTime();
 			}
 		
 			function onMinuteChanged(value) {
 	 			minute = parseInt(value);
+	 			if(isNaN(minute)) {
+	 				minute = 0;
+	 			}
 	 			calculateUnixTime();
 			}
-		
+			
+			function onDateChanged(calendar) {
+				calculateUnixTime();
+			}
+				
       		Event.observe(window, 'load', function() { 
       			setupCalendars(); 
       		});		
@@ -76,6 +89,7 @@
 			setLocation(#{editEventController.event.latitude}, #{editEventController.event.longitude});	
 			setAllowEdit(true);
 			setAllowGeoLocation(false);
+			setZoomLevel(8);
 		</h:outputScript>
 		
 		<script
@@ -87,88 +101,87 @@
 
 	<ui:define name="content">
 		<h:form id="createevent" prependId="false" class="content-block">
-			<h3>#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</h3>
-			
 			<h:commandLink onclick="if (!confirm('Are you sure you want to cancel this event?')) return false"
-				class="icon-link inline createbutton"
+				id="editevent-cancelevent-button"
+				class="icon-link margin-large"
 				rendered="#{editEventController.editEventId != -1}"
 				action="#{editEventController.cancelEvent}" 
 				immediate="true">
-				<i class="material-icons">clear</i>
-				<span>Cancel Event</span>
-			</h:commandLink>
-
-			<br />
-			<br />
-			<br/>
-			<br/>
+				<i class="material-icons">clear</i><span>Cancel Event</span>
+			</h:commandLink>		
+			<h2 class="margin-large">#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</h2>
+			<div class="clear" />
+			
 			<label>Title:</label>
-			<br />
-			<h:inputText id="event_title" value="#{editEventController.event.title}" required="true" requiredMessage="Enter title"></h:inputText>
-			<h:message class="error-message" for="event_title" />
-			<br />
-			<br />
+			<h:inputText id="editevent-title-input" value="#{editEventController.event.title}" 
+				required="true" requiredMessage="Enter title." />
+			<h:message class="error-message" for="editevent-title-input" />
+			<div style="margin-top: 36px;" />
 			<label>Description:</label>
-			<br />
-			<h:inputTextarea id="event_description" rows="4" cols="40"
+			<h:inputTextarea id="editevent-description-input" rows="4" cols="40"
 				value="#{editEventController.event.description}"
-				required="true" requiredMessage="Enter description">
-			</h:inputTextarea>
-			<h:message class="error-message" for="event_description" />
+				required="true" requiredMessage="Enter description." />
+			<h:message class="error-message" for="editevent-description-input" />
 
-			<div class="calendarbox">
+			<h4>Date</h4>
+			<div id="editevent-calendar-wrapper">
 				<div id="embeddedCalendar" class="calendar"></div>
 				
-				<div class="hour">
-					<label id="hourlabel">Hour</label><br />
-					<h:inputText p:type="number" p:min="0" p:max="23" id="hourinput" onchange="onHourChanged(this.value)"
-						required="true" requiredMessage="Enter hour." style="width: 40px;"></h:inputText>
-						
-					<h:message class="error-message" for="hourinput" />
-				</div>
+				
+				<div id="editevent-time-wrapper">
+					<div id="editevent-hour-wrapper">
+						<label>Hour</label>
+						<h:inputText  id="editevent-hour-input"  
+							p:type="number" p:min="0" p:max="23" onchange="onHourChanged(this.value)"
+							validatorMessage="Enter hour." >	
+							<f:validateLongRange minimum="0" maximum="23" />
+						</h:inputText>											
+					</div>
 													
-				<div class="minute">
-					<label id="minutelabel">Minute</label> <br />
-					<h:inputText id="minuteinput"
-						onchange="onMinuteChanged(this.value)" p:type="number" p:min="0" p:max="59"   required="true"
-						requiredMessage="Enter minute." style="width: 40px;"></h:inputText>
-						<h:message class="error-message" for="minuteinput" />
+					<div id="editevent-minute-wrapper">
+						<label>Minute</label>
+						<h:inputText id="editevent-minute-input"
+							onchange="onMinuteChanged(this.value)" p:type="number" p:min="0" p:max="59"
+							validatorMessage="Enter minute." >
+							<f:validateLongRange minimum="0" maximum="59" />
+						</h:inputText>
+						
+					</div>	
+					<h:message class="error-message" for="editevent-hour-input" />		
+					<h:message class="error-message" for="editevent-minute-input" />
 				</div>
-				<h:inputHidden id="unixtime"
-					value="#{editEventController.event.date}"></h:inputHidden>
-
+						
+				<h:inputHidden id="editevent-utc-date" value="#{editEventController.event.date}" />
 			</div>
-
-			<div class="clear" />
 
 			<h4>Location</h4>
 			<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
-			<div id="map"></div>
+			<div id="map" style="width: 80%;"></div>
 
 			<h:inputHidden id="lat"
 				value="#{editEventController.event.latitude}" />
 			<h:inputHidden id="lng"
 				value="#{editEventController.event.longitude}" />
 
-	
+			<div style="margin-top: 36px;" />
 
-			<h:commandLink class="icon-link inline createbutton"
+			<h:commandLink class="icon-link"
 				action="#{editEventController.createEvent}"
 				rendered="#{editEventController.editEventId == -1}">
 				<i class="material-icons">save</i>
 				<span>Create</span>
 			</h:commandLink>
-			<h:commandLink class="icon-link inline createbutton"
+			<h:commandLink class="icon-link"
 				action="#{editEventController.editEvent}"
 				rendered="#{editEventController.editEventId != -1}">
 				<i class="material-icons">save</i>
 				<span>Save</span>
 			</h:commandLink>
-			<h:link class="icon-link inline cancelbutton">
+			<h:link class="icon-link" outcome="feed">
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
-			</h:link>
-			
+			</h:link>	
+	
 		 </h:form>
 	</ui:define>
 </ui:composition>

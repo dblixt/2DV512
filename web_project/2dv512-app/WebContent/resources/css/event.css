@@ -1,6 +1,6 @@
 .event-creator-link {
 	display: block;
-	color: #3F778A;
+	color: #3577BD;
 	font-size: 14px;
 	text-decoration: none;
 }
@@ -10,6 +10,10 @@
 	width: 64px;
 	object-fit: cover;
 	float: left;
+}
+
+.event-canceled {
+	color: #D12D1B;
 }
 
 .event-content {
@@ -61,7 +65,7 @@
 }
 
 .event-attendant:hover {
-	color: #3F778A;
+	color: #3577BD;
 }
 
 .event-attendant > span {

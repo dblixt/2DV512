@@ -64,7 +64,7 @@ public class EditEventController implements Serializable {
 			else {
 				event = eventDAO.get(editEventId, -1);
 				
-				if(event == null || event.getCreator().getUserId() != session.getUserId()) {
+				if(event == null || event.getCreator().getUserId() != session.getUserId() || event.isCanceled()) {
 					// something is fishy, switch to create event mode.
 					editEventId = -1;
 					event = new Event();

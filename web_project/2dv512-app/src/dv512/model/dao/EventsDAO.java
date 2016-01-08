@@ -58,9 +58,9 @@ public class EventsDAO implements Serializable {
 			stmt.setInt(2, eventId);
 
 			ResultSet r = stmt.executeQuery();
-
-			Event event = new Event();
+		
 			if (r.next()) {
+				Event event = new Event();
 
 				Profile profile = new Profile();
 				profile.setUserId(r.getInt("user_id"));
@@ -78,6 +78,7 @@ public class EventsDAO implements Serializable {
 				event.setDescription(r.getString("description"));
 				event.setLongitude(r.getDouble("pos_lng"));
 				event.setLatitude(r.getDouble("pos_lat"));
+				event.setCanceled(r.getInt("canceled") != 0);
 							
 				int joined = r.getInt("joined");
 				int approved = r.getInt("join_approved");				
@@ -93,9 +94,10 @@ public class EventsDAO implements Serializable {
 					event.setJoinStatus(Event.JOIN_STATUS_UNJOINED);
 				}
 				
+				return event;
 			}
-
-			return event;
+			
+			return null;
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -177,7 +179,7 @@ public class EventsDAO implements Serializable {
 	public boolean cancel(Event event) {
 		Connection con = null;
 		PreparedStatement stmt = null;
-		System.out.println("Canceling event");
+
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement("UPDATE Events SET canceled = ? WHERE id = ?");
@@ -220,7 +222,6 @@ public class EventsDAO implements Serializable {
 		}
 
 		return false;
-
 	}
 
 	public boolean approveJoin(int userId, int eventId) {

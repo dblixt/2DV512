@@ -6,12 +6,16 @@ var longitude;
 
 var allowEditLocation = false;
 var allowGeoLocation = true;
+var allowScrollZoom = true;
+
+var zoomLevel = 6;
 var locationSet = true;
 
-var allowControl = true;
 
 function initMap() {
 	console.log("initMap()");
+	
+	console.log(zoomLevel);
 	
 	var mycenter = {
 			lat: latitude, 
@@ -20,10 +24,10 @@ function initMap() {
 	
 	var prop = {
 		center:  mycenter,
-		zoom: (locationSet ? 6 : 1),
+		zoom: (locationSet ? zoomLevel : 1),
 		mapTypeControl: false,
 		streetViewControl: false,
-		scrollwheel: allowControl
+		scrollwheel: allowScrollZoom
 	};
 
 	map = new google.maps.Map(document.getElementById('map'), prop);
@@ -192,8 +196,8 @@ function setLocation(lat, lng) {
 	updateLocation();
 }
 
-function setAllowControl(allowCont) {
-	allowControl = allowCont;
+function setAllowScrollZoom(allowScroll) {
+	allowScrollZoom = allowScroll;
 }
 
 function setAllowEdit(allowEdit) {
@@ -202,4 +206,8 @@ function setAllowEdit(allowEdit) {
 
 function setAllowGeoLocation(allowGeo) {
 	allowGeoLocation = allowGeo;
+}
+
+function setZoomLevel(level) {
+	zoomLevel = level;
 }

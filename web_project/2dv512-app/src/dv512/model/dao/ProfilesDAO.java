@@ -33,9 +33,9 @@ public class ProfilesDAO implements Serializable {
 			stmt.setInt(1, userId);
 
 			ResultSet r = stmt.executeQuery();
-
-			Profile profile = new Profile();
-			if (r != null && r.next()) {
+	
+			if (r.next()) {
+				Profile profile = new Profile();
 				profile.setUserId(r.getInt("user_id"));
 				profile.setName(r.getString("name"));
 				profile.setGender(r.getString("gender"));
@@ -44,12 +44,15 @@ public class ProfilesDAO implements Serializable {
 				profile.setLongitude(r.getDouble("pos_lng"));
 				profile.setRadius(r.getInt("feed_radius"));
 				profile.setImage(r.getString("img"));
+				return profile;
 			}
 
-			return profile;
-		} catch (SQLException e) {
+			return null;
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
@@ -75,9 +78,11 @@ public class ProfilesDAO implements Serializable {
 
 			stmt.executeUpdate();
 			return true;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
@@ -103,10 +108,12 @@ public class ProfilesDAO implements Serializable {
 
 			stmt.executeUpdate();
 
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		} finally {
+		} 
+		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
 		}
@@ -130,8 +137,7 @@ public class ProfilesDAO implements Serializable {
 
 			ResultSet r = stmt.executeQuery();
 
-			while (r.next()) {
-				
+			while (r.next()) {			
 				Profile profile = new Profile();
 				profile.setUserId(r.getInt("user_id"));
 				profile.setName(r.getString("name"));

@@ -1,11 +1,11 @@
-.left {
+.index-content-left {
 	position: absolute;
 	height: 700px;
 	width: 580px;
 	margin-top: 64px;
 }
 
-.right {
+.index-content-right {
 	position: absolute;
 	margin-left: 600px;
 	margin-top: 64px;
@@ -13,7 +13,7 @@
 	height: 700px;
 }
 
-.box {
+.index-content-block {
 	position: relative;
 	margin-top: 20px;
 	background: #F8F8F8;
@@ -24,24 +24,27 @@
 	padding: 10px 20px;	
 }
 
-h3 {
-	display: block;
-	margin: 0;
-}
-
-#register #defaultmode {
+#register-mode-default {
 	position: relative;
 	display: block;
 	text-align: center;
 	margin-top: 100px;
 }
 
-#register #registermode {
+#rregister-mode-form {
 	display: block;
 }
 
-.box label {
-	display: block;
-	margin-top: 8px;
+#login-wrapper {
+	width: 80%; 
+	margin: 48px auto 36px auto; 
+	text-align: left;
 }
 
+.login-resetpassowrd-link {
+	display: block; 
+	font-size: 13px; 
+	text-decoration: none; 
+	color: #3577BD; 
+	margin-top: 16px;
+}

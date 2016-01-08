@@ -20,26 +20,26 @@
 		<h:panelGroup id="notification_list">
 			<ui:fragment rendered="#{empty notificationsController.notifications}">
 				<div class="content-block">
-					<h3 style="margin-top: 20px;">Notifications</h3>
+					<h3 class="margin-medium">Notifications</h3>
 					<p style="margin-top: 12px; margin-bottom: 12px;">You currently have no notifications.</p>
 				</div>
 			</ui:fragment>
 				
 			<ui:repeat var="n" value="#{notificationsController.notifications}">
 				<h:form class="content-block">
-					<h:commandLink class="icon-link remove" action="#{notificationsController.remove(n)}" 
+					<h:commandLink class="icon-link notification-remove-button" action="#{notificationsController.remove(n)}" 
 						rendered="#{!n.typeJoinRequest}">
 						<i class="material-icons">clear</i>
 						<f:ajax execute="@form" render="notification_list"/>
 					</h:commandLink>
-					<h:graphicImage class="user-img" value="/img/profile/#{n.sourceUser.image}"/>				
-					<div class="info-content">
-						<h3 style="margin-top: 6px">
+					<h:graphicImage class="notification-user-image" value="/img/profile/#{n.sourceUser.image}"/>				
+					<div class="notification-info-content">
+						<h3>
 							<h:outputText value="Join requested" rendered="#{n.typeJoinRequest}"/>
 							<h:outputText value="Join approved" rendered="#{n.typeJoinApproved}"/>
-							<h:outputText value="New Comment" rendered="#{n.typeCommentPosted}"/>
-							<h:outputText value="Event Canceled" rendered="#{n.typeEventCanceled}"/>
-							<h:outputText value="Event Updated" rendered="#{n.typeEventUpdated}"/>
+							<h:outputText value="New comment" rendered="#{n.typeCommentPosted}"/>
+							<h:outputText value="Event canceled" rendered="#{n.typeEventCanceled}"/>
+							<h:outputText value="Event updated" rendered="#{n.typeEventUpdated}"/>
 						</h3>
 					
 						<div class="icon-label-small" style="display: block;">
@@ -51,38 +51,35 @@
 							</p>										
 						</div>		
 
-						<p class="vspace">
+						<p class="notification-body">
 							<ui:fragment rendered="#{n.typeJoinRequest}">
-								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="notification-text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								wants to join your event 
-								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.							
+								<h:link outcome="event" value="#{n.event.title}" class="notification-text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.							
 							</ui:fragment>
 							<ui:fragment rendered="#{n.typeJoinApproved}">
-								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="notification-text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								has approved your request to join the event 
-								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+								<h:link outcome="event" value="#{n.event.title}" class="notification-text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
 							<ui:fragment rendered="#{n.typeEventCanceled}">
-								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="notification-text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								has canceled the event 
-								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+								<h:link outcome="event" value="#{n.event.title}" class="notification-text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
 								<ui:fragment rendered="#{n.typeEventUpdated}">
-								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="notification-text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								has updated the event 
-								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+								<h:link outcome="event" value="#{n.event.title}" class="notification-text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
 							</ui:fragment>
 								<ui:fragment rendered="#{n.typeCommentPosted}">
-								<h:link outcome="profile" value="#{n.sourceUser.name}" class="text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
+								<h:link outcome="profile" value="#{n.sourceUser.name}" class="notification-text-link"><f:param name="id" value="#{n.sourceUser.userId}"/></h:link> 
 								has commented on the event 
-								<h:link outcome="eventview" value="#{n.event.title}" class="text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
-							</ui:fragment>
-							
+								<h:link outcome="event" value="#{n.event.title}" class="notification-text-link"><f:param name="id" value="#{n.event.id}" /></h:link>.					
+							</ui:fragment>							
 						</p>
 									
-						<p class="vspace" />
-
-						<div style="margin-left: -8px;" >
+						<div class="notification-button-bar">
 							<h:commandLink class="icon-link" style="display: inline-block" 
 								action="#{notificationsController.approveJoin(n)}" rendered="#{n.typeJoinRequest}">
 								<f:ajax execute="@form" render="notification_list"/>

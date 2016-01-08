@@ -50,7 +50,7 @@ public class CommentsDAO implements Serializable {
 	}
 
 	public List<Comment> listAll(int eventID) {
-		List<Comment> commentList = new ArrayList<>();
+		List<Comment> cl = new ArrayList<>();
 
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -63,8 +63,7 @@ public class CommentsDAO implements Serializable {
 
 			ResultSet r = stmt.executeQuery();
 
-			while (r.next()) {
-				
+			while (r.next()) {				
 				Profile profile = new Profile();
 				profile.setUserId(r.getInt("user_id"));
 				profile.setName(r.getString("name"));
@@ -82,8 +81,7 @@ public class CommentsDAO implements Serializable {
 				comment.setBody(r.getString("body"));
 				comment.setProfile(profile);
 
-				commentList.add(comment);
-
+				cl.add(comment);
 			}
 		} 
 		catch (SQLException e) {
@@ -94,7 +92,7 @@ public class CommentsDAO implements Serializable {
 			dbManager.close(con);
 		}
 
-		return commentList;
+		return cl;
 	}
 
 }

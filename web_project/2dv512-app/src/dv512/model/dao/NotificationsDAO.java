@@ -68,11 +68,8 @@ public class NotificationsDAO implements Serializable {
 		return false;
 	}
 	
-	
-	
-	
-	public List<Notification> getAll(int userId) {
-		List<Notification> result = new ArrayList<>();
+	public List<Notification> listAll(int userId) {
+		List<Notification> nl = new ArrayList<>();
 		
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -112,7 +109,7 @@ public class NotificationsDAO implements Serializable {
 				
 				System.out.println(n.getDate());
 				
-				result.add(n);
+				nl.add(n);
 			}			
 		}
 		catch(SQLException e) {
@@ -123,7 +120,7 @@ public class NotificationsDAO implements Serializable {
 			dbManager.close(stmt);
 		}
 				
-		return result;
+		return nl;
 	}
 
 	public int count(int userId) {

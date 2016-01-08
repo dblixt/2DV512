@@ -31,43 +31,53 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<div class="content-block">
-			<div class="profile-wrapper">
-				<div class="profile-content-left">
-					<h2 id="profile-header-name">#{profileController.profile.name}</h2>
-					<p id="profile-gender">#{profileController.profile.gender}</p>
+		<ui:fragment rendered="#{empty profileController.profile}">
+			<div class="content-block">
+				<h3 class="margin-medium">Error</h3>
+				<p style="margin-top: 12px; margin-bottom: 12px;">User does not exist.</p>
+			</div>
+		</ui:fragment>
+	
+		<ui:fragment rendered="#{not empty profileController.profile}">
+			<div class="content-block">
+				<div class="profile-wrapper">
+					<div class="profile-content-left">
+						<h2 id="profile-header-name">#{profileController.profile.name}</h2>
+						<p id="profile-gender">#{profileController.profile.gender}</p>
 					
-					<p class="profile-description">#{profileController.profile.description}</p>
+						<p class="profile-description">#{profileController.profile.description}</p>
 
-					<h4>Dogs</h4>
-					<ul id="profile-dog-list">
-						<ui:repeat var="d" value="#{profileController.profile.dogs}">
-							<li>
-								<h:graphicImage value="/img/dog/#{d.image}" />
-								<div class="center-vertical">
-									<h5>#{d.name}</h5>
-									<p><span class="capitalize">#{d.gender}</span> - age #{d.age}</p>
-									<p>#{d.breed}</p>
-								</div>
-								<div class="clear" />
-							</li>
-						</ui:repeat>
-					</ul>
-					<br />
-					<h4>Location</h4>
-					<div id="map"></div>
-				</div>
+						<h4>Dogs</h4>
+						<ul id="profile-dog-list">
+							<ui:repeat var="d" value="#{profileController.profile.dogs}">
+								<li>
+									<h:graphicImage value="/img/dog/#{d.image}" />
+									<div class="center-vertical">
+										<h5>#{d.name}</h5>
+										<p><span class="capitalize">#{d.gender}</span> - age #{d.age}</p>
+										<p>#{d.breed}</p>
+									</div>
+									<div class="clear" />
+								</li>
+							</ui:repeat>
+						</ul>
+						<br />
+						<h4>Location</h4>
+						<div id="map"></div>
+						<div class="margin-large" />
+					</div>
 
-				<div class="profile-content-right">
-					<h:link id="profile-edit-button" class="icon-link" outcome="editprofile" rendered="#{profileController.editAllowed}">
-						<i class="material-icons">mode_edit</i><span>Edit</span>
-					</h:link>
+					<div class="profile-content-right">
+						<h:link id="profile-edit-button" class="icon-link" outcome="editprofile" rendered="#{profileController.editAllowed}">
+							<i class="material-icons">mode_edit</i><span>Edit</span>
+						</h:link>
 					
-					<div class="clear" />
-					<h:graphicImage id="image-preview" value="/img/profile/#{profileController.profile.image}" />
+						<div class="clear" />
+						<h:graphicImage id="image-preview" value="/img/profile/#{profileController.profile.image}" />
+					</div>
 				</div>
 			</div>
-		</div>
+		</ui:fragment>
 	</ui:define>
 
 </ui:composition>

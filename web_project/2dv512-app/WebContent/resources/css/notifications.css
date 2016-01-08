@@ -1,45 +1,33 @@
-.content-block .user-img {
+.notification-user-image {
 	float: left;
 	height: 64px;
 	width: 64px;
 	object-fit: cover;
 }
 
-.content-block .info-content {
+.notification-info-content {
 	overflow: hidden;
 	padding-left: 20px;
 }
 
+.notification-body {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
 
-.text-link {
+.notification-text-link {
 	text-decoration: none;
 	color: #435F8C;
 	font-weight: bold;
 }
 
-.remove {
+.notification-button-bar {
+	margin-left: -8px;
+}
+
+
+.notification-remove-button {
 	position: absolute;
 	right: 6px;
 	top: 6px;
 }
-
-
-
-p {
-	margin: 0px;
-}
-
-
-.vspace {
-	margin-top: 12px;
-}
-
-
-h3 {
-	margin: 0;
-	display: inline-block;
-}
-
-
-
-

@@ -22,12 +22,12 @@
 
 
 	<ui:define name="left">
-		<div class="box">
+		<div class="index-content-block">
 			<h:form id="register" prependId="false">
 				<ui:fragment rendered="#{registerController.mode == 0}">
-					<div id="defaultmode">
+					<div id="register-mode-default">
 						Not a member? Please register! <br />
-						<h:commandLink class="icon-link inline" style="margin-top: 8px;">
+						<h:commandLink class="icon-link" style="margin-top: 8px;">
 							<i class="material-icons">build</i>
 							<span>Register</span>
 							<f:ajax listener="#{registerController.switchMode}" 
@@ -37,38 +37,38 @@
 				</ui:fragment>
 
 				<ui:fragment rendered="#{registerController.mode == 1}">
-					<div id="registermode">
-						<h3>Register</h3>
+					<div id="register-mode-form">
+						<h2>Register</h2>
 						<div style="margin-top: 48px;" />
 						<label>Name:</label>
-						<h:inputText id="register_name"
+						<h:inputText id="register-name-input"
 							value="#{registerController.user.profile.name}" required="true"
 							requiredMessage="Enter name." /> 
 						<br />
-						<h:message class="error-message" for="register_name" />
+						<h:message class="error-message" for="register-name-input" />
 				
 						<label style="margin-top: 20px;">Email:</label>
-						<h:inputText id="register_email"
+						<h:inputText id="register-email-input"
 							value="#{registerController.user.email}" required="true"
 							requiredMessage="Enter email." />
 						<br />
-						<h:message class="error-message" for="register_email" />
+						<h:message class="error-message" for="register-email-input" />
 					
 						<label>Password:</label>
-						<h:inputText id="register_password"
+						<h:inputText id="register-password-input"
 							value="#{registerController.user.password}" required="true"
 							requiredMessage="Enter password." />
 						<br />
-						<h:message class="error-message" for="register_password" />
+						<h:message class="error-message" for="register-password-input" />
 						
 						<div style="margin-top: 48px;">
-							<h:commandLink class="icon-link inline"
+							<h:commandLink class="icon-link"
 								action="#{registerController.register}">
 								<i class="material-icons">done</i>
 								<span>Register</span>
 								<f:ajax execute="@form" render="@form" />
 							</h:commandLink>
-							<h:commandLink class="icon-link inline">
+							<h:commandLink class="icon-link">
 								<i class="material-icons">cancel</i>
 								<span>Cancel</span>
 								<f:ajax listener="#{registerController.switchMode}"
@@ -97,29 +97,26 @@
 	</ui:define>
 
 	<ui:define name="right">
-		<h:form prependId="false" class="box center" >
+		<h:form prependId="false" class="index-content-block center" >
 			<h3>#{loginController.stateLogin ? 'Login' : 'Reset password'}</h3>
 
-			<div style="width: 80%; margin: 48px auto 36px auto; text-align: left;">
+			<div id="login-wrapper">
 				<label>Email:</label>
-				<h:inputText id="email" value="#{loginController.user.email}" />
+				<h:inputText id="login-email-input" value="#{loginController.user.email}" />
 								
 				<ui:fragment rendered="#{loginController.stateLogin}">					
 					<label>Password:</label>
-					<h:inputSecret id="password" value="#{loginController.user.password}" />
+					<h:inputSecret id="login-password-input" value="#{loginController.user.password}" />
 					<h:outputText class="error-message" style="margin-top: 8px;"
 						value="Incorrect email or password, please try again."
 						rendered="#{loginController.retryCount > 0}" />
 					
-					<h:commandLink action="#{loginController.switchStateToReset}"
-						style="display: block; font-size: 13px; text-decoration: none; color: #237DAD; margin-top: 16px;">
+					<h:commandLink class="login-resetpassowrd-link" action="#{loginController.switchStateToReset}">
 						Forgot Password?
 						<f:ajax execute="@this" render="@form" />
 					</h:commandLink>	
 				</ui:fragment>				
 			</div>
-
-		
 
 			<h:commandLink class="icon-link"
 				rendered="#{loginController.stateLogin}"
@@ -135,7 +132,7 @@
 				action="#{loginController.sendResetEmail}">
 				<i class="material-icons">exit_to_app</i>
 				<span>Send</span>
-				<!-- <f:ajax execute="@form" render="@form" /> -->
+				<f:ajax execute="@form" render="@form" />
 			</h:commandLink>
 			
 			<h:commandLink class="icon-link"
@@ -144,10 +141,8 @@
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
 				<f:ajax execute="@this" render="@form" />
-			</h:commandLink>
-						
+			</h:commandLink>						
 		</h:form>
 	</ui:define>
-
 </ui:composition>
 </html>
