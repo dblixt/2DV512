@@ -41,12 +41,10 @@ public class RegisterController implements Serializable {
 	}
 
 	public int getMode() {
-		System.out.println("Mode is: " + mode);
 		return mode;
 	}
 
 	public void switchMode(AjaxBehaviorEvent event) {
-		System.out.println("Switching Mode");
 		if (mode == DEFAULT_MODE) {
 			mode = REGISTER_MODE;
 			return;

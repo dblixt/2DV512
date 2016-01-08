@@ -14,6 +14,7 @@
 	</f:metadata>
 
 	<ui:define name="head">
+		<title>Internet of Dogs - #{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</title>
 		<h:outputStylesheet name="editevent.css" library="css" />
 		<h:outputStylesheet name="calenderview.css" library="css" />
 		<h:outputStylesheet name="map.css" library="css" />

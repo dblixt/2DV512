@@ -10,15 +10,19 @@
 		<f:viewParam name="token" value="#{resetPwController.token}" />
 	</f:metadata>
 
+	<ui:define name="head">
+		<title>Internet of Dogs - Reset Password</title>
+	</ui:define>
+
 	<ui:define name="left">
-		<h:form class="box" style="min-height: 100px;">
+		<h:form class="index-content-block" style="min-height: 100px;">
 			<h3>Reset password</h3>
 						
 			<label style="margin-top: 48px;">New password:</label>
-			<h:inputText id="reset_password"
+			<h:inputText id="reset-password-input"
 							value="#{resetPwController.password}" required="true"
 							requiredMessage="Enter new password." />
-			<h:message class="error-message" for="reset_password" />				 
+			<h:message class="error-message" for="reset-password-input" />				 
 			<br /><br />
 			<br />
 			<h:commandLink class="icon-link"
@@ -33,6 +37,5 @@
 			</h:link>						
 		</h:form>
 	</ui:define>
-
 </ui:composition>
 </html>
