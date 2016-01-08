@@ -24,7 +24,7 @@ public class EditDogController implements Serializable {
 	private static final long serialVersionUID = -1036810508598748155L;
 
 	@Inject 
-	private UserSession thisUser;
+	private UserSession session;
 	
 	@Inject 
 	private DogsDAO dogsDAO;	
@@ -87,7 +87,7 @@ public class EditDogController implements Serializable {
 				// add new dog mode.
 				dog = new Dog();
 				dog.setId(-1);
-				dog.setUserId(thisUser.getUserId());
+				dog.setUserId(session.getUserId());
 				return;
 			}
 

@@ -19,7 +19,7 @@ public class NotificationsController implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private UserSession thisUser;
+	private UserSession session;
 	
 	@Inject
 	private NotificationsDAO notifications;
@@ -40,7 +40,7 @@ public class NotificationsController implements Serializable{
 			// send notification to tell that request has been approved.
 			Notification approved = Notification.create(
 					Notification.TYPE_JOIN_APPROVED, 
-					thisUser.getUserId(),
+					session.getUserId(),
 					n.getSourceUser().getUserId(), 
 					n.getEvent().getId());
 			
@@ -72,7 +72,7 @@ public class NotificationsController implements Serializable{
 	public void loadData() {
 		if(notificationList == null) {
 			System.out.println("Loading notifications");
-			notificationList = notifications.listAll(thisUser.getUserId());
+			notificationList = notifications.listAll(session.getUserId());
 		}	
 	}
 	

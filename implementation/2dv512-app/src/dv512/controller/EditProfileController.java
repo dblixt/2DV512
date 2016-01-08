@@ -28,7 +28,7 @@ public class EditProfileController implements Serializable {
 	private static final long serialVersionUID = -43584334356821659L;
 		
 	@Inject 
-	private UserSession thisUser;	
+	private UserSession session;	
 	@Inject 
 	private ProfilesDAO profilesDAO;	
 	@Inject 
@@ -86,8 +86,8 @@ public class EditProfileController implements Serializable {
 	public void loadData() {
 		if(profile == null) {
 			System.out.println("Loading profile data!");
-			profile = profilesDAO.get(thisUser.getUserId());		
-			profile.setDogs(dogsDAO.listAll(thisUser.getUserId()));			
+			profile = profilesDAO.get(session.getUserId());		
+			profile.setDogs(dogsDAO.listAll(session.getUserId()));			
 		}
 	}
 	
@@ -104,7 +104,7 @@ public class EditProfileController implements Serializable {
 		imagesDAO.delete(pendImgDel);
 		
 		// reload data in user controller since it has changed.
-		thisUser.reload();
+		session.reload();
 		
 		return "profile.xhtml?faces-redirect=true";
 	}

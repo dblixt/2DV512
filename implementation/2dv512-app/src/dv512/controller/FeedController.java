@@ -23,7 +23,7 @@ public class FeedController implements Serializable {
 	private static final long serialVersionUID = 1127731622673465704L;
 
 	@Inject
-	private UserSession thisUser;
+	private UserSession session;
 	
 	@Inject
 	private EventsDAO events;
@@ -45,12 +45,12 @@ public class FeedController implements Serializable {
 
 	
 	public String joinEvent(Event e) {
-		if(events.join(thisUser.getUserId(), e.getId(), false)) {		
+		if(events.join(session.getUserId(), e.getId(), false)) {		
 			e.setJoinStatus(Event.JOIN_STATUS_JOIN_REQUESTED);			
 
 			Notification n = Notification.create(
 					Notification.TYPE_REQUEST_JOIN, 
-					thisUser.getUserId(), 
+					session.getUserId(), 
 					e.getCreator().getUserId(), 
 					e.getId());
 				
@@ -60,7 +60,7 @@ public class FeedController implements Serializable {
 	}
 	
 	public String leaveEvent(Event e) {		
-		if(events.leave(thisUser.getUserId(), e.getId())) {
+		if(events.leave(session.getUserId(), e.getId())) {
 			e.setJoinStatus(Event.JOIN_STATUS_UNJOINED);		
 		}		
 		return null;
@@ -68,15 +68,15 @@ public class FeedController implements Serializable {
 	
 	
 	public boolean isOwnEvent(int creatorId) {
-		return creatorId == thisUser.getUserId();
+		return creatorId == session.getUserId();
 	}
 	
 	
 	public void loadData() {	
 		if(feed == null) {
 			System.out.println("FeedController: loading data");
-			profile = profiles.get(thisUser.getUserId());
-			feed = events.feed(thisUser.getUserId(), 
+			profile = profiles.get(session.getUserId());
+			feed = events.feed(session.getUserId(), 
 					new LatLng(profile.getLatitude(),
 					profile.getLongitude()), profile.getRadius());
 		}		

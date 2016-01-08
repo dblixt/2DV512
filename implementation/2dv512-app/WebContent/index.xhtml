@@ -50,7 +50,9 @@
 						<label style="margin-top: 20px;">Email:</label>
 						<h:inputText id="register-email-input"
 							value="#{registerController.user.email}" required="true"
-							requiredMessage="Enter email." />
+							requiredMessage="Enter email." validatorMessage="Invalid email format.">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</h:inputText>
 						<br />
 						<h:message class="error-message" for="register-email-input" />
 					

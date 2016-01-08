@@ -104,5 +104,4 @@ public class Notification {
 		return type == TYPE_EVENT_UPDATED;
 	}
 
-
 }

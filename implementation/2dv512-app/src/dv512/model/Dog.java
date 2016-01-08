@@ -4,12 +4,10 @@ public class Dog {
 	
 	private int id;
 	private int userId;
-	
 	private String name;
 	private String gender;
 	private int age;
-	private String breed;
-	
+	private String breed;	
 	private String image;
 		
 	public int getId() {
@@ -68,18 +66,4 @@ public class Dog {
 		this.image = image;
 	}
 	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(this == obj) {
-			return true;
-		}		
-		else if(obj instanceof Dog) {
-			Dog o = (Dog) obj;
-			return this.id == o.id;
-		}
-		
-		return false;
-	}
-
 }

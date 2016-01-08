@@ -14,7 +14,7 @@ import dv512.model.dao.ProfilesDAO;
 public class ProfileController {
 	
 	@Inject 
-	private UserSession thisUser;
+	private UserSession session;
 	
 	@Inject
 	private ProfilesDAO profiles;
@@ -42,13 +42,13 @@ public class ProfileController {
 	}
 	
 	public boolean isEditAllowed() {
-		return viewUserId == thisUser.getUserId();
+		return viewUserId == session.getUserId();
 	}
 	
 	
 	public void loadData() {
 		if(viewUserId == -1) {
-			setId(thisUser.getUserId());
+			setId(session.getUserId());
 		}
 		
 		if(profile == null) {
