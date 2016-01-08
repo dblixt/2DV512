@@ -13,13 +13,13 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dv512.controller.LoginController;
+import dv512.UserSession;
 
 @WebFilter("/user/*")
 public class AuthenticationFilter implements Filter {
 
 	@Inject
-	private LoginController loginController;
+	private UserSession session;
 	
 
 	@Override
@@ -37,7 +37,7 @@ public class AuthenticationFilter implements Filter {
 		String servPath = request.getServletPath();
 		System.out.println("AuthenticationFilter: " + servPath);
 		
-		if (!loginController.isVerified()) {
+		if (!session.isValid()) {
 			// redirect to login page, user not verified.
 			response.sendRedirect(request.getContextPath() + "/index.xhtml");
 		}

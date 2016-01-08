@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +22,8 @@ import dv512.model.dao.ProfilesDAO;
 public class UserSession implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String ACTION_LOGOUT = "logout";
+	
 	@Inject
 	private ProfilesDAO profiles;
 	
@@ -43,7 +46,7 @@ public class UserSession implements Serializable {
 		this.userId = id;
 		reload();
 	}
-		
+			
 	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 		
@@ -71,6 +74,10 @@ public class UserSession implements Serializable {
 		return notificationCount;
 	}
 	
+	public boolean isValid() {
+		return userId != User.UNKNOWN_ID;
+	}
+	
 	
 	public void reload() {
 		if(userId != -1) {
@@ -81,5 +88,20 @@ public class UserSession implements Serializable {
 		else {
 			profile = null;
 		}
+	}
+		
+	public String logout() {		
+		userId = User.UNKNOWN_ID;
+		profile = null;
+		timeZone = null;
+		lastNotificationCountUpdateTime = 0;
+		notificationCount = 0;
+		return ACTION_LOGOUT;
+	}
+	
+	@PreDestroy
+	private void onDestroy() {
+		System.out.println("User session detroyed.");
+		logout();		
 	}
 }

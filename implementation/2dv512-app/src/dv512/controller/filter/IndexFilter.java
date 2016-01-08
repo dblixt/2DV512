@@ -13,13 +13,13 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dv512.controller.LoginController;
+import dv512.UserSession;
 
 @WebFilter("/*")
 public class IndexFilter implements Filter {
 
 	@Inject
-	private LoginController loginController;
+	private UserSession session;
 	
 	
 	@Override
@@ -40,7 +40,7 @@ public class IndexFilter implements Filter {
 			return;
 		}
 		else if(servPath.equals("/index.xhtml")) {
-			if(loginController.isVerified()) {
+			if(session.isValid()) {
 				response.sendRedirect(request.getContextPath() + "/user/feed.xhtml");
 				return;
 			}
