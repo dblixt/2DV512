@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{viewEventController.id}" />
+		<f:event type="preRenderView" listener="#{viewEventController.loadData}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>Internet of Dogs - Event</title>
+		<h:outputStylesheet name="event.css" library="css" />
+		<h:outputScript name="map.js" library="js" />
+		<h:outputStylesheet name="map.css" library="css" />
+
+		<h:outputScript>			
+			setLocation(#{viewEventController.event.latitude}, #{viewEventController.event.longitude});
+			setAllowEdit(false);	
+			setAllowScrollZoom(false);
+			setZoomLevel(10);
+		</h:outputScript>
+
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=false&amp;callback=initMap&amp;libraries=places&amp;style=feature:all|element:labels|visibility:off"
+			async="async" defer="defer">			
+		</script>
+	</ui:define>
+
+
+	<ui:define name="content">
+		<ui:fragment rendered="#{empty viewEventController.event}">
+			<div class="content-block">
+				<h3 class="margin-medium">Error</h3>
+				<p style="margin-top: 12px; margin-bottom: 12px;">Event does not exist.</p>
+			</div>
+		</ui:fragment>
+	
+	
+		<ui:fragment rendered="#{not empty viewEventController.event}">	
+			<div class="content-block">
+				<h:graphicImage class="event-creator-image"
+					value="/img/profile/#{viewEventController.event.creator.image}" />
+			
+				<div class="event-content">
+					<h3>#{viewEventController.event.title}
+						<h:outputText rendered="#{viewEventController.event.canceled}"> - <span class="event-canceled">Canceled</span>
+					</h:outputText></h3>
+					<h:link class="event-creator-link" value="#{viewEventController.event.creator.name}" outcome="profile">
+						<f:param name="id" value="#{e.creator.userId}"/>
+					</h:link>
+
+					<div class="icon-label margin-medium">
+						<i class="material-icons">near_me</i>
+						<p>
+							<h:outputText value="#{viewEventController.event.distance}">
+								<f:convertNumber maxFractionDigits="1"/>
+							</h:outputText> km away					 
+						</p>
+					</div>				
+					<div class="icon-label" style="margin-left: 8px;">
+						<i class="material-icons">access_time</i>
+						<p>
+							<h:outputText value="#{viewEventController.event.date * 1000}">
+								<f:convertDateTime pattern="YYYY-MM-dd HH:mm" timeZone="#{userSession.timeZone}" />
+							</h:outputText>
+						</p>
+					</div>
+
+					<p class="margin-large">#{viewEventController.event.description}</p>
+					<div class="margin-large" />
+
+					<div>
+						<ui:repeat var="d" value="#{viewEventController.dogs}">
+							<h:graphicImage class="event-attendant-dog-img" value="/img/dog/#{d.image}" />
+						</ui:repeat>
+					</div>
+
+					<h4>Attendants</h4>
+					<ul class="event-attendant-list">
+						<ui:repeat var="p" value="#{viewEventController.profiles}">
+							<li>
+								<h:link class="event-attendant" outcome="profile">
+									<h:graphicImage value="/img/profile/#{p.image}" />
+									<span>#{p.name}</span>
+									<f:param name="id" value="#{p.userId}" />
+								</h:link>
+							</li>
+						</ui:repeat>
+					</ul>
+
+					<div class="margin-large" />
+					<h4>Location</h4>
+					<div id="map"></div>
+
+					<div class="margin-large" />
+					<h:form>
+						<h:commandLink class="icon-link event-button" 
+							action="#{viewEventController.joinEvent()}" rendered="#{viewEventController.event.joinStatus == 0 and !viewEventController.isOwnEvent()}">
+							<f:ajax execute="@form" render="@form"/>
+							<i class="material-icons" style="font-size: 24px;">done</i><span>Join</span>
+						</h:commandLink>
+						<ui:fragment rendered="#{viewEventController.event.joinStatus == 1 and !viewEventController.isOwnEvent()}">
+							<div class="event-pending-join icon-link event-button">
+								<i class="material-icons">hourglass_empty</i>
+								<span>Join Requested</span>
+							</div>							
+						</ui:fragment>
+						<h:commandLink class="icon-link event-button" 
+							action="#{viewEventController.leaveEvent()}" rendered="#{viewEventController.event.joinStatus == 2 and !viewEventController.isOwnEvent()}">
+							<f:ajax execute="@form" render="@form"/>
+							<i class="material-icons" style="font-size: 24px;">clear</i><span>Leave</span>
+						</h:commandLink>
+						<h:link class="icon-link event-button"  
+							outcome="editevent" rendered="#{not viewEventController.event.canceled and viewEventController.isOwnEvent()}">
+							<f:param name="id" value="#{viewEventController.event.id}" />
+							<i class="material-icons">mode_edit</i><span>Edit</span>
+						</h:link>						
+					</h:form>
+				</div>
+				<div class="clear" />
+			</div>
+
+			<ui:fragment rendered="#{viewEventController.event.joinStatus == 2 or viewEventController.isOwnEvent() }">
+				<h:form prependId="false" class="content-block">
+					<h2 class="margin-medium">Comments</h2>
+					<h:panelGroup id="comment">
+						<ul class="comment-list">
+							<ui:repeat var="comment" value="#{viewEventController.comments}">
+								<li>
+									<h:graphicImage class="comment-image" value="/img/profile/#{comment.profile.image}" />
+									<div class="comment-content">
+										<h:link outcome="profile" value="#{comment.profile.name}">
+											<f:param name="id" value="#{comment.userId}" />
+										</h:link>
+										<div class="icon-label-small" style="display: block;">
+											<i class="material-icons">access_time</i>
+											<p>
+												<h:outputText value="#{comment.date * 1000}" class="date">
+													<f:convertDateTime pattern="YYYY-MM-dd HH:mm:ss" timeZone="#{userSession.timeZone}" />
+												</h:outputText>
+											</p>										
+										</div>									
+										<p class="comment-body">#{comment.body}</p>								
+									</div>
+									<div class="clear" />
+								</li>
+							</ui:repeat>
+						</ul>
+					</h:panelGroup>
+
+					<h4>Write</h4>
+					<h:inputTextarea class="comment-input" rows="6"
+						value="#{viewEventController.comment.body}" />
+					<br />
+					<h:commandLink class="icon-link action-button"
+						style="display: inline-block;"
+						action="#{viewEventController.postComment}">
+						<i class="material-icons" style="font-size: 24px;">done</i>
+						<span>Post</span>
+						<f:ajax execute="@form" render="@form" />
+					</h:commandLink>
+				</h:form>
+			</ui:fragment>
+		</ui:fragment>
+	</ui:define>
+</ui:composition>
+</html>

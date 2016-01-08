@@ -1,0 +1,50 @@
+.index-content-left {
+	position: absolute;
+	height: 700px;
+	width: 580px;
+	margin-top: 64px;
+}
+
+.index-content-right {
+	position: absolute;
+	margin-left: 600px;
+	margin-top: 64px;
+	width: 260px;
+	height: 700px;
+}
+
+.index-content-block {
+	position: relative;
+	margin-top: 20px;
+	background: #F8F8F8;
+	-webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
+	-moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.39);
+	min-height: 300px;
+	padding: 10px 20px;	
+}
+
+#register-mode-default {
+	position: relative;
+	display: block;
+	text-align: center;
+	margin-top: 100px;
+}
+
+#rregister-mode-form {
+	display: block;
+}
+
+#login-wrapper {
+	width: 80%; 
+	margin: 48px auto 36px auto; 
+	text-align: left;
+}
+
+.login-resetpassowrd-link {
+	display: block; 
+	font-size: 13px; 
+	text-decoration: none; 
+	color: #3577BD; 
+	margin-top: 16px;
+}

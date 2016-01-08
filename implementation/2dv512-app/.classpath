@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.websphere.appserver.api.json_1.0.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.cdi.1.2_1.2.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.servlet.3.1_1.0.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.jsf.2.2_1.0.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.jaxrs.2.0_1.0.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.persistence.2.1_1.0.10.jar"/>
+	<classpathentry kind="lib" path="dep-jar/com.ibm.ws.javaee.ejb.3.2_1.0.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imgscalr-lib-4.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/2dv512-app/dep-jar/javadoc/imgscalr-lib-4.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="dep-jar/jackson-annotations-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/jackson-core-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/jackson-databind-2.2.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/org.ektorp-1.4.2.jar"/>
+	<classpathentry kind="lib" path="dep-jar/slf4j-api-1.6.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/simplelatlng-1.3.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.mail-1.5.5.jar"/>
+	<classpathentry kind="lib" path="dep-jar/commons-io-2.0.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

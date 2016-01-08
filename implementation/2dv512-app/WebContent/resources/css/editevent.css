@@ -1,0 +1,40 @@
+#editevent-cancelevent-button {
+	float: right;
+}
+
+#editevent-calendar-wrapper {
+	display: block;
+}
+
+#editevent-calendar-wrapper .calendar {
+	display: inline-block;
+	width: 200px;
+}
+
+
+#editevent-time-wrapper {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 36px;
+	margin-top: 36px;
+}
+
+#editevent-hour-wrapper {
+	display: inline-block;
+}
+
+#editevent-minute-wrapper {
+	display: inline-block;
+	margin-left: 12px;
+}
+
+#editevent-hour-input, #editevent-minute-input {
+	width: 40px;	
+}
+
+textarea {
+	resize: none;
+}
+
+
+

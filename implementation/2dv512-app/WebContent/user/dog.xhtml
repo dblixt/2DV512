@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<ui:composition template="/template/layoutUser.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{editDogController.id}" />
+		<f:event type="preRenderView" listener="#{editDogController.loadData}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>Internet of Dogs - Dog</title>
+		<h:outputStylesheet name="profile.css" library="css" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="content-block">
+			<div class="profile-wrapper">
+				<div class="profile-content-left">
+					<h2 id="dog-header">#{editDogController.id != -1 ? 'Edit dog' : 'Add new dog'}</h2>				
+					<h:form>
+						<label>Name:</label>
+						<h:inputText id="dog-name-input" required="true" requiredMessage="Enter your dogs name." value="#{editDogController.dog.name}"/>
+						<h:message for="dog-name-input" class="error-message"/>
+						
+						<label>Gender:</label>
+						<h:selectOneRadio id="dog-gender-input" class="profile-gender-input" value="#{editDogController.dog.gender}">
+							<f:selectItem itemValue="male" itemLabel="Male" />
+							<f:selectItem itemValue="female" itemLabel="Female" />
+						</h:selectOneRadio>
+						
+						<label>Age:</label>
+						<h:inputText id="dog-age-input" value="#{editDogController.dog.age}" validatorMessage="Not within allowed range (0-99).">
+							<f:validateLongRange minimum="0" maximum="99" />
+						</h:inputText>
+						<h:message for="dog-age-input" class="error-message"/>
+						
+						<label>Breed:</label>
+						<h:inputText id="dog-breed-input" value="#{editDogController.dog.breed}" 
+							required="true" requiredMessage="Enter breed."/>
+						<h:message for="dog-breed-input" class="error-message" />
+											
+						<div class="margin-large" />
+	
+						<h:commandLink id="dog-save-button" class="icon-link" action="#{editDogController.saveData}">
+							<i class="material-icons">save</i><span>Save</span>
+						</h:commandLink>
+						<h:link id="dog-cancel-button" class="icon-link" outcome="editprofile">
+							<i class="material-icons">cancel</i><span>Cancel</span>
+						</h:link>
+					</h:form>
+				</div>
+				<div class="profile-content-right">		
+					<h:graphicImage id="image-preview" value="/img/dog/#{editDogController.dog.image}" />												
+					<h:form enctype="multipart/form-data" prependId="false">		
+						<div class="wrapper-file-input icon-link">
+						<i class="material-icons">mode_edit</i><span>Change</span>
+							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
+								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":image-preview" />
+							</h:inputFile>						
+						</div>  											
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,33 @@
+.notification-user-image {
+	float: left;
+	height: 64px;
+	width: 64px;
+	object-fit: cover;
+}
+
+.notification-info-content {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.notification-body {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+.notification-text-link {
+	text-decoration: none;
+	color: #435F8C;
+	font-weight: bold;
+}
+
+.notification-button-bar {
+	margin-left: -8px;
+}
+
+
+.notification-remove-button {
+	position: absolute;
+	right: 6px;
+	top: 6px;
+}

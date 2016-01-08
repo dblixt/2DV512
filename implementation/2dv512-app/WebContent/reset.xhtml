@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<ui:composition template="/template/layoutIndex.xhtml">
+	<f:metadata>
+		<f:viewParam name="token" value="#{resetPwController.token}" />
+	</f:metadata>
+
+	<ui:define name="head">
+		<title>Internet of Dogs - Reset Password</title>
+	</ui:define>
+
+	<ui:define name="left">
+		<h:form class="index-content-block" style="min-height: 100px;">
+			<h3>Reset password</h3>
+						
+			<label style="margin-top: 48px;">New password:</label>
+			<h:inputText id="reset-password-input"
+							value="#{resetPwController.password}" required="true"
+							requiredMessage="Enter new password." />
+			<h:message class="error-message" for="reset-password-input" />				 
+			<br /><br />
+			<br />
+			<h:commandLink class="icon-link"
+				action="#{resetPwController.resetPassword}">
+				<i class="material-icons">save</i>
+				<span>Save</span>
+			</h:commandLink>		
+			
+			<h:link class="icon-link" outcome="index">
+				<i class="material-icons">cancel</i>
+				<span>Cancel</span>
+			</h:link>						
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

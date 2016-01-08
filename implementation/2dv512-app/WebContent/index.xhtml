@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<ui:composition template="/template/layoutIndex.xhtml">
+	<ui:define name="head">
+		<title>Internet of Dogs - Index</title>
+		<h:outputScript>
+			function loadTimezoneOffset() {
+				console.log("loadTimezoneOffset()");
+				var offset_ms = new Date().getTimezoneOffset() * 60 * 1000; 
+				document.getElementById("timezone-offset").value = -offset_ms; // inverted
+			}
+			
+			window.onload = loadTimezoneOffset;
+		</h:outputScript>
+	</ui:define>
+
+
+	<ui:define name="left">
+		<div class="index-content-block">
+			<h:form id="register" prependId="false">
+				<ui:fragment rendered="#{registerController.mode == 0}">
+					<div id="register-mode-default">
+						Not a member? Please register! <br />
+						<h:commandLink class="icon-link" style="margin-top: 8px;">
+							<i class="material-icons">build</i>
+							<span>Register</span>
+							<f:ajax listener="#{registerController.switchMode}" 
+								execute="@this" render="@form" />
+						</h:commandLink>
+					</div>
+				</ui:fragment>
+
+				<ui:fragment rendered="#{registerController.mode == 1}">
+					<div id="register-mode-form">
+						<h2>Register</h2>
+						<div style="margin-top: 48px;" />
+						<label>Name:</label>
+						<h:inputText id="register-name-input"
+							value="#{registerController.user.profile.name}" required="true"
+							requiredMessage="Enter name." /> 
+						<br />
+						<h:message class="error-message" for="register-name-input" />
+				
+						<label style="margin-top: 20px;">Email:</label>
+						<h:inputText id="register-email-input"
+							value="#{registerController.user.email}" required="true"
+							requiredMessage="Enter email." validatorMessage="Invalid email format.">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</h:inputText>
+						<br />
+						<h:message class="error-message" for="register-email-input" />
+					
+						<label>Password:</label>
+						<h:inputText id="register-password-input"
+							value="#{registerController.user.password}" required="true"
+							requiredMessage="Enter password." />
+						<br />
+						<h:message class="error-message" for="register-password-input" />
+						
+						<div style="margin-top: 48px;">
+							<h:commandLink class="icon-link"
+								action="#{registerController.register}">
+								<i class="material-icons">done</i>
+								<span>Register</span>
+								<f:ajax execute="@form" render="@form" />
+							</h:commandLink>
+							<h:commandLink class="icon-link">
+								<i class="material-icons">cancel</i>
+								<span>Cancel</span>
+								<f:ajax listener="#{registerController.switchMode}"
+									render="@form" />
+							</h:commandLink>
+						</div>
+					</div>				
+				</ui:fragment>
+
+				<ui:fragment rendered="#{registerController.mode == 2}">
+					<p class="center" style="margin-top: 100px;">Registration Successful!</p>					
+				</ui:fragment>
+
+				<ui:fragment rendered="#{registerController.mode == 3}">
+					<div class="center" style="margin-top: 80px;">
+						<p>Registration Failed!</p>
+						<h:commandLink class="icon-link">
+							<i class="material-icons">replay</i>
+							<span>Try Again</span>
+							<f:ajax listener="#{registerController.switchMode}" render="@form" />
+						</h:commandLink>
+					</div>
+				</ui:fragment>
+			</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="right">
+		<h:form prependId="false" class="index-content-block center" >
+			<h3>#{loginController.stateLogin ? 'Login' : 'Reset password'}</h3>
+
+			<div id="login-wrapper">
+				<label>Email:</label>
+				<h:inputText id="login-email-input" value="#{loginController.user.email}" />
+								
+				<ui:fragment rendered="#{loginController.stateLogin}">					
+					<label>Password:</label>
+					<h:inputSecret id="login-password-input" value="#{loginController.user.password}" />
+					<h:outputText class="error-message" style="margin-top: 8px;"
+						value="Incorrect email or password, please try again."
+						rendered="#{loginController.retryCount > 0}" />
+					
+					<h:commandLink class="login-resetpassowrd-link" action="#{loginController.switchStateToReset}">
+						Forgot Password?
+						<f:ajax execute="@this" render="@form" />
+					</h:commandLink>	
+				</ui:fragment>				
+			</div>
+
+			<h:commandLink class="icon-link"
+				rendered="#{loginController.stateLogin}"
+				action="#{loginController.login}">
+				<i class="material-icons">exit_to_app</i>
+				<span>Sign In</span>
+			</h:commandLink>
+			
+			<h:inputHidden id="timezone-offset" value="#{loginController.timeZoneOffset}"></h:inputHidden>
+			
+			<h:commandLink class="icon-link"
+				rendered="#{loginController.stateReset}"
+				action="#{loginController.sendResetEmail}">
+				<i class="material-icons">exit_to_app</i>
+				<span>Send</span>
+				<f:ajax execute="@form" render="@form" />
+			</h:commandLink>
+			
+			<h:commandLink class="icon-link"
+				rendered="#{loginController.stateReset}"
+				action="#{loginController.switchStateToLogin}">
+				<i class="material-icons">cancel</i>
+				<span>Cancel</span>
+				<f:ajax execute="@this" render="@form" />
+			</h:commandLink>						
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
