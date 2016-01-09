@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 
 <ui:composition template="/template/layoutIndex.xhtml">
@@ -43,7 +44,10 @@
 						<label>Name:</label>
 						<h:inputText id="register-name-input"
 							value="#{registerController.user.profile.name}" required="true"
-							requiredMessage="Enter name." /> 
+							requiredMessage="Enter name." p:maxlenght="100"
+							validatorMessage="Name cannot exceed 100 characters"> 
+							<f:validateLength maximum="100"></f:validateLength>
+							</h:inputText> 
 						<br />
 						<h:message class="error-message" for="register-name-input" />
 				
@@ -86,7 +90,9 @@
 
 				<ui:fragment rendered="#{registerController.mode == 3}">
 					<div class="center" style="margin-top: 80px;">
-						<p>Registration Failed!</p>
+						<h:outputText rendered="#{registerController.userDOAResponse == -803}" value="Email is allready in use!"></h:outputText>
+						<h:outputText rendered="#{registerController.userDOAResponse != -803}" value="Unknown error, please try again later!"></h:outputText>
+						<br/>
 						<h:commandLink class="icon-link">
 							<i class="material-icons">replay</i>
 							<span>Try Again</span>

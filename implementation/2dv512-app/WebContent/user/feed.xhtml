@@ -70,7 +70,7 @@
 						</ui:fragment>
 						<h:commandLink class="icon-link event-button" 
 							action="#{feedController.leaveEvent(e)}" rendered="#{e.joinStatus == 2 and !feedController.isOwnEvent(e.creator.userId)}">
-							<f:ajax execute="@form" render="@form"/>
+							<f:ajax execute="@form" render="@form" />
 							<i class="material-icons"  style="font-size: 24px;">clear</i><span>Leave</span>
 						</h:commandLink>
 						<h:link class="icon-link event-button"  

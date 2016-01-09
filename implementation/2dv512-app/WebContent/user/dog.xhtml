@@ -33,7 +33,10 @@
 						<h2 id="dog-header">#{editProfileController.dogId != -1 ? 'Edit dog' : 'Add new dog'}</h2>				
 						<h:form>
 							<label>Name:</label>
-							<h:inputText id="dog-name-input" required="true" requiredMessage="Enter your dogs name." value="#{editProfileController.dog.name}"/>
+							<h:inputText id="dog-name-input" required="true" requiredMessage="Enter your dogs name." value="#{editProfileController.dog.name}"p:maxlenght="100"
+							validatorMessage="Max 100 characters">
+							<f:validateLength maximum="100"></f:validateLength>
+							</h:inputText>
 							<h:message for="dog-name-input" class="error-message"/>
 						
 							<label>Gender:</label>
@@ -50,7 +53,9 @@
 						
 							<label>Breed:</label>
 							<h:inputText id="dog-breed-input" value="#{editProfileController.dog.breed}" 
-								required="true" requiredMessage="Enter breed."/>
+								required="true" requiredMessage="Enter breed." p:maxlenght="100" validatorMessage="Max 100 characters">
+							<f:validateLength maximum="100"/>
+						</h:inputText>
 							<h:message for="dog-breed-input" class="error-message" />
 											
 							<div class="margin-large" />

@@ -23,10 +23,6 @@
 			setAllowEdit(true);		
 		</h:outputScript>
 
-		<script 
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
-			async="async" defer="defer">					
-		</script>
 	</ui:define>
 
 	<ui:define name="content">
@@ -34,11 +30,15 @@
 			<div class="profile-wrapper">
 				<div class="profile-content-left">
 					<h2 id="profile-header">Edit Profile</h2>
-					
+
 					<h:form id="editprofile-form" prependId="false">
 						<label>Name:</label>
-						<h:inputText id="profile-name-input" required="true" requiredMessage="Enter your name."
-							value="#{editProfileController.profile.name}"/>	
+						<h:inputText id="profile-name-input" required="true"
+							requiredMessage="Enter your name."
+							value="#{editProfileController.profile.name}" p:maxlenght="100"
+							validatorMessage="Max 100 characters"> 
+							<f:validateLength maximum="100"></f:validateLength>
+							</h:inputText>
 						<h:message for="profile-name-input" class="error-message" />
 											
 						<label>Gender:</label>
@@ -48,9 +48,11 @@
 						</h:selectOneRadio>
 						
 						<label>About me:</label>
-						<h:inputTextarea id="profile-description-input" rows="7" cols="50" 
-							value="#{editProfileController.profile.description}" />
-
+						<h:inputTextarea id="profile-description-input" rows="7" cols="50"
+							value="#{editProfileController.profile.description}" p:maxlenght="1000" validatorMessage="Max 1000 characters">
+						<f:validateLength maximum="1000"></f:validateLength>						
+						</h:inputTextarea>
+						<h:message class="error-message" for="profile-description-input" />
 						<h4>Dogs</h4>
 						<h:panelGroup id="profile-dog-list-wrapper">
 							<ul id="profile-dog-list">					
@@ -87,9 +89,18 @@
 						<h4>Location</h4>
 						<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
 						<div id="map"></div>
-						<h:inputHidden id="lat" value="#{editProfileController.profile.latitude}" />
-						<h:inputHidden id="lng" value="#{editProfileController.profile.longitude}" />
+
+
+						<script
+							src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
+							async="async" defer="defer">							
+						</script>
 						
+						<h:inputHidden id="lat"
+							value="#{editProfileController.profile.latitude}" />
+						<h:inputHidden id="lng"
+							value="#{editProfileController.profile.longitude}" />
+
 						<h4 style="margin-top: 20px;">Feed Settings</h4>
 						<label class="label-header">Max distance:</label>						
 						<h:inputText id="radius" p:type="number" p:min="1" p:max="200" 

@@ -59,14 +59,6 @@ public class ViewEventController implements Serializable {
 
 	private boolean dataLoaded = false;
 
-	// public void switchMode(AjaxBehaviorEvent event) {
-	// System.out.println("Switching Mode" + event.toString());
-	// mode++;
-	// if (mode == 3) {
-	// mode = 0;
-	// }
-	// }
-
 	public void setId(int id) {
 		System.out.println("setId " + id);
 		eventId = id;
@@ -116,6 +108,7 @@ public class ViewEventController implements Serializable {
 	public String leaveEvent() {
 		if (eventsDAO.leave(session.getUserId(), event.getId())) {
 			event.setJoinStatus(Event.JOIN_STATUS_UNJOINED);
+			dataLoaded = false;
 		}
 		return null;
 	}
