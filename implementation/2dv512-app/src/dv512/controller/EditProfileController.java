@@ -159,7 +159,7 @@ public class EditProfileController implements Serializable {
 	}
 	
 	public void loadDog() {
-		if(dog == null) {
+		if(dog == null || dog.getId() != dogId) {
 			if(dogId == -1) {
 				// add new dog mode.
 				dog = new Dog();
@@ -171,6 +171,9 @@ public class EditProfileController implements Serializable {
 
 			// edit dog mode, load data.
 			dog = dogsDAO.get(dogId);
+			if(dog != null && dog.getUserId() != session.getUserId()) {
+				dog = null; // force error message.
+			}
 		}		
 	}
 	
