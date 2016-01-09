@@ -9,7 +9,7 @@
 
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
-		<f:event type="preRenderView" listener="#{editProfileController.loadData}" />
+		<f:event type="preRenderView" listener="#{editProfileController.loadProfile}" />
 	</f:metadata>
 
 	<ui:define name="head">
@@ -62,10 +62,10 @@
 											<i class="material-icons">clear</i>	
 											<f:ajax execute="@this" render=":editprofile-form:profile-dog-list-wrapper" />
 										</h:commandLink>					
-										<h:link class="icon-link center-vertical" style="right: 40px;" outcome="dog">
+										<h:commandLink class="icon-link center-vertical" style="right: 40px;" 
+											action="#{editProfileController.editDog(d.id)}">
 											<i class="material-icons">mode_edit</i>
-											<f:param name="id" value="#{d.id}"/>
-										</h:link>
+										</h:commandLink>
 															
 										<div class="center-vertical">
 											<h5>#{d.name}</h5>
@@ -78,9 +78,10 @@
 							</ul>
 						</h:panelGroup>
 						
-						<h:link id="editprofile-add-dog" class="icon-link" outcome="dog">
+						<!-- Submit form and go to dog edit page -->
+						<h:commandLink id="editprofile-add-dog" class="icon-link" action="dog.xhtml?faces-redirect=true">
 							<i class="material-icons">add</i><span>Add dog</span>
-						</h:link>
+						</h:commandLink>
 									
 						<br />
 						<h4>Location</h4>
@@ -99,23 +100,24 @@
 						<h:message for="radius" class="error-message"/>
 																
 						<div style="display: block; margin-top: 32px;">
-							<h:commandLink class="icon-link" action="#{editProfileController.saveData}">
+							<h:commandLink class="icon-link" action="#{editProfileController.saveProfile}">
 								<i class="material-icons">save</i><span>Save</span>
 							</h:commandLink>
-							<h:link class="icon-link" outcome="profile">
+							<h:commandLink class="icon-link" action="#{editProfileController.cancelProfile}" immediate="true">
 								<i class="material-icons">cancel</i><span>Cancel</span>
-							</h:link>						
+							</h:commandLink>						
 						</div>					
 					</h:form>
 				</div>
 
 				<div class="profile-content-right">		
 					<h:graphicImage id="image-preview" value="/img/profile/#{editProfileController.profile.image}" />												
-					<h:form enctype="multipart/form-data" prependId="false">		
+					<h:form enctype="multipart/form-data" prependId="false">	
 						<div class="icon-link wrapper-file-input">
 							<i class="material-icons">mode_edit</i><span>Change</span>
-							<h:inputFile class="file-input" value="#{fileUploadHandler.file}" p:accept="image/*">
-								<f:ajax execute="@this" listener="#{fileUploadHandler.upload}" render=":image-preview" />
+							<h:inputFile class="file-input" value="#{editProfileController.fileUpload.file}" p:accept="image/*">
+								<f:attribute name="type" value="profile" />
+								<f:ajax execute="@this" listener="#{editProfileController.fileUpload.upload}" render=":image-preview" />
 							</h:inputFile>							
 						</div>  											
 					</h:form>
