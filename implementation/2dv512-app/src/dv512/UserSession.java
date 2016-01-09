@@ -9,6 +9,7 @@ import java.util.TimeZone;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -91,6 +92,10 @@ public class UserSession implements Serializable {
 	}
 		
 	public String logout() {		
+		// Invalidate current session.
+		FacesContext.getCurrentInstance()
+			.getExternalContext().invalidateSession();
+		
 		userId = User.UNKNOWN_ID;
 		profile = null;
 		timeZone = null;

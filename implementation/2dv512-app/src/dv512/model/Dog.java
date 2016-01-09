@@ -66,4 +66,19 @@ public class Dog {
 		this.image = image;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		
+		if(obj instanceof Dog) {
+			Dog d = (Dog) obj;
+			if(d.id == id) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 }

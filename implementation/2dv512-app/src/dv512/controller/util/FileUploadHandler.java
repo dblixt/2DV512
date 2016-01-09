@@ -2,32 +2,24 @@ package dv512.controller.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 import javax.servlet.http.Part;
 
-@Named
-@ViewScoped
-public class FileUploadHandler implements Serializable {
 
-	private static final long serialVersionUID = -1851387365563543581L;
-	
+public class FileUploadHandler {
+
 	public interface FileUploadListener {
-		void onUploadFile(String filename, InputStream is);
+		void onUploadFile(String type, String filename, InputStream is);
 	}
 	
 	private FileUploadListener listener;
 	private Part file;
-	
-	
+
 	public void setFileUploadListener(FileUploadListener listener) {
 		this.listener = listener;
 	}
-	
-	
+		
 	public Part getFile() {
 		return null;
 	}
@@ -35,15 +27,19 @@ public class FileUploadHandler implements Serializable {
 	public void setFile(Part file) {
 		this.file = file;
 	}
-	
-	
-	public void upload(AjaxBehaviorEvent event) throws IOException {
+
+	public void upload(AjaxBehaviorEvent event) throws IOException {				
 		System.out.println("Upload file");
+		String type = (String) event.getComponent()
+				.getAttributes().get("type");
+		
 		if(listener != null) {
 			listener.onUploadFile(
+					type,
 					file.getSubmittedFileName(), 
 					file.getInputStream()
 			);
+			file = null;
 		}
 	}
 	
