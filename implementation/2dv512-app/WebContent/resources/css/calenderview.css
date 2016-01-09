@@ -53,7 +53,7 @@ div.calendar tr.days td {
 div.calendar tr.days td:hover,
 div.calendar td.button:hover
 {
-  background-color: #34ABFA;
+  background-color: #97AFD1;
   cursor: pointer;
 }
 
