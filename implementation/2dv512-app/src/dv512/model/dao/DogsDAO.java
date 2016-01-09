@@ -101,7 +101,7 @@ public class DogsDAO implements Serializable {
 		try {
 			con = dbManager.getConnection();
 			stmt = con.prepareStatement("SELECT * FROM Dogs INNER JOIN EventJoins ON " + 
-					"Dogs.user_id = EventJoins.user_id WHERE EventJoins.event_id = ?");
+					"Dogs.user_id = EventJoins.user_id WHERE EventJoins.event_id = ? AND EventJoins.approved = 1");
 			stmt.setInt(1, eventId);
 			
 			ResultSet r = stmt.executeQuery();

@@ -60,7 +60,7 @@
 						<br />
 						<h:message class="error-message" for="register-email-input" />
 					
-						<label>Password:</label>
+						<label style="margin-top: 8px;">Password:</label>
 						<h:inputText id="register-password-input"
 							value="#{registerController.user.password}" required="true"
 							requiredMessage="Enter password." />
@@ -140,7 +140,6 @@
 				action="#{loginController.sendResetEmail}">
 				<i class="material-icons">exit_to_app</i>
 				<span>Send</span>
-				<f:ajax execute="@form" render="@form" />
 			</h:commandLink>
 			
 			<h:commandLink class="icon-link"

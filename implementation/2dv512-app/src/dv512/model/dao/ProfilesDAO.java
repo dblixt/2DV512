@@ -121,7 +121,7 @@ public class ProfilesDAO implements Serializable {
 		return true;
 	}
 
-	public List<Profile> listAllForEvent(int eventID) {
+	public List<Profile> listAllForEvent(int eventId) {
 		List<Profile> pl = new ArrayList<>();
 
 		Connection con = null;
@@ -133,7 +133,7 @@ public class ProfilesDAO implements Serializable {
 					"Profiles.user_id = EventJoins.user_id WHERE " + 
 					"EventJoins.event_id = ? AND EventJoins.approved = 1 "
 			);
-			stmt.setInt(1, eventID);
+			stmt.setInt(1, eventId);
 
 			ResultSet r = stmt.executeQuery();
 

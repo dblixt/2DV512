@@ -55,7 +55,7 @@ public class EditEventController implements Serializable {
 
 	
 	public void loadEvent() {
-		if (event == null) {
+		if (event == null || editEventId != event.getId()) {
 			if (editEventId == -1) {
 				event = new Event();
 				event.setLatitude(session.getProfile().getLatitude());
@@ -65,11 +65,8 @@ public class EditEventController implements Serializable {
 				event = eventDAO.get(editEventId, -1);
 				
 				if(event == null || event.getCreator().getUserId() != session.getUserId() || event.isCanceled()) {
-					// something is fishy, switch to create event mode.
-					editEventId = -1;
-					event = new Event();
-					event.setLatitude(session.getProfile().getLatitude());
-					event.setLongitude(session.getProfile().getLongitude());
+					// something is fishy, force error message.
+					event = null;
 				}
 			}			
 		}

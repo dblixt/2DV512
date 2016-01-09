@@ -7,8 +7,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -66,11 +66,7 @@ public class UserSession implements Serializable {
 	}
 	
 	public int getNotificationCount() {
-		if(Instant.now().getEpochSecond() - lastNotificationCountUpdateTime > 10) {
-			lastNotificationCountUpdateTime = Instant.now().getEpochSecond();
-			notificationCount = notifications.count(getUserId());
-		}
-				
+		refreshNotificationCount(false);
 		return notificationCount;
 	}
 	
@@ -78,6 +74,12 @@ public class UserSession implements Serializable {
 		return userId != User.UNKNOWN_ID;
 	}
 	
+	public void refreshNotificationCount(boolean force) {
+		if(force || Instant.now().getEpochSecond() - lastNotificationCountUpdateTime > 10) {
+			lastNotificationCountUpdateTime = Instant.now().getEpochSecond();
+			notificationCount = notifications.count(getUserId());
+		}		
+	}
 	
 	public void reload() {
 		if(userId != -1) {
@@ -91,17 +93,10 @@ public class UserSession implements Serializable {
 	}
 		
 	public String logout() {		
-		userId = User.UNKNOWN_ID;
-		profile = null;
-		timeZone = null;
-		lastNotificationCountUpdateTime = 0;
-		notificationCount = 0;
+		// Invalidate current session.
+		FacesContext.getCurrentInstance()
+			.getExternalContext().invalidateSession();
 		return ACTION_LOGOUT;
 	}
 	
-	@PreDestroy
-	private void onDestroy() {
-		System.out.println("User session detroyed.");
-		logout();		
-	}
 }

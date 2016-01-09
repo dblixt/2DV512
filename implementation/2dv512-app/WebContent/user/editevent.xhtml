@@ -10,13 +10,11 @@
 <ui:composition template="/template/layoutUser.xhtml">
 	<f:metadata>
 		<f:viewParam name="id" value="#{editEventController.editEventId}" />
-		<f:event type="preRenderView"
-			listener="#{editEventController.loadEvent}" />
+		<f:event type="preRenderView" listener="#{editEventController.loadEvent}" />
 	</f:metadata>
 
 	<ui:define name="head">
-		<title>Internet of Dogs - #{editEventController.editEventId !=
-			-1 ? 'Edit Event' : 'Create Event'}</title>
+		<title>Internet of Dogs - #{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</title>
 		<h:outputStylesheet name="editevent.css" library="css" />
 		<h:outputStylesheet name="calenderview.css" library="css" />
 		<h:outputStylesheet name="map.css" library="css" />
@@ -32,7 +30,7 @@
 			function setupCalendars() {
         		// Embedded Calendar
        			myCal = Calendar.setup({
-           	 		parentElement: 'embeddedCalendar'
+           	 		parentElement: 'editevent-calendar'
           		});      		
           		myCal.setSelectHandler(onDateChanged);
         	
@@ -84,33 +82,50 @@
 			}
 				
       		Event.observe(window, 'load', function() { 
-      			setupCalendars(); 
+      			if(document.getElementById('editevent-calendar')) {
+      				setupCalendars(); 
+      			}
+      			else {
+      				console.log('calendar box not found');
+      			}
       		});		
 		</h:outputScript>
-
+		
 		<h:outputScript>
-				setLocation(#{editEventController.event.latitude}, #{editEventController.event.longitude});	
-				setAllowEdit(true);
-				setAllowGeoLocation(false);
-				setZoomLevel(8);
+			setLocation(#{empty editEventController.event.latitude ? 0 : editEventController.event.latitude},
+						#{empty editEventController.event.longitude ? 0 : editEventController.event.longitude});	
+			setAllowEdit(true);
+			setAllowGeoLocation(false);
+			setZoomLevel(8);
 		</h:outputScript>
-
+		
+		<script
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
+			async="async" defer="defer">
+			
+		</script>
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="createevent" prependId="false" class="content-block">
-			<h:commandLink
-				onclick="if (!confirm('Are you sure you want to cancel this event?')) return false"
-				id="editevent-cancelevent-button" class="icon-link margin-large"
+		<ui:fragment rendered="#{empty editEventController.event}">
+			<div class="content-block">
+				<h3 class="margin-medium">Error</h3>
+				<p style="margin-top: 12px; margin-bottom: 12px;">Unauthorized.</p>
+			</div>
+		</ui:fragment>
+	
+		<h:form id="createevent" prependId="false" class="content-block" rendered="#{not empty editEventController.event}">
+			<h:commandLink onclick="if (!confirm('Are you sure you want to cancel this event?')) return false"
+				id="editevent-cancelevent-button"
+				class="icon-link margin-large"
 				rendered="#{editEventController.editEventId != -1}"
-				action="#{editEventController.cancelEvent}" immediate="true">
-				<i class="material-icons">clear</i>
-				<span>Cancel Event</span>
-			</h:commandLink>
-			<h2 class="margin-large">#{editEventController.editEventId != -1
-				? 'Edit Event' : 'Create Event'}</h2>
+				action="#{editEventController.cancelEvent}" 
+				immediate="true">
+				<i class="material-icons">clear</i><span>Cancel Event</span>
+			</h:commandLink>		
+			<h2 class="margin-large">#{editEventController.editEventId != -1 ? 'Edit Event' : 'Create Event'}</h2>
 			<div class="clear" />
-
+			
 			<label>Title:</label>
 			<h:inputText id="editevent-title-input"
 				value="#{editEventController.event.title}" p:maxlenght="100"
@@ -131,25 +146,25 @@
 
 			<h4>Date</h4>
 			<div id="editevent-calendar-wrapper">
-				<div id="embeddedCalendar" class="calendar"></div>
-
-
+				<div id="editevent-calendar" class="calendar"></div>
+				
+				
 				<div id="editevent-time-wrapper">
 					<div id="editevent-hour-wrapper">
 						<label>Hour</label>
-						<h:inputText id="editevent-hour-input" p:type="number" p:min="0"
-							p:max="23" onchange="onHourChanged(this.value)"
-							validatorMessage="Enter hour.">
+						<h:inputText  id="editevent-hour-input"  
+							p:type="number" p:min="0" p:max="23" onchange="onHourChanged(this.value)"
+							validatorMessage="Enter hour." >	
 							<f:validateLongRange minimum="0" maximum="23" />
 						</h:inputText>
 						<h:message class="error-message" for="editevent-hour-input" />
 					</div>
-
+													
 					<div id="editevent-minute-wrapper">
 						<label>Minute</label>
 						<h:inputText id="editevent-minute-input"
-							onchange="onMinuteChanged(this.value)" p:type="number" p:min="0"
-							p:max="59" validatorMessage="Enter minute.">
+							onchange="onMinuteChanged(this.value)" p:type="number" p:min="0" p:max="59"
+							validatorMessage="Enter minute." >
 							<f:validateLongRange minimum="0" maximum="59" />
 						</h:inputText>
 						<h:message class="error-message" for="editevent-minute-input" />
@@ -157,14 +172,12 @@
 
 
 				</div>
-
-				<h:inputHidden id="editevent-utc-date"
-					value="#{editEventController.event.date}" />
+						
+				<h:inputHidden id="editevent-utc-date" value="#{editEventController.event.date}" />
 			</div>
 
 			<h4>Location</h4>
-			<input id="pac-input" class="controls" type="text"
-				placeholder="Search"></input>
+			<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
 			<div id="map" style="width: 80%;"></div>
 
 
@@ -195,9 +208,9 @@
 			<h:link class="icon-link" outcome="feed">
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
-			</h:link>
-
-		</h:form>
+			</h:link>	
+	
+		 </h:form>
 	</ui:define>
 </ui:composition>
 </html>

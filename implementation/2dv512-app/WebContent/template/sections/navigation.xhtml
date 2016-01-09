@@ -20,11 +20,13 @@
 			<li>
 				<i class="material-icons">notifications</i>
 				<h:link outcome="notifications" value="Notifications" />
-				<ui:fragment rendered="#{userSession.notificationCount > 0}">
-					<div class="nav-info-square">
-						#{userSession.notificationCount}
-					</div>
-				</ui:fragment>
+				<h:panelGroup id="notification-count">
+					<ui:fragment  rendered="#{userSession.notificationCount > 0}">
+						<div class="nav-info-square">
+							<h:outputText value="#{userSession.notificationCount}" />
+						</div>
+					</ui:fragment>
+				</h:panelGroup>
 			</li>
 			<li>
 				<i class="material-icons">account_circle</i>
