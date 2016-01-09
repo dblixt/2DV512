@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.mail.Authenticator;
@@ -28,7 +28,7 @@ import dv512.model.dao.UsersDAO;
 
 
 @Named
-@ApplicationScoped
+@ViewScoped
 public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -38,20 +38,18 @@ public class LoginController implements Serializable {
 	
 	public static final String ACTION_LOGIN_SUCCESS = "success";
 	public static final String ACTION_LOGIN_FAIL = "fail";	
-	public static final String ACTION_LOGOUT = "logout";
+
 	
 	@Inject
 	private UserSession session;
 	
 	@Inject
 	private UsersDAO userDAO;
-	
-	
+		
 	private int currentState = STATE_LOGIN;
 	
 	private User user;
-	private int retryCount = 0;
-	
+	private int retryCount = 0;	
 	private int timeZoneOffset = 0;
 	
 	public LoginController() {
@@ -73,11 +71,7 @@ public class LoginController implements Serializable {
 	public int getRetryCount() {
 		return retryCount;
 	}
-	
-	public boolean isVerified() {
-	    return user.getId() != User.UNKNOWN_ID;
-	}
-	
+		
 	public int getUserId() {
 		return user.getId();
 	}
@@ -100,17 +94,7 @@ public class LoginController implements Serializable {
 			return ACTION_LOGIN_FAIL;
 		}
 	}
-	
-	public String logout() {
-		user.setId(User.UNKNOWN_ID);
-		session.setUserId(User.UNKNOWN_ID);
-		retryCount = 0;
-		user.setEmail(null);
-		user.setPassword(null);		
-		return ACTION_LOGOUT;
-	}
-	
-	
+
 	public String sendResetEmail() throws IOException, AddressException, MessagingException {		
 		String token = userDAO.requestResetPassword(user);
 		
@@ -176,6 +160,4 @@ public class LoginController implements Serializable {
 		currentState = STATE_LOGIN;
 	}
 
-	
-	
 }
