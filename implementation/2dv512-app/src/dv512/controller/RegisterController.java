@@ -60,14 +60,16 @@ public class RegisterController implements Serializable {
 
 	public void register() {
 		boolean userDOAResponse = userDAO.insert(user);
-
+		if(userDOAResponse){
 		Profile p = user.getProfile();
 		p.setUserId(user.getId());
-
+		
 		boolean profileDOAResponse = profileDAO.insert(p);
-		if (userDOAResponse == true && profileDOAResponse == true) {
+		
+		if (profileDOAResponse) {
 			mode = SUCCESS_MODE;
-		} 
+		}
+		}
 		else {
 			mode = FAILED_MODE;
 		}

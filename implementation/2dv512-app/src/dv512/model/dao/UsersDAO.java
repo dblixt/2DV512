@@ -59,6 +59,7 @@ public class UsersDAO implements Serializable {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println(e.getErrorCode());
 			return false;
 
 		} finally {
