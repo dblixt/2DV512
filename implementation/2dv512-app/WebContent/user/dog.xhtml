@@ -29,7 +29,7 @@
 						<h:inputText id="dog-name-input" required="true"
 							requiredMessage="Enter your dogs name."
 							value="#{editDogController.dog.name}" p:maxlenght="100"
-							validatorMessage="Dog name cannot exceed 100 characters">
+							validatorMessage="Max 100 characters">
 							<f:validateLength maximum="100"></f:validateLength>
 						</h:inputText>
 						<h:message for="dog-name-input" class="error-message" />
@@ -53,7 +53,7 @@
 						<label>Breed:</label>
 						<h:inputText id="dog-breed-input"
 							value="#{editDogController.dog.breed}" required="true"
-							requiredMessage="Enter breed." p:maxlenght="100" validatorMessage="Dog breed cannot exceed 100 characters">
+							requiredMessage="Enter breed." p:maxlenght="100" validatorMessage="Max 100 characters">
 							<f:validateLength maximum="100"/>
 						</h:inputText>
 						<h:message for="dog-breed-input" class="error-message" />

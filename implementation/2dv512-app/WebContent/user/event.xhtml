@@ -171,7 +171,7 @@
 
 					<h4>Write</h4>
 					<h:inputTextarea id="comment_input" class="comment-input" rows="6"
-						value="#{viewEventController.comment.body}" p:maxlenght="500" p:minlenght="1" validatorMessage="Comment must be between 1-500 characters">
+						value="#{viewEventController.comment.body}" p:maxlenght="500" p:minlenght="1" validatorMessage="Must be between 1-500 characters">
 						<f:validateLength minimum="1" maximum="500"></f:validateLength>
 						 </h:inputTextarea>
 						 <h:message class="error-message" for="comment_input" />

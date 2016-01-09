@@ -115,7 +115,7 @@
 			<h:inputText id="editevent-title-input"
 				value="#{editEventController.event.title}" p:maxlenght="100"
 				p:minlenght="1"
-				validatorMessage="Title must be between 1-100 characters">
+				validatorMessage="Must be between 1-100 characters">
 				<f:validateLength minimum="1" maximum="100"></f:validateLength>
 			</h:inputText>
 			<h:message class="error-message" for="editevent-title-input" />
@@ -124,7 +124,7 @@
 			<h:inputTextarea id="editevent-description-input" rows="4" cols="40"
 				value="#{editEventController.event.description}" p:maxlenght="1000"
 				p:minlenght="1"
-				validatorMessage="Description must be between 1-1000 characters">
+				validatorMessage="Must be between 1-1000 characters">
 				<f:validateLength minimum="1" maximum="1000"></f:validateLength>
 			</h:inputTextarea>
 			<h:message class="error-message" for="editevent-description-input" />

@@ -90,7 +90,9 @@
 
 				<ui:fragment rendered="#{registerController.mode == 3}">
 					<div class="center" style="margin-top: 80px;">
-						<p>Registration Failed!</p>
+						<h:outputText rendered="#{registerController.userDOAResponse == -803}" value="Email is allready in use!"></h:outputText>
+						<h:outputText rendered="#{registerController.userDOAResponse != -803}" value="Unknown error, please try again later!"></h:outputText>
+						<br/>
 						<h:commandLink class="icon-link">
 							<i class="material-icons">replay</i>
 							<span>Try Again</span>

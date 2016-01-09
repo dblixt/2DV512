@@ -24,7 +24,7 @@ public class RegisterController implements Serializable {
 	private final int REGISTER_MODE = 1;
 	private final int SUCCESS_MODE = 2;
 	private final int FAILED_MODE = 3;
-	
+
 	@Inject
 	private UsersDAO userDAO;
 
@@ -33,15 +33,21 @@ public class RegisterController implements Serializable {
 
 	private int mode = DEFAULT_MODE;
 
+	private int userDOAResponse;
+
 	private User user = new User();
 
-	
 	public User getUser() {
 		return user;
 	}
 
 	public int getMode() {
 		return mode;
+	}
+
+	public int getUserDOAResponse() {
+		System.out.println("get response");
+		return userDOAResponse;
 	}
 
 	public void switchMode(AjaxBehaviorEvent event) {
@@ -59,18 +65,17 @@ public class RegisterController implements Serializable {
 	}
 
 	public void register() {
-		boolean userDOAResponse = userDAO.insert(user);
-		if(userDOAResponse){
-		Profile p = user.getProfile();
-		p.setUserId(user.getId());
-		
-		boolean profileDOAResponse = profileDAO.insert(p);
-		
-		if (profileDOAResponse) {
-			mode = SUCCESS_MODE;
-		}
-		}
-		else {
+		userDOAResponse = userDAO.insert(user);
+		if (userDOAResponse == 0) {
+			Profile p = user.getProfile();
+			p.setUserId(user.getId());
+
+			boolean profileDOAResponse = profileDAO.insert(p);
+
+			if (profileDOAResponse) {
+				mode = SUCCESS_MODE;
+			}
+		} else {
 			mode = FAILED_MODE;
 		}
 	}

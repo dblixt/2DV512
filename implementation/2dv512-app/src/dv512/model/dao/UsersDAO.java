@@ -34,10 +34,10 @@ public class UsersDAO implements Serializable {
 	 * @param user
 	 * @return true if insert was successful, false otherwise.
 	 */
-	public boolean insert(User user) {
+	public int insert(User user) {
 		Connection con = null;
 		PreparedStatement s = null;
-
+		int sqlresponse;
 		try {
 			con = dbManager.getConnection();
 
@@ -49,7 +49,7 @@ public class UsersDAO implements Serializable {
 			s.setString(1, user.getEmail());
 			s.setBlob(2, new ByteArrayInputStream(hashedPw), hashedPw.length);
 			s.setBlob(3, new ByteArrayInputStream(salt), salt.length);
-			s.executeUpdate();
+			sqlresponse = s.executeUpdate();
 
 			// retrieve auto generated user id.
 			ResultSet key = s.getGeneratedKeys();
@@ -59,14 +59,14 @@ public class UsersDAO implements Serializable {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getErrorCode());
-			return false;
+			sqlresponse = e.getErrorCode();
+			return sqlresponse;
 
 		} finally {
 			dbManager.close(con);
 			dbManager.close(s);
 		}
-		return true;
+		return sqlresponse;
 	}
 
 	/**
