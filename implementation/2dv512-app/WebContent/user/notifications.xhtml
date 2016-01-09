@@ -17,7 +17,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:panelGroup id="notification_list">
+		<h:panelGroup id="notification-list">
 			<ui:fragment rendered="#{empty notificationsController.notifications}">
 				<div class="content-block">
 					<h3 class="margin-medium">Notifications</h3>
@@ -30,7 +30,7 @@
 					<h:commandLink class="icon-link notification-remove-button" action="#{notificationsController.remove(n)}" 
 						rendered="#{!n.typeJoinRequest}">
 						<i class="material-icons">clear</i>
-						<f:ajax execute="@form" render="notification_list"/>
+						<f:ajax execute="@this" render="notification-list notification-count"/>
 					</h:commandLink>
 					<h:graphicImage class="notification-user-image" value="/img/profile/#{n.sourceUser.image}"/>				
 					<div class="notification-info-content">
@@ -82,12 +82,12 @@
 						<div class="notification-button-bar">
 							<h:commandLink class="icon-link" style="display: inline-block" 
 								action="#{notificationsController.approveJoin(n)}" rendered="#{n.typeJoinRequest}">
-								<f:ajax execute="@form" render="notification_list"/>
+								<f:ajax execute="@this" render="notification-list notification-count" />
 								<i class="material-icons" style="font-size: 24px;">done</i><span>Accept</span>
 							</h:commandLink>
 							<h:commandLink class="icon-link" style="display: inline-block; margin-left: 5px;" 
 								action="#{notificationsController.denyJoin(n)}" rendered="#{n.typeJoinRequest}">
-								<f:ajax execute="@form" render="notification_list"/>
+								<f:ajax execute="@this" render="notification-list notification-count"/>
 								<i class="material-icons" style="font-size: 22px;">remove_circle_outline</i><span>Deny</span>
 							</h:commandLink>											
 						</div>

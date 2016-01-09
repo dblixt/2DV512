@@ -65,6 +65,7 @@ public class NotificationsController implements Serializable{
 					itr.remove();
 				}
 			}
+			session.refreshNotificationCount(true);
 		}
 	}
 	
