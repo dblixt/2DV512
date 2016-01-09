@@ -30,7 +30,7 @@
 			function setupCalendars() {
         		// Embedded Calendar
        			myCal = Calendar.setup({
-           	 		parentElement: 'embeddedCalendar'
+           	 		parentElement: 'editevent-calendar'
           		});      		
           		myCal.setSelectHandler(onDateChanged);
         	
@@ -82,12 +82,18 @@
 			}
 				
       		Event.observe(window, 'load', function() { 
-      			setupCalendars(); 
+      			if(document.getElementById('editevent-calendar')) {
+      				setupCalendars(); 
+      			}
+      			else {
+      				console.log('calendar box not found');
+      			}
       		});		
 		</h:outputScript>
 		
 		<h:outputScript>
-			setLocation(#{editEventController.event.latitude}, #{editEventController.event.longitude});	
+			setLocation(#{empty editEventController.event.latitude ? 0 : editEventController.event.latitude},
+						#{empty editEventController.event.longitude ? 0 : editEventController.event.longitude});	
 			setAllowEdit(true);
 			setAllowGeoLocation(false);
 			setZoomLevel(8);
@@ -101,7 +107,14 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="createevent" prependId="false" class="content-block">
+		<ui:fragment rendered="#{empty editEventController.event}">
+			<div class="content-block">
+				<h3 class="margin-medium">Error</h3>
+				<p style="margin-top: 12px; margin-bottom: 12px;">Unauthorized.</p>
+			</div>
+		</ui:fragment>
+	
+		<h:form id="createevent" prependId="false" class="content-block" rendered="#{not empty editEventController.event}">
 			<h:commandLink onclick="if (!confirm('Are you sure you want to cancel this event?')) return false"
 				id="editevent-cancelevent-button"
 				class="icon-link margin-large"
@@ -126,7 +139,7 @@
 
 			<h4>Date</h4>
 			<div id="editevent-calendar-wrapper">
-				<div id="embeddedCalendar" class="calendar"></div>
+				<div id="editevent-calendar" class="calendar"></div>
 				
 				
 				<div id="editevent-time-wrapper">

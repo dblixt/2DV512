@@ -15,6 +15,11 @@ var locationSet = true;
 function initMap() {
 	console.log("initMap()");
 	
+	if(!document.getElementById('map')) {
+		console.log('map box not found.');
+		return;
+	}
+	
 	console.log(zoomLevel);
 	
 	var mycenter = {
