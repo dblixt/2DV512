@@ -29,7 +29,6 @@ public class FileUploadHandler {
 	}
 
 	public void upload(AjaxBehaviorEvent event) throws IOException {				
-		System.out.println("Upload file");
 		String type = (String) event.getComponent()
 				.getAttributes().get("type");
 		

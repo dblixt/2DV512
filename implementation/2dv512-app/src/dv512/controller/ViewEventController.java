@@ -60,7 +60,6 @@ public class ViewEventController implements Serializable {
 	private boolean dataLoaded = false;
 
 	public void setId(int id) {
-		System.out.println("setId " + id);
 		eventId = id;
 	}
 

@@ -107,8 +107,6 @@ public class NotificationsDAO implements Serializable {
 				n.getEvent().setId(r.getInt("event_id"));
 				n.getEvent().setTitle(r.getString("event_title"));
 				
-				System.out.println(n.getDate());
-				
 				nl.add(n);
 			}			
 		}

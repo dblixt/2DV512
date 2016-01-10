@@ -72,7 +72,6 @@ public class NotificationsController implements Serializable{
 	
 	public void loadData() {
 		if(notificationList == null) {
-			System.out.println("Loading notifications");
 			notificationList = notifications.listAll(session.getUserId());
 		}	
 	}

@@ -21,6 +21,11 @@ import dv512.model.User;
 public class UsersDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	private static final int ERROR_OK = 0;
+	private static final int ERROR_DUPLICATE = 1;
+	private static final int ERROR_UNKNOWN = 2;
+	
+	
 	@Inject
 	private DbManager dbManager;
 
@@ -32,12 +37,12 @@ public class UsersDAO implements Serializable {
 	 * <code>user</code> if the insert is successful.</p>
 	 * 
 	 * @param user
-	 * @return true if insert was successful, false otherwise.
+	 * @return 0 if insert was successful, error code otherwise.
 	 */
 	public int insert(User user) {
 		Connection con = null;
 		PreparedStatement s = null;
-		int sqlresponse;
+		int sqlresponse = ERROR_OK;
 		try {
 			con = dbManager.getConnection();
 
@@ -49,23 +54,28 @@ public class UsersDAO implements Serializable {
 			s.setString(1, user.getEmail());
 			s.setBlob(2, new ByteArrayInputStream(hashedPw), hashedPw.length);
 			s.setBlob(3, new ByteArrayInputStream(salt), salt.length);
-			sqlresponse = s.executeUpdate();
+			s.executeUpdate();
 
 			// retrieve auto generated user id.
 			ResultSet key = s.getGeneratedKeys();
 			if (key.next()) {
 				user.setId(key.getInt("id"));
 			}
-
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-			sqlresponse = e.getErrorCode();
-			return sqlresponse;
-
-		} finally {
+			if(e.getErrorCode() == -833) {
+				sqlresponse = ERROR_DUPLICATE;
+			}
+			else {
+				sqlresponse = ERROR_UNKNOWN;
+			}
+		} 
+		finally {
 			dbManager.close(con);
 			dbManager.close(s);
 		}
+		
 		return sqlresponse;
 	}
 
