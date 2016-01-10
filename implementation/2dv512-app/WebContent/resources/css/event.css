@@ -21,6 +21,11 @@
 	padding-left: 20px;
 }
 
+.event-description {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
 .event-button-bar {
 	margin-left: -6px;
 }
@@ -120,7 +125,8 @@
 	margin: 0;
 	padding: 8px 0 0 0;
 	white-space: pre-wrap;
-	word-wrap: break-word;s}
+	word-wrap: break-word;
+}
 
 .comment-input {
 	width: 99%;

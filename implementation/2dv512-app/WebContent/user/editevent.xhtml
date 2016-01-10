@@ -98,12 +98,6 @@
 			setAllowGeoLocation(false);
 			setZoomLevel(8);
 		</h:outputScript>
-		
-		<script
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
-			async="async" defer="defer">
-			
-		</script>
 	</ui:define>
 
 	<ui:define name="content">
@@ -128,27 +122,25 @@
 			
 			<label>Title:</label>
 			<h:inputText id="editevent-title-input"
-				value="#{editEventController.event.title}" p:maxlenght="100"
-				p:minlenght="1"
-				validatorMessage="Must be between 1-100 characters">
-				<f:validateLength minimum="1" maximum="100"></f:validateLength>
+				value="#{editEventController.event.title}" required="true" p:maxlenght="100"
+				requiredMessage="Enter title." validatorMessage="Max 100 characters.">
+				<f:validateLength maximum="100" />
 			</h:inputText>
 			<h:message class="error-message" for="editevent-title-input" />
 			<div style="margin-top: 36px;" />
 			<label>Description:</label>
 			<h:inputTextarea id="editevent-description-input" rows="4" cols="40"
-				value="#{editEventController.event.description}" p:maxlenght="1000"
-				p:minlenght="1"
-				validatorMessage="Must be between 1-1000 characters">
-				<f:validateLength minimum="1" maximum="1000"></f:validateLength>
+				value="#{editEventController.event.description}" required="true" p:maxlenght="1000"
+				requiredMessage="Enter description."
+				validatorMessage="Max 1000 characters.">
+				<f:validateLength maximum="1000" />
 			</h:inputTextarea>
 			<h:message class="error-message" for="editevent-description-input" />
 
 			<h4>Date</h4>
 			<div id="editevent-calendar-wrapper">
 				<div id="editevent-calendar" class="calendar"></div>
-				
-				
+								
 				<div id="editevent-time-wrapper">
 					<div id="editevent-hour-wrapper">
 						<label>Hour</label>
@@ -169,28 +161,21 @@
 						</h:inputText>
 						<h:message class="error-message" for="editevent-minute-input" />
 					</div>
-
-
-				</div>
-						
+				</div>						
 				<h:inputHidden id="editevent-utc-date" value="#{editEventController.event.date}" />
 			</div>
 
 			<h4>Location</h4>
 			<input id="pac-input" class="controls" type="text" placeholder="Search"></input>
 			<div id="map" style="width: 80%;"></div>
-
+			<h:inputHidden id="lat" value="#{editEventController.event.latitude}" />
+			<h:inputHidden id="lng" value="#{editEventController.event.longitude}" />
 
 			<script
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places"
-				async="async" defer="defer">
-				
+				async="async" defer="defer">				
 			</script>
-
-			<h:inputHidden id="lat" value="#{editEventController.event.latitude}" />
-			<h:inputHidden id="lng"
-				value="#{editEventController.event.longitude}" />
-
+			
 			<div style="margin-top: 36px;" />
 
 			<h:commandLink class="icon-link"
@@ -209,7 +194,6 @@
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
 			</h:link>	
-	
 		 </h:form>
 	</ui:define>
 </ui:composition>

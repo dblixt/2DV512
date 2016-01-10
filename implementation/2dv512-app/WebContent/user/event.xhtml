@@ -20,12 +20,12 @@
 		<h:outputStylesheet name="map.css" library="css" />
 
 		<h:outputScript>			
-			setLocation(#{viewEventController.event.latitude}, #{viewEventController.event.longitude});
+			setLocation(#{empty viewEventController.event.latitude ? 0 : viewEventController.event.latitude},
+						#{empty viewEventController.event.longitude ? 0 : viewEventController.event.longitude});	
 			setAllowEdit(false);	
 			setAllowScrollZoom(false);
 			setZoomLevel(10);
 		</h:outputScript>
-
 	</ui:define>
 
 
@@ -77,7 +77,7 @@
 						</p>
 					</div>
 
-					<p class="margin-large">#{viewEventController.event.description}</p>
+					<p class="event-description margin-large">#{viewEventController.event.description}</p>
 					<div class="margin-large" />
 
 					<div>
@@ -170,11 +170,12 @@
 					</h:panelGroup>
 
 					<h4>Write</h4>
-					<h:inputTextarea id="comment_input" class="comment-input" rows="6"
-						value="#{viewEventController.comment.body}" p:maxlenght="500" p:minlenght="1" validatorMessage="Must be between 1-500 characters">
-						<f:validateLength minimum="1" maximum="500"></f:validateLength>
-						 </h:inputTextarea>
-						 <h:message class="error-message" for="comment_input" />
+					<h:inputTextarea id="comment-input" class="comment-input" rows="6"
+						value="#{viewEventController.comment.body}" p:maxlenght="500" required="true" 
+						requiredMessage="Enter comment." validatorMessage="Max 500 characters.">
+						<f:validateLength maximum="500" />
+					</h:inputTextarea>
+					<h:message class="error-message" for="comment-input" />
 					<br />
 					<h:commandLink class="icon-link action-button"
 						style="display: inline-block;"
