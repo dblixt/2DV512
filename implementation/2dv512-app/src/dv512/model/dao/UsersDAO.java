@@ -21,9 +21,9 @@ import dv512.model.User;
 public class UsersDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static final int ERROR_OK = 0;
-	private static final int ERROR_DUPLICATE = 1;
-	private static final int ERROR_UNKNOWN = 2;
+	public static final int ERROR_OK = 0;
+	public static final int ERROR_DUPLICATE = 1;
+	public static final int ERROR_UNKNOWN = 2;
 	
 	
 	@Inject
