@@ -36,7 +36,6 @@ public class ImagesDAO implements Serializable {
 				
 		String id = UUID.randomUUID().toString().replace("-", "");
 		c.createAttachment(id, ais);
-		System.out.println(id);
 
 		return id;
 	}

@@ -46,7 +46,6 @@ public class RegisterController implements Serializable {
 	}
 
 	public int getUserDOAResponse() {
-		System.out.println("get response");
 		return userDOAResponse;
 	}
 
@@ -66,16 +65,15 @@ public class RegisterController implements Serializable {
 
 	public void register() {
 		userDOAResponse = userDAO.insert(user);
-		if (userDOAResponse == 0) {
+		if (userDOAResponse == UsersDAO.ERROR_OK) {
 			Profile p = user.getProfile();
 			p.setUserId(user.getId());
 
-			boolean profileDOAResponse = profileDAO.insert(p);
-
-			if (profileDOAResponse) {
+			if (profileDAO.insert(p)) {
 				mode = SUCCESS_MODE;
 			}
-		} else {
+		} 
+		else {
 			mode = FAILED_MODE;
 		}
 	}

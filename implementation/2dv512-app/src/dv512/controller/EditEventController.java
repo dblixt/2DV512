@@ -55,7 +55,7 @@ public class EditEventController implements Serializable {
 
 	
 	public void loadEvent() {
-		if (event == null || editEventId != event.getId()) {
+		if ((event == null || editEventId != event.getId()) && session.getProfile() != null) {
 			if (editEventId == -1) {
 				event = new Event();
 				event.setLatitude(session.getProfile().getLatitude());
@@ -73,16 +73,13 @@ public class EditEventController implements Serializable {
 	}
 	
 	public String createEvent() {
-		System.out.println("Creating event");
 		event.setCreator(session.getProfile());
 		try {
 			eventDAO.insert(event);
-			System.out.println("Event created");
 			return SUCCESS;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Failed to create event");
 			return FAIL;
 		}
 	}

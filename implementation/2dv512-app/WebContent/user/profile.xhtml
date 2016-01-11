@@ -20,14 +20,10 @@
 		<h:outputScript name="map.js" library="js" />
 
 		<h:outputScript>
-			setLocation(#{profileController.profile.latitude}, #{profileController.profile.longitude});	
+			setLocation(#{empty profileController.profile.latitude ? 0 : profileController.profile.latitude},
+						#{empty profileController.profile.longitude ? 0 : profileController.profile.longitude});	
 			setAllowEdit(false);		
 		</h:outputScript>
-
-		<script 
-			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
-			async="async" defer="defer">					
-		</script>
 	</ui:define>
 
 	<ui:define name="content">
@@ -45,7 +41,7 @@
 						<h2 id="profile-header-name">#{profileController.profile.name}</h2>
 						<p id="profile-gender">#{profileController.profile.gender}</p>
 					
-						<p class="profile-description">#{profileController.profile.description}</p>
+						<p id="profile-description">#{profileController.profile.description}</p>
 
 						<h4>Dogs</h4>
 						<ul id="profile-dog-list">
@@ -64,6 +60,12 @@
 						<br />
 						<h4>Location</h4>
 						<div id="map"></div>
+						
+						<script 
+							src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqA3iH8WgQpzZVcfSh_cqy1ZJL2GKj8QY&amp;signed_in=true&amp;callback=initMap&amp;libraries=places" 
+							async="async" defer="defer">					
+						</script>
+						
 						<div class="margin-large" />
 					</div>
 

@@ -54,13 +54,9 @@ public class EditProfileController implements Serializable {
 		// set file upload handler to take care of incoming files.
 		fileUpload.setFileUploadListener(new FileUploadListener() {			
 			@Override
-			public void onUploadFile(String type, String filename, InputStream is) {	
-				System.out.println("Upload : " + type + " file: " + filename);
-				
+			public void onUploadFile(String type, String filename, InputStream is) {					
 				InputStream resizedIs = ImgUtils.scaleImage(is);
 				String id = imagesDAO.create(resizedIs);
-				
-				System.out.println("File id: " + id + " old: " + profile.getImage());
 				
 				if(FILE_TYPE_PROFILE_IMG.equals(type) && profile != null) {
 					if(profile.getImage() != null) {
@@ -122,7 +118,6 @@ public class EditProfileController implements Serializable {
 		cancelDog();
 		
 		if(profile == null) {
-			System.out.println("Loading profile data!");
 			profile = profilesDAO.get(session.getUserId());		
 			profile.setDogs(dogsDAO.listAll(session.getUserId()));			
 		}
@@ -165,7 +160,6 @@ public class EditProfileController implements Serializable {
 				dog = new Dog();
 				dog.setId(-1);
 				dog.setUserId(session.getUserId());
-				System.out.println("dog null = " + (dog==null));
 				return;
 			}
 

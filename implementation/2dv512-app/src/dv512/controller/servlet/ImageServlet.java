@@ -45,7 +45,7 @@ public class ImageServlet extends HttpServlet {
 		c.add(Calendar.MONTH, 1);		
 		resp.setDateHeader("Expires", c.getTimeInMillis());
 		
-		System.out.println("id=" + id );			
+		System.out.println("ImageServlet: id=" + id );			
 		if(id == null || id.length() != 32) {
 			String reqPath = req.getServletPath();			
 			if("/img/profile".equals(reqPath)) {

@@ -195,7 +195,6 @@ public class EventsDAO implements Serializable {
 		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
-			System.out.println("Event Canceled");
 		}
 
 		return false;
@@ -294,7 +293,6 @@ public class EventsDAO implements Serializable {
 		finally {
 			dbManager.close(stmt);
 			dbManager.close(con);
-			System.out.println("Event Canceled");
 		}
 
 		return null;		

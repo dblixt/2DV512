@@ -71,14 +71,15 @@ public class FeedController implements Serializable {
 		return creatorId == session.getUserId();
 	}
 	
-	
 	public void loadData() {	
 		if(feed == null) {
-			System.out.println("FeedController: loading data");
 			profile = profiles.get(session.getUserId());
-			feed = events.feed(session.getUserId(), 
-					new LatLng(profile.getLatitude(),
-					profile.getLongitude()), profile.getRadius());
+			
+			if(profile != null) {
+				feed = events.feed(session.getUserId(), 
+						new LatLng(profile.getLatitude(),
+						profile.getLongitude()), profile.getRadius());
+			}		
 		}		
 	}
 	

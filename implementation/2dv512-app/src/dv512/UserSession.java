@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Date;
 import java.util.TimeZone;
 
 import javax.enterprise.context.SessionScoped;
@@ -52,9 +51,7 @@ public class UserSession implements Serializable {
 		
 		// time zone test
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		dateFormat.setTimeZone(timeZone);
-		Date date = new Date();		
-		System.out.println("Date: " + dateFormat.format(date));
+		dateFormat.setTimeZone(timeZone);	
 	}
 	
 	public TimeZone getTimeZone() {
