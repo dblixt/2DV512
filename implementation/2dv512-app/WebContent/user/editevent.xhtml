@@ -190,10 +190,10 @@
 				<i class="material-icons">save</i>
 				<span>Save</span>
 			</h:commandLink>
-			<h:link class="icon-link" outcome="feed">
+			<h:commandLink class="icon-link" onclick="history.back(); return false;">
 				<i class="material-icons">cancel</i>
 				<span>Cancel</span>
-			</h:link>	
+			</h:commandLink>	
 		 </h:form>
 	</ui:define>
 </ui:composition>
