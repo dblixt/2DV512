@@ -64,7 +64,7 @@ public class UsersDAO implements Serializable {
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-			if(e.getErrorCode() == -833) {
+			if(e.getErrorCode() == -803) {
 				sqlresponse = ERROR_DUPLICATE;
 			}
 			else {
